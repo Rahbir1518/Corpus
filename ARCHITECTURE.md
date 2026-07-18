@@ -205,8 +205,10 @@ reads first.
    cross-LLM handoff working end to end.
 2. **Phase 2 (tracks):** dashboard project browser → documentation pages (view/edit,
    Realtime) + token counter; Auth0 on the dashboard and workspace writes; topical pages.
-3. **Roadmap (pitch only):** auto-save via harness lifecycle hooks; corpus_init that
-   bootstraps docs for an existing repo from the Graphify graph; pgvector relevance
+3. **Built:** `corpus_init` — seeds the state doc's Architecture notes from the Graphify
+   graph's God Nodes / Community Hubs (`mcp-server-2/src/graphify.ts` `summarizeGraph`),
+   so a fresh repo's memory is useful before any session has run, not blank until one has.
+4. **Roadmap (pitch only):** auto-save via harness lifecycle hooks; pgvector relevance
    matching for corpus_load queries (v1 server already has this).
 
 ## Demo script (deterministic — every step user-triggered)

@@ -17,7 +17,7 @@ import {
   replaceSection,
   stateTemplate,
 } from "./document.js";
-import { queryGraph } from "./graphify.js";
+import { queryGraph, summarizeGraph } from "./graphify.js";
 import { createStore, resolveProject } from "./store.js";
 import { estimateTokens } from "./tokens.js";
 
@@ -219,6 +219,44 @@ server.registerTool(
       agent: process.env.CORPUS_AGENT,
     });
     return { content: [{ type: "text", text: r.text }], ...(r.ok ? {} : { isError: false }) };
+  },
+);
+
+server.registerTool(
+  "corpus_init",
+  {
+    title: "Bootstrap Architecture notes from the code graph",
+    description:
+      "Seed the memory's 'Architecture notes' section from the Graphify code graph — no " +
+      "LLM, deterministic, seconds. Call this ONCE right after corpus-setup on a repo whose " +
+      "memory is otherwise empty (corpus_load returned 'this is session one'), before doing " +
+      "any other work, so the memory is useful on day one instead of blank until sessions " +
+      "build it up. Also call it again after a large structural change (new major module, " +
+      "big refactor) to refresh the snapshot. Skip it if Architecture notes already looks " +
+      "current and nothing structural changed.",
+    inputSchema: {},
+  },
+  async () => {
+    const summary = summarizeGraph(process.cwd());
+    if (!summary.ok) {
+      return { isError: true, content: [{ type: "text", text: summary.text }] };
+    }
+    let state = await getOrCreateState();
+    state = replaceSection(state, "Architecture notes", summary.text);
+    await store.putDocument(STATE_DOC, state);
+    await store.logUsage({
+      tool: "corpus_init",
+      tokens: estimateTokens(summary.text),
+      agent: process.env.CORPUS_AGENT,
+    });
+    return {
+      content: [
+        {
+          type: "text",
+          text: `Seeded Architecture notes for "${project}" from the code graph (${store.mode}).\n\n${summary.text}`,
+        },
+      ],
+    };
   },
 );
 
