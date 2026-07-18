@@ -1,44 +1,40 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getBrowserSupabase } from "./supabaseBrowser";
 
-export interface RecallEvent {
-  query: string;
-  node_ids: string[];
-  full_token_count: number;
-  recall_token_count: number;
-}
+// Live-refresh signal for the dashboard: any change to `documents` (an agent
+// saved memory, someone edited in the modal) or a new `usage_events` row
+// (tool call landed) debounces into one onChange. Both tables are in the
+// supabase_realtime publication — see supabase/schema.sql.
+//
+// Returns whether a realtime channel is actually connected (false when the
+// NEXT_PUBLIC_SUPABASE_* env is absent and we're on demo data).
+export function useRealtimeCorpus(onChange: () => void): boolean {
+  const [live, setLive] = useState(false);
 
-interface Handlers {
-  workspace: string;
-  onRecall: (e: RecallEvent) => void; // a corpus_recall happened → glow + count
-  onNodesChanged: () => void; // corpus_remember added nodes → refetch graph
-}
-
-// Subscribe to live Corpus activity. No-op (returns false) when Supabase env is
-// absent, so the dashboard keeps working with the local manual recall.
-export function useRealtimeCorpus({ workspace, onRecall, onNodesChanged }: Handlers): void {
   useEffect(() => {
     const sb = getBrowserSupabase();
     if (!sb) return;
 
+    let timer: ReturnType<typeof setTimeout> | null = null;
+    const bump = () => {
+      if (timer) clearTimeout(timer);
+      timer = setTimeout(onChange, 500);
+    };
+
     const channel = sb
-      .channel(`corpus:${workspace}`)
-      .on(
-        "postgres_changes",
-        { event: "INSERT", schema: "public", table: "recall_events", filter: `workspace_id=eq.${workspace}` },
-        (payload) => onRecall(payload.new as RecallEvent),
-      )
-      .on(
-        "postgres_changes",
-        { event: "INSERT", schema: "public", table: "nodes", filter: `workspace_id=eq.${workspace}` },
-        () => onNodesChanged(),
-      )
-      .subscribe();
+      .channel("corpus-dashboard")
+      .on("postgres_changes", { event: "*", schema: "public", table: "documents" }, bump)
+      .on("postgres_changes", { event: "INSERT", schema: "public", table: "usage_events" }, bump)
+      .subscribe((status) => setLive(status === "SUBSCRIBED"));
 
     return () => {
+      if (timer) clearTimeout(timer);
       sb.removeChannel(channel);
+      setLive(false);
     };
-  }, [workspace, onRecall, onNodesChanged]);
+  }, [onChange]);
+
+  return live;
 }

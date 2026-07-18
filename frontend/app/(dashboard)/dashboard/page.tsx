@@ -63,10 +63,10 @@ export default async function Dashboard() {
 
         <div className="dashboard-actions">
           <Link href="/workflow" className="dashboard-action-card">
-            <div className="dashboard-action-icon">⚡</div>
-            <h3 className="dashboard-action-title">Workflow</h3>
+            <div className="dashboard-action-icon">🕸️</div>
+            <h3 className="dashboard-action-title">Memory Graph</h3>
             <p className="dashboard-action-desc">
-              Manage and run your workflows
+              Explore your workspaces, their connections, and edit their documents
             </p>
           </Link>
 
