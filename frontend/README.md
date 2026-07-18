@@ -1,5 +1,17 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+
+## Set Up
+
+APP_BASE_URL=http://localhost:3000/
+AUTH0_DOMAIN=AUTH0_DOMAIN
+AUTH0_CLIENT_ID=AUTH0_CLIENT
+AUTH0_CLIENT_SECRET=AUTH0_CLIENT_SECRET
+
+64 character random string to encrypt the session cookie
+We're generating a secret for your convenience, but for production,
+generate your own secret using openssl rand -hex 32
+AUTH0_SECRET=Your Auth0 Secret
 ## Getting Started
 
 First, run the development server:
