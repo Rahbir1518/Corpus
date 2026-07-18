@@ -3,87 +3,68 @@
  * `corpus-setup` — one-time, per-project setup. Run from the project you want Corpus in.
  *
  * Creates the conditions for automatic use (ARCHITECTURE.md "no perfect conditions assumed"):
- *   1. Registers the MCP server with every supported client (merged, not overwritten):
+ *   1. Creates the shared workspace (when Supabase is configured) and prints the id to
+ *      share. The server never creates one on write, so this is where it comes from.
+ *   2. Registers the MCP server with every supported client (merged, not overwritten):
  *      .mcp.json (Claude Code), .gemini/settings.json (Gemini CLI),
  *      .codex/config.toml (Codex CLI).
- *   2. Installs a standing-instruction block into CLAUDE.md, GEMINI.md and AGENTS.md
+ *   3. Installs a standing-instruction block into CLAUDE.md, GEMINI.md and AGENTS.md
  *      (creating each), so agents log/save/query proactively without being prompted.
- *      One instruction file per client we register in step 1 — they do not read each
+ *      One instruction file per client we register in step 2 — they do not read each
  *      other's.
+ *   4. Builds the code graph, best effort.
  *
- * Idempotent: markers guard the instruction block; re-running updates in place.
+ * corpus-setup CREATES a workspace; corpus-connect <id> joins one someone else made.
+ * That is the only difference between them.
+ *
+ * Idempotent: markers guard the instruction block, and an existing workspace id is
+ * reused rather than replaced, so re-running never strands memory in an orphan.
  * This is an EXPLICIT user action — the only time Corpus ever writes into a repo.
  */
 import fs from "node:fs";
 import path from "node:path";
+import { CLIENTS, readClient, registerClient } from "./clients.js";
+import { createWorkspace, supabaseConfigured } from "./workspace.js";
 
 const target = process.cwd();
 const project = path.basename(target);
 const serverPath = path.resolve(import.meta.dirname, "index.js");
 
-// --- 1. Client registration -----------------------------------------------
-// Three clients, three formats. Claude Code and Gemini CLI both take JSON under an
-// `mcpServers` key but in different files; Codex takes TOML under `mcp_servers`.
-// CORPUS_AGENT differs per client so the session ledger shows which tool wrote what.
+// --- 1. Workspace ----------------------------------------------------------
+// Since the server no longer auto-creates a workspace on write (that keyed on slug, so
+// two unrelated teams with a folder named `api` silently shared one), setup is where a
+// workspace comes from. Reuse whatever this repo is already connected to, so re-running
+// setup never strands the existing memory in an orphaned workspace.
+let workspaceId: string | null =
+  CLIENTS.map((def) => readClient(target, def).workspaceId).find(Boolean) ?? null;
 
-/** Merge the `corpus` entry into a JSON config at `file` under `mcpServers`. */
-function registerJsonClient(file: string, agent: string, label: string): void {
-  const p = path.join(target, file);
-  let config: any = {};
-  if (fs.existsSync(p)) {
-    try {
-      config = JSON.parse(fs.readFileSync(p, "utf8"));
-    } catch {
-      console.error(`${file} exists but is not valid JSON — fix it and re-run.`);
-      process.exit(1);
-    }
+if (workspaceId) {
+  console.log(`✓ Workspace — already connected (${workspaceId})`);
+} else if (supabaseConfigured()) {
+  try {
+    const ws = await createWorkspace(project, project);
+    workspaceId = ws.id;
+    console.log(`✓ Workspace — created ${ws.id}`);
+    console.log(`  Share this id with teammates: corpus-connect ${ws.id}`);
+  } catch (err) {
+    // Not fatal: local memory works with no DB at all, which is the zero-config promise.
+    console.error(`– Workspace — could not create: ${err instanceof Error ? err.message : err}`);
+    console.error(`  Continuing with local memory (~/.corpus/${project}).`);
   }
-  config.mcpServers ??= {};
-  config.mcpServers["corpus"] = {
-    command: "node",
-    args: [serverPath],
-    env: { CORPUS_PROJECT: project, CORPUS_AGENT: agent },
-  };
-  fs.mkdirSync(path.dirname(p), { recursive: true });
-  fs.writeFileSync(p, JSON.stringify(config, null, 2) + "\n", "utf8");
-  console.log(`✓ ${file} — registered "corpus" (${label})`);
+} else {
+  console.log(`– Workspace — Supabase not configured; memory stays local (~/.corpus/${project})`);
 }
 
-registerJsonClient(".mcp.json", "claude-code", "Claude Code");
-registerJsonClient(".gemini/settings.json", "gemini", "Gemini CLI");
+// --- 2. Client registration -----------------------------------------------
+// Three clients, three formats, all handled in clients.ts so setup/connect/disconnect
+// act on the same set. CORPUS_AGENT differs per client so the session ledger shows which
+// tool wrote what.
+for (const def of CLIENTS) {
+  registerClient(target, def, serverPath, project, workspaceId);
+  console.log(`✓ ${def.file} — registered "corpus" (${def.label})`);
+}
 
-// Codex: TOML. Rather than take on a TOML parser dependency just to round-trip a user's
-// file, guard our table with comment markers and splice it — same idempotency contract as
-// the markdown blocks below, and it leaves every other key in the file untouched.
-// JSON.stringify is safe for TOML basic strings (same escape rules) and, importantly,
-// escapes the backslashes in a Windows serverPath.
-const TOML_BEGIN = "# corpus:begin";
-const TOML_END = "# corpus:end";
-const tomlBlock = `${TOML_BEGIN}
-[mcp_servers.corpus]
-command = "node"
-args = [${JSON.stringify(serverPath)}]
-
-[mcp_servers.corpus.env]
-CORPUS_PROJECT = ${JSON.stringify(project)}
-CORPUS_AGENT = "codex"
-${TOML_END}`;
-
-const codexPath = path.join(target, ".codex", "config.toml");
-const codexExisting = fs.existsSync(codexPath) ? fs.readFileSync(codexPath, "utf8") : "";
-const codexStart = codexExisting.indexOf(TOML_BEGIN);
-const codexEnd = codexExisting.indexOf(TOML_END);
-const codexNext =
-  codexStart !== -1 && codexEnd !== -1
-    ? codexExisting.slice(0, codexStart) + tomlBlock + codexExisting.slice(codexEnd + TOML_END.length)
-    : codexExisting.trimEnd() === ""
-      ? tomlBlock + "\n"
-      : codexExisting.trimEnd() + "\n\n" + tomlBlock + "\n";
-fs.mkdirSync(path.dirname(codexPath), { recursive: true });
-fs.writeFileSync(codexPath, codexNext, "utf8");
-console.log(`✓ .codex/config.toml — registered "corpus" (Codex CLI)`);
-
-// --- 2. Standing instructions ---------------------------------------------
+// --- 3. Standing instructions ---------------------------------------------
 const BEGIN = "<!-- corpus:begin -->";
 const END = "<!-- corpus:end -->";
 const block = `${BEGIN}
@@ -145,7 +126,7 @@ installBlock("CLAUDE.md", true);
 installBlock("GEMINI.md", true);
 installBlock("AGENTS.md", true);
 
-// --- 3. Graphify graph (best effort) ---------------------------------------
+// --- 4. Graphify graph (best effort) ---------------------------------------
 const { buildGraph } = await import("./graphify.js");
 const g = buildGraph(target);
 console.log(
