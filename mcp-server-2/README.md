@@ -7,6 +7,8 @@ The target repo is never written to, except by the explicit `corpus-setup` comma
 
 Design source of truth: [../ARCHITECTURE.md](../ARCHITECTURE.md).
 
+Requires **Node ≥ 18**. Full prerequisites and env reference: [../REQUIREMENTS.md](../REQUIREMENTS.md).
+
 ## Setup (per project, one time)
 
 ```bash
@@ -32,12 +34,19 @@ of stopping the server.
 `corpus-setup` does two things (idempotent — safe to re-run):
 
 1. Registers the `corpus` MCP server in the project's `.mcp.json` (merged, never overwritten).
-2. Installs a marker-guarded instruction block into `CLAUDE.md` (created if missing) and
-   `AGENTS.md` (only if it already exists), so agents log and save **proactively** —
-   no per-session prompting needed.
+2. Installs a marker-guarded instruction block into **both** `CLAUDE.md` and `AGENTS.md`,
+   creating either if absent, so agents log, save, and query the code graph
+   **proactively** — no per-session prompting needed. `AGENTS.md` is the cross-tool
+   convention (Cursor, Codex, Copilot, Zed); Corpus is cross-tool memory, so the standing
+   instructions have to land for agents that never read `CLAUDE.md`.
+3. Builds the code graph, if Graphify is installed.
 
 Then start your agent (Claude Code, Cursor, Codex — any MCP client) in that project and
 approve the `corpus` server. That's the whole install.
+
+> **After editing `src/`, run `npm run build`** — `.mcp.json` points at `dist/`, so source
+> changes are inert until compiled. Restart the agent afterward: tool descriptions are read
+> once, at connect time.
 
 ## Tools
 
@@ -52,13 +61,19 @@ approve the `corpus` server. That's the whole install.
 
 - **Local (default, no config):** documents in `~/.corpus/<project>/`. Everything works —
   including full cross-tool handoffs on one machine.
-- **Team (Supabase):** set `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` in the server's
-  `env` in `.mcp.json`. Same documents, shared workspace, dashboard-browsable.
-  Requires a `documents` table: `(project text, name text, content text,
-  updated_at timestamptz, primary key (project, name))`.
+- **Team (Supabase):** set `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` — in
+  `mcp-server-2/.env.local` (preferred; git-ignored, keeps keys out of a tracked
+  `.mcp.json`) or in the server's `env` block in `.mcp.json`. Real env vars win over the
+  file. Same documents, shared workspace, dashboard-browsable. Requires the `documents`
+  table from [../supabase/documents.sql](../supabase/documents.sql).
+
+Copy [.env.local.example](.env.local.example) to get started. Both Supabase vars must be
+set — one alone silently falls back to local mode. On startup the server logs which
+backend it got: `[corpus-v2] ready · project="…" · store=supabase|local`.
 
 Optional env: `CORPUS_PROJECT` (project id; defaults to the working directory's folder
-name), `CORPUS_AGENT` (label used in the session ledger, e.g. `claude-code`).
+name — set it explicitly so differently-named clones share one memory), `CORPUS_AGENT`
+(label used in the session ledger, e.g. `claude-code`), `GRAPHIFY_PATH`.
 
 ## Try the handoff (no keys, no network)
 

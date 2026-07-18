@@ -33,12 +33,16 @@ Four MCP tools, usable from any MCP client:
 - **[frontend/](frontend/)** — Next.js + Auth0 dashboard: browse projects → their
   documentation pages, token-savings counter, graph views.
 - **[supabase/](supabase/)** — SQL for the documentation DB ([documents.sql](supabase/documents.sql)).
+- **[REQUIREMENTS.md](REQUIREMENTS.md)** — prerequisites, env var reference, verification
+  steps, troubleshooting. Start here if you are setting up on a new machine.
 
 > v1 (`mcp-server/` — embeddings + pgvector graph recall) was removed on 2026-07-18;
 > recover from git history if needed. Its `corpus_status` health-check tool is worth
 > reintroducing in v2 (roadmap).
 
 ## Quick start
+
+Needs **Node ≥ 18** and any MCP client. No keys, no database, no network.
 
 ```bash
 cd mcp-server-2
@@ -52,9 +56,18 @@ corpus-setup   # registers the MCP server + installs agent instructions (idempot
 Then start your agent in that project and work normally. Say **"save state"** before you
 stop; say **"continue where the last session left off"** in any tool, any time later.
 
-**Team mode:** run [supabase/documents.sql](supabase/documents.sql) in your Supabase
-project, then add `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` to the server's `env`
-in `.mcp.json`. Same tools, shared brain — teammates point at the same DB + project name.
+Verify it works — `npm run smoke` in `mcp-server-2/` drives the full loop over real stdio,
+then read the memory yourself at `~/.corpus/<project>/state.md`. It is plain markdown.
+
+**Optional extras** — each degrades gracefully if skipped:
+
+- **Code queries:** `python -m pip install graphifyy` (two ys).
+- **Team mode:** run [supabase/documents.sql](supabase/documents.sql), then set
+  `SUPABASE_URL` + `SUPABASE_SERVICE_ROLE_KEY` in `mcp-server-2/.env.local`. Teammates
+  point at the same DB and `CORPUS_PROJECT`.
+- **Dashboard:** `cd frontend && npm install && npm run dev` (Node ≥ 20.9).
+
+**Full prerequisites, every env var, and troubleshooting: [REQUIREMENTS.md](REQUIREMENTS.md).**
 
 ## Demo script (5 min)
 
