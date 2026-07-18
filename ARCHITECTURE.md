@@ -68,17 +68,42 @@ Three claims, in pitch order:
 ## Sharing & access
 
 A **workspace** = one project (1:1 today). `workspaces.id` (uuid) is the opaque,
-shareable identifier used by `corpus-connect <id>` (separate CLI feature, in progress);
-`workspaces.slug` is the human key `mcp-server-2` already resolves locally
-(`resolveProject()` — repo folder name, or `$CORPUS_PROJECT`) and keys `documents` by.
+shareable identifier, and it is the **only** thing that identifies a workspace:
+`documents` is keyed by `workspace_id`, and `$CORPUS_WORKSPACE` — written into the
+client configs by `corpus-setup`/`corpus-connect` — is what the server resolves.
+
+`workspaces.slug` (`resolveProject()` — repo folder name, or `$CORPUS_PROJECT`) is a
+**display label only, and deliberately not unique**. It used to key `documents`, which
+meant two unrelated teams both working in a folder called `api` computed the same key
+and silently shared one workspace — the second team read, then overwrote, the first
+team's memory. Identity must never be derived from a folder name.
+
+### The connect verbs
+
+| Command | Does |
+|---|---|
+| `corpus-setup` | First-run wiring. **Creates** a workspace, registers all three clients, installs instruction blocks, builds the graph. Re-running reuses an existing id. |
+| `corpus-connect <id>` | **Joins** a workspace someone else created. Writes `$CORPUS_WORKSPACE` to every wired client. |
+| `corpus-disconnect` | **Detach**, not uninstall. Removes that one env key so memory falls back to `~/.corpus/<slug>`. Never deletes shared documents or membership. |
+| `corpus-status` | Read-only diagnostic: wiring, workspace, store reachability, local memory, graph. |
+
+All of them act on every client symmetrically (`clients.ts`). Asymmetry is the bug that
+matters: a repo that disconnects Claude Code but not Gemini keeps writing to a workspace
+the user believes they left.
 
 Two access concerns that must not be conflated:
 - **Repo/code access** — cloning, pushing — is git/GitHub, entirely outside Corpus.
-- **Memory access** — who can read/write a workspace's docs — is what
-  `workspace_members` gates: dashboard view/edit via Auth0 (`user_id` = Auth0 `sub`),
-  and, via `status` ('connected' | 'disconnected'), which local sessions'
-  `memory_log`/`memory_save` calls are currently landing in the shared workspace
-  (toggled by `corpus-connect`/disconnect).
+- **Memory access** — who can read/write a workspace's docs. Today this is **bearer
+  access: the workspace id is the credential**, and there is no CLI login.
+  `workspace_members` gates *dashboard* view/edit via Auth0 (`user_id` = Auth0 `sub`)
+  and is written only by the dashboard.
+
+> **Known gap.** The server connects with `SUPABASE_SERVICE_ROLE_KEY`, which bypasses
+> RLS, so membership is not consulted on the write path. Recording `user_id` from the
+> CLI would produce attribution, not enforcement. Real per-user access control requires
+> moving the server off the service-role key onto per-user tokens + RLS policies; that
+> is the change that unlocks invites, roles and revocation. Until then, anyone holding a
+> workspace id has full read/write to it, with no expiry and no revocation.
 
 `usage_events` is an append-only, best-effort telemetry ledger (no FK — must never
 block a tool call) written by every tool call. It backs the dashboard's real
