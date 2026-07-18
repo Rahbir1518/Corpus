@@ -46,10 +46,10 @@ export default async function Dashboard() {
       <main className="dashboard-main">
         <div className="dashboard-welcome-card">
           <h2 className="dashboard-welcome-heading">
-            Welcome back, {String(user.name || "there")}!
+            Welcome to Corpus, {String(user.name || "there")}!
           </h2>
           <p className="dashboard-welcome-text">
-            Here&apos;s your workspace. Get started with your workflow.
+            Here&apos;s your workspace. Get started with your workflow today!
           </p>
         </div>
 
@@ -59,6 +59,20 @@ export default async function Dashboard() {
             <h3 className="dashboard-action-title">Workflow</h3>
             <p className="dashboard-action-desc">
               Manage and run your workflows
+            </p>
+          </Link>
+          <Link href="/analytics" className="dashboard-action-card">
+            <div className="dashboard-action-icon">📊</div>
+            <h3 className="dashboard-action-title">Analytics</h3>
+            <p className="dashboard-action-desc">
+              View your performance metrics
+            </p>
+          </Link>
+          <Link href="/settings" className="dashboard-action-card">
+            <div className="dashboard-action-icon">⚙️</div>
+            <h3 className="dashboard-action-title">Settings</h3>
+            <p className="dashboard-action-desc">
+              Configure your workspace preferences
             </p>
           </Link>
         </div>

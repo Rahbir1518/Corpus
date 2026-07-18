@@ -2,10 +2,11 @@
   "mcpServers": {
     "corpus": {
       "command": "node",
-      "args": ["mcp-server-2/dist/index.js"],
+      "args": [
+        "C:\\Code\\Hackathons\\Corpus\\mcp-server-2\\dist\\index.js"
+      ],
       "env": {
-        "CORPUS_PROJECT": "corpus-dev",
-        "CORPUS_AGENT": "claude-code"
+        "CORPUS_PROJECT": "Corpus"
       }
     }
   }
