@@ -16,9 +16,16 @@ fs.rmSync(dir, { recursive: true, force: true });
 const transport = new StdioClientTransport({
   command: process.execPath,
   args: ["--import", "tsx", path.join(import.meta.dirname, "..", "index.ts")],
-  // SUPABASE_URL="" pins the smoke test to the LocalStore even though .env.local
-  // auto-loads — tests must never write to the real documentation DB.
-  env: { ...process.env, CORPUS_PROJECT: PROJECT, CORPUS_AGENT: "smoke", SUPABASE_URL: "" },
+  // SUPABASE_URL="" + CORPUS_WORKSPACE="" pin the smoke test to the LocalStore even
+  // though .env.local auto-loads — tests must never write to the real documentation DB,
+  // and a workspace id inherited from the shell would flip the store to disconnected.
+  env: {
+    ...process.env,
+    CORPUS_PROJECT: PROJECT,
+    CORPUS_AGENT: "smoke",
+    SUPABASE_URL: "",
+    CORPUS_WORKSPACE: "",
+  },
 });
 const client = new Client({ name: "smoke", version: "0.0.1" });
 await client.connect(transport);
@@ -34,17 +41,17 @@ function step(name: string, ok: boolean, detail?: string) {
 const tools = await client.listTools();
 step(
   "tools registered",
-  ["memory_load", "memory_log", "memory_save", "codebase_search"].every((t) =>
+  ["corpus_load", "corpus_log", "corpus_save", "codebase_search"].every((t) =>
     tools.tools.some((x) => x.name === t),
   ),
   tools.tools.map((t) => t.name).join(", "),
 );
 
-const empty = await client.callTool({ name: "memory_load", arguments: {} });
+const empty = await client.callTool({ name: "corpus_load", arguments: {} });
 step("load on fresh project says 'no memory yet'", text(empty).includes("No memory yet"));
 
 const logged = await client.callTool({
-  name: "memory_log",
+  name: "corpus_log",
   arguments: {
     type: "decision",
     summary: "Chose Supabase over Firebase because pgvector enables relevance matching later",
@@ -54,7 +61,7 @@ const logged = await client.callTool({
 step("log a decision", text(logged).includes("Logged [decision]"));
 
 const badSave = await client.callTool({
-  name: "memory_save",
+  name: "corpus_save",
   arguments: {
     summary: "Worked on the store layer and wired the tools together end to end.",
     completed: ["store.ts with pluggable backends"],
@@ -66,7 +73,7 @@ const badSave = await client.callTool({
 step("vague in-progress item is REJECTED", text(badSave).includes("Rejected"));
 
 const goodSave = await client.callTool({
-  name: "memory_save",
+  name: "corpus_save",
   arguments: {
     summary: "Built the v2 store layer and wired all four tools over stdio.",
     completed: ["store.ts with Supabase + local backends", "document.ts merge logic"],
@@ -77,7 +84,7 @@ const goodSave = await client.callTool({
 });
 step("valid save is accepted", text(goodSave).includes("Saved state"));
 
-const hydrated = await client.callTool({ name: "memory_load", arguments: {} });
+const hydrated = await client.callTool({ name: "corpus_load", arguments: {} });
 const h = text(hydrated);
 step(
   "reload returns hydrated state",
@@ -85,5 +92,43 @@ step(
 );
 
 await client.close();
+
+// Disconnected state: Supabase configured but no workspace (what corpus-disconnect
+// leaves behind). Memory must be OFF — no reads, no writes, no silent local fork.
+// Fake credentials are safe: DisconnectedStore never opens a connection. Fresh project
+// name so the "nothing was written" check can't be satisfied by the files above.
+const DC_PROJECT = "corpus-smoke-disconnected";
+const dcDir = path.join(os.homedir(), ".corpus", DC_PROJECT);
+fs.rmSync(dcDir, { recursive: true, force: true });
+const dcTransport = new StdioClientTransport({
+  command: process.execPath,
+  args: ["--import", "tsx", path.join(import.meta.dirname, "..", "index.ts")],
+  env: {
+    ...process.env,
+    CORPUS_PROJECT: DC_PROJECT,
+    CORPUS_AGENT: "smoke",
+    SUPABASE_URL: "https://smoke-test.invalid",
+    SUPABASE_SERVICE_ROLE_KEY: "smoke-test-key",
+    CORPUS_WORKSPACE: "",
+  },
+});
+const dc = new Client({ name: "smoke-disconnected", version: "0.0.1" });
+await dc.connect(dcTransport);
+
+const dcLoad = await dc.callTool({ name: "corpus_load", arguments: {} });
+step(
+  "disconnected repo: load refuses and points at connect/setup",
+  dcLoad.isError === true && text(dcLoad).includes("corpus-connect"),
+);
+
+const dcLog = await dc.callTool({
+  name: "corpus_log",
+  arguments: { type: "note", summary: "this write must be refused while disconnected" },
+});
+step("disconnected repo: log refuses (nothing written)", dcLog.isError === true);
+
+await dc.close();
+step("disconnected repo: no local files were created", !fs.existsSync(dcDir));
+
 fs.rmSync(dir, { recursive: true, force: true });
 console.log("\nSmoke test complete.");

@@ -31,6 +31,29 @@ const sessionLabel = `${new Date().toISOString().slice(0, 16).replace("T", " ")}
 
 const server = new McpServer({ name: "corpus-v2", version: "0.1.0" });
 
+/**
+ * Uniform answer for every memory tool while the repo is in no workspace (the state
+ * `corpus-disconnect` puts it in). isError so the calling model treats it as "nothing was
+ * read or written", never as "no memory yet, work normally" — the workspace this repo
+ * left may hold plenty. stderr alone can't carry this: MCP clients don't show it.
+ */
+function disconnectedResult() {
+  return {
+    isError: true as const,
+    content: [
+      {
+        type: "text" as const,
+        text:
+          `Corpus memory is OFF — ${store.reason}.\n\n` +
+          `Nothing was read or written. This repo is not part of any workspace. ` +
+          `Tell the user to pick one and restart the session:\n` +
+          `- corpus-connect <workspace-id> — reconnect to a previous workspace\n` +
+          `- corpus-setup — create a new workspace`,
+      },
+    ],
+  };
+}
+
 async function getOrCreateState(): Promise<string> {
   const existing = await store.getDocument(STATE_DOC);
   if (existing) return existing;
@@ -40,7 +63,7 @@ async function getOrCreateState(): Promise<string> {
 }
 
 server.registerTool(
-  "memory_load",
+  "corpus_load",
   {
     title: "Corpus — load project memory",
     description:
@@ -59,6 +82,7 @@ server.registerTool(
     },
   },
   async ({ document }) => {
+    if (store.mode === "disconnected") return disconnectedResult();
     const name = document ?? STATE_DOC;
     const content = await store.getDocument(name);
     if (!content) {
@@ -66,21 +90,21 @@ server.registerTool(
       const text =
         name === STATE_DOC
           ? `No memory yet for project "${project}" — this is session one. ` +
-            `Work normally; record progress with memory_log and memory_save.`
+            `Work normally; record progress with corpus_log and corpus_save.`
           : `No document named "${name}" for project "${project}". Available: ${
               docs.length ? docs.join(", ") : "(none)"
             }.`;
       return { content: [{ type: "text", text }] };
     }
     const tokens = estimateTokens(content);
-    await store.logUsage({ tool: "memory_load", tokens, agent: process.env.CORPUS_AGENT });
+    await store.logUsage({ tool: "corpus_load", tokens, agent: process.env.CORPUS_AGENT });
     const footer = `\n\n---\n_Corpus: ~${tokens} tokens (estimate) · store: ${store.mode} · project: ${project}_`;
     return { content: [{ type: "text", text: content + footer }] };
   },
 );
 
 server.registerTool(
-  "memory_log",
+  "corpus_log",
   {
     title: "Corpus — log a step to project memory",
     description:
@@ -96,6 +120,7 @@ server.registerTool(
     },
   },
   async ({ type, summary, files }) => {
+    if (store.mode === "disconnected") return disconnectedResult();
     let state = await getOrCreateState();
     state = ensureSessionHeading(state, sessionLabel);
     const fileNote = files?.length ? ` (files: ${files.join(", ")})` : "";
@@ -108,13 +133,15 @@ server.registerTool(
       );
     }
     await store.putDocument(STATE_DOC, state);
-    await store.logUsage({ tool: "memory_log", tokens: estimateTokens(state), agent: process.env.CORPUS_AGENT });
-    return { content: [{ type: "text", text: `Logged [${type}] to "${project}" (${store.mode}).` }] };
+    await store.logUsage({ tool: "corpus_log", tokens: estimateTokens(state), agent: process.env.CORPUS_AGENT });
+    return {
+      content: [{ type: "text", text: `Logged [${type}] to "${project}" (${store.mode}).` }],
+    };
   },
 );
 
 server.registerTool(
-  "memory_save",
+  "corpus_save",
   {
     title: "Corpus — save session state to project memory",
     description:
@@ -142,6 +169,7 @@ server.registerTool(
     },
   },
   async ({ summary, completed, inProgress, decisions, nextSteps }) => {
+    if (store.mode === "disconnected") return disconnectedResult();
     // Validation is the quality lever (ARCHITECTURE.md): reject vague in-progress items.
     const vague = inProgress.filter((i) => !/[\w-]+\.[a-zA-Z]{1,4}|\(\)/.test(i));
     if (vague.length) {
@@ -175,15 +203,22 @@ server.registerTool(
     state = ensureSessionHeading(state, sessionLabel);
     state = appendToSection(state, "Session log", `- [save] ${summary}`);
     await store.putDocument(STATE_DOC, state);
-    await store.logUsage({ tool: "memory_save", tokens: estimateTokens(state), agent: process.env.CORPUS_AGENT });
+    await store.logUsage({ tool: "corpus_save", tokens: estimateTokens(state), agent: process.env.CORPUS_AGENT });
+
+    // Reach is a property of the backend, not of the save succeeding. Promising a handoff
+    // the store cannot deliver would misrepresent a machine-local save as a team one.
+    const reach =
+      store.mode === "supabase"
+        ? "Any session in any tool can now continue via corpus_load."
+        : "Stored on this machine only — teammates and other machines cannot read it.";
 
     return {
       content: [
         {
           type: "text",
           text:
-            `Saved state for "${project}" (${store.mode}). Any session in any tool can now ` +
-            `continue via memory_load.\n\n${getSection(state, "Status")}\n\n## Next steps\n` +
+            `Saved state for "${project}" (${store.mode}). ${reach}\n\n` +
+            `${getSection(state, "Status")}\n\n## Next steps\n` +
             getSection(state, "Next steps"),
         },
       ],

@@ -3,10 +3,16 @@
  *
  * - SupabaseStore (team mode, canonical): markdown documents in the documentation DB,
  *   shared by workspace. Enabled when SUPABASE_URL + SUPABASE_SERVICE_ROLE_KEY are set.
- * - LocalStore (offline fallback, zero config): ~/.corpus/<project>/<doc>.md in the user's
- *   home directory — NEVER the target repo.
+ * - LocalStore (zero config): ~/.corpus/<project>/<doc>.md in the user's home directory —
+ *   NEVER the target repo. Used only when nothing shared was ever configured.
+ * - DisconnectedStore: memory is OFF. Used whenever the setup points at a workspace this
+ *   process cannot reach — including the deliberate post-`corpus-disconnect` state.
  *
- * Both store the same markdown; document.ts merge logic is backend-agnostic.
+ * One rule, no fallbacks between them: a workspace id means memory lands in that
+ * workspace or nowhere. Falling back to a private local pile when the workspace was
+ * unreachable created a second, diverging version of the memory — the exact confusion
+ * connect/disconnect exists to prevent. Disconnected repos are told to `corpus-connect`
+ * back into their previous workspace or `corpus-setup` a new one, not silently forked.
  */
 import fs from "node:fs";
 import os from "node:os";
@@ -28,7 +34,9 @@ import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 }
 
 export interface DocumentStore {
-  readonly mode: "supabase" | "local";
+  readonly mode: "supabase" | "local" | "disconnected";
+  /** Why memory is off. Set only when mode === "disconnected". */
+  readonly reason?: string;
   getDocument(name: string): Promise<string | null>;
   putDocument(name: string, content: string): Promise<void>;
   listDocuments(): Promise<string[]>;
@@ -66,7 +74,7 @@ export function isWorkspaceId(value: string): boolean {
 
 class LocalStore implements DocumentStore {
   readonly mode = "local" as const;
-  private dir: string;
+  readonly dir: string;
 
   constructor(project: string) {
     this.dir = path.join(os.homedir(), ".corpus", project);
@@ -176,32 +184,72 @@ class SupabaseStore implements DocumentStore {
   }
 }
 
+/**
+ * Memory is off. Every read/write throws with the reason — a backstop; index.ts checks
+ * `mode` first and answers with the connect/setup guidance instead of calling these.
+ * Deliberately NOT a local store: writing anywhere while disconnected would create a
+ * second version of the memory that the workspace never sees.
+ */
+class DisconnectedStore implements DocumentStore {
+  readonly mode = "disconnected" as const;
+  readonly reason: string;
+
+  constructor(reason: string) {
+    this.reason = reason;
+    console.error(`[corpus-v2] memory off — ${reason}`);
+  }
+
+  private fail(): never {
+    throw new Error(
+      `Corpus memory is off — ${this.reason}. Run corpus-connect <workspace-id> or corpus-setup.`,
+    );
+  }
+
+  async getDocument(): Promise<string | null> {
+    this.fail();
+  }
+  async putDocument(): Promise<void> {
+    this.fail();
+  }
+  async listDocuments(): Promise<string[]> {
+    this.fail();
+  }
+  async logUsage(): Promise<void> {}
+}
+
 export function createStore(project: string): DocumentStore {
   const url = process.env.SUPABASE_URL;
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
   const workspaceId = resolveWorkspace();
 
   // A malformed id is worse than none: Postgres rejects a non-uuid at the driver level,
-  // so SupabaseStore would throw on EVERY read and write rather than degrading. Fall back
-  // to local and say why — losing sharing is recoverable, losing every tool call is not.
+  // so SupabaseStore would throw on EVERY read and write with an opaque driver error.
+  // Disconnected says why once, up front, with the fix.
   if (workspaceId && !isWorkspaceId(workspaceId)) {
-    console.error(
-      `[corpus-v2] CORPUS_WORKSPACE="${workspaceId}" is not a valid workspace id (expected a ` +
-        `uuid) — using local memory (~/.corpus/${project}). Fix with \`corpus-connect <id>\`.`,
-    );
-    return new LocalStore(project);
-  }
-
-  // All three required. Credentials alone are not enough: without a workspace id there
-  // is no safe answer to "which shared pile does this repo write to", and guessing from
-  // the folder name is exactly the bug this replaced. Unconnected repos stay private.
-  if (url && key && workspaceId) return new SupabaseStore(url, key, workspaceId, project);
-
-  if (url && key && !workspaceId) {
-    console.error(
-      `[corpus-v2] Supabase credentials present but this repo is not connected to a ` +
-        `workspace — using local memory (~/.corpus/${project}). Run \`corpus-connect <id>\` to share.`,
+    return new DisconnectedStore(
+      `CORPUS_WORKSPACE="${workspaceId}" is not a valid workspace id (expected a uuid)`,
     );
   }
+
+  if (workspaceId && url && key) return new SupabaseStore(url, key, workspaceId, project);
+
+  // A workspace id is a commitment: memory lands in that workspace or nowhere. Without
+  // credentials the workspace is unreachable, and quietly writing somewhere else instead
+  // is how a repo ends up with two diverging versions of its memory.
+  if (workspaceId) {
+    return new DisconnectedStore(
+      `this repo is connected to workspace ${workspaceId} but SUPABASE_URL / ` +
+        `SUPABASE_SERVICE_ROLE_KEY are not set, so the workspace cannot be reached`,
+    );
+  }
+
+  // Credentials but no workspace: the post-`corpus-disconnect` state. The user chose to
+  // leave every workspace, so memory is off until they choose the next one — connect back
+  // into the previous workspace, or set up a new one. No silent local fork.
+  if (url && key) {
+    return new DisconnectedStore("this repo is not connected to a workspace");
+  }
+
+  // Nothing shared was ever configured: plain local memory IS the intended store.
   return new LocalStore(project);
 }

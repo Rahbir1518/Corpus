@@ -1,21 +1,21 @@
 #!/usr/bin/env node
 /**
- * `corpus-disconnect` — detach this repo from its shared workspace and go private.
+ * `corpus-disconnect` — detach this repo from ALL workspaces. Memory goes OFF, not local.
  *
  * This is DETACH, not uninstall. It removes exactly one env key (CORPUS_WORKSPACE) from
- * every wired client, so memory falls back to ~/.corpus/<slug>. It deliberately does not
- * touch:
+ * every wired client. Until the user picks the next workspace — `corpus-connect <id>` to
+ * rejoin the previous one, or `corpus-setup` to create a fresh one — the memory tools
+ * refuse to read or write. There is deliberately no local fallback here: a disconnected
+ * repo quietly writing to a private pile becomes a second version of the memory that the
+ * workspace never sees. It deliberately does not touch:
  *   - shared documents — they belong to the workspace; other members still need them
  *   - membership/access — reconnecting must not require a new invitation
  *   - the server entry or instruction blocks — Corpus stays installed
- * Conflating "go private" with "remove Corpus" is how someone loses a setup they only
- * wanted to pause.
  *
  * Local-first: the unwire is a local file edit and must succeed even with no network.
- * Nothing here talks to the DB — going private can never be blocked by being offline.
+ * Nothing here talks to the DB — disconnecting can never be blocked by being offline.
  */
 import { patchWorkspace, readAllClients } from "./clients.js";
-import { resolveProject } from "./store.js";
 
 const target = process.cwd();
 const before = readAllClients(target);
@@ -25,7 +25,7 @@ if (!connected.length) {
   const anyWired = before.some((c) => c.wired);
   console.log(
     anyWired
-      ? `Already private — this repo is not connected to a shared workspace.`
+      ? `Already disconnected — this repo is not in any workspace. Run corpus-connect <id> to join one, or corpus-setup to create one.`
       : `This repo has no Corpus client entries — nothing to disconnect. Run corpus-setup to install.`,
   );
   process.exit(0);
@@ -39,13 +39,18 @@ for (const r of results) {
   else console.log(`${r.changed ? "✓" : "="} ${r.def.file} — disconnected (${r.def.label})`);
 }
 
-// Say where the memory went. Without this the next memory_load reads an empty local
-// store and looks like data loss, when in fact everything is still in the workspace.
+// Say what "disconnected" means before the next session finds out via a refused tool
+// call: memory is off, the workspace still holds everything, and there are exactly two
+// ways forward.
 console.log(`
 Disconnected from workspace ${previousId}.
 
-Your shared memory is preserved there — nothing was deleted. Local memory
-(~/.corpus/${resolveProject()}) is now active and separate, so it will start empty.
+This repo is now out of every workspace, and memory is OFF — sessions here will
+not read or write any memory until you pick one:
 
-Reconnect anytime:  corpus-connect ${previousId}
+  corpus-connect ${previousId}
+      reconnect to the workspace you just left (memory intact — nothing was deleted)
+  corpus-setup
+      create a new, empty workspace
+
 Restart any running session — clients read this config at startup.`);

@@ -30,7 +30,7 @@ console.log(`\nCorpus status — ${target}\n`);
 console.log(`  Project label  ${project}${process.env.CORPUS_PROJECT ? "" : "  (from folder name)"}`);
 
 if (!workspaceId) {
-  console.log(`  Workspace      (none) — private, memory in ~/.corpus/${project}`);
+  console.log(`  Workspace      (none)`);
 } else {
   console.log(`  Workspace      ${workspaceId}`);
 }
@@ -43,14 +43,19 @@ if (ids.length > 1) {
 }
 
 // --- Store ------------------------------------------------------------------
-if (!supabaseConfigured()) {
+// Mirrors createStore() exactly: workspace id ⇒ that workspace or nothing (OFF, never a
+// silent local fork); no shared config at all ⇒ plain local memory.
+if (!supabaseConfigured() && !workspaceId) {
   console.log(`  Store          local (~/.corpus/${project}) — Supabase not configured`);
+} else if (workspaceId && !isWorkspaceId(workspaceId)) {
+  console.log(`  Store          OFF — "${workspaceId}" is not a valid workspace id (expected a uuid)`);
+  console.log(`                 fix it with corpus-connect <id>, or corpus-disconnect to clear it`);
 } else if (!workspaceId) {
-  console.log(`  Store          local — Supabase configured but this repo is not connected`);
-  console.log(`                 run corpus-connect <id> to share`);
-} else if (!isWorkspaceId(workspaceId)) {
-  console.log(`  Store          local — "${workspaceId}" is not a valid workspace id (expected a uuid)`);
-  console.log(`                 fix it with corpus-connect <id>, or clear CORPUS_WORKSPACE`);
+  console.log(`  Store          OFF — disconnected; memory tools will not read or write`);
+  console.log(`                 corpus-connect <id> to rejoin a workspace, or corpus-setup for a new one`);
+} else if (!supabaseConfigured()) {
+  console.log(`  Store          OFF — workspace is set but Supabase credentials are not,`);
+  console.log(`                 so it is unreachable; set SUPABASE_URL + SUPABASE_SERVICE_ROLE_KEY`);
 } else {
   // Never let a diagnostic crash: this is the command people run precisely when the
   // setup is broken, so every remote call here degrades to a printed line.
@@ -81,7 +86,9 @@ if (fs.existsSync(localDir)) {
 }
 
 // --- Clients ----------------------------------------------------------------
-console.log(`\n  Clients`);
+// Per-directory is the single most confusing fact about MCP wiring, so say it here:
+// these files only affect sessions opened in THIS directory.
+console.log(`\n  Clients (config in this directory — sessions opened elsewhere don't see it)`);
 for (const c of clients) {
   const mark = !c.exists ? "-" : c.wired ? "✓" : "✗";
   const note = !c.exists
@@ -90,7 +97,7 @@ for (const c of clients) {
       ? "config exists but Corpus not registered"
       : c.workspaceId
         ? "connected"
-        : "private";
+        : "disconnected";
   console.log(`    ${mark} ${c.def.file.padEnd(24)} ${c.def.label.padEnd(12)} ${note}`);
 }
 
@@ -103,4 +110,5 @@ console.log(
       : `not built — codebase_search will fall back to grep/read`
   }`,
 );
+console.log(`\n  All workspaces this machine has access to: corpus-ls`);
 console.log("");

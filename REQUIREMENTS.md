@@ -37,6 +37,29 @@ corpus-setup
 
 Then start your agent in that project and approve the `corpus` server.
 
+### Where Corpus is active — per-directory, by design
+
+The two halves of an install have different scope, and conflating them is the #1
+source of "where did my tools go":
+
+- **The commands** (`corpus-setup`, `corpus-connect`, `corpus-ls`, …) are global —
+  `npm link` puts them on your PATH once per machine, runnable from anywhere.
+- **The MCP wiring is per-directory.** Agents discover MCP servers from config files in
+  the directory a session is *opened* in — `.mcp.json` (Claude Code),
+  `.gemini/settings.json`, `.codex/config.toml`. A terminal sitting in another directory
+  is irrelevant; what matters is where the agent session is rooted. Open Claude Code in a
+  directory without these files and Corpus simply isn't there.
+
+So: run `corpus-setup` once **per project**. Commit the generated configs — that is how
+teammates get the server (their agent offers to enable it on first open). To see every
+workspace your machine holds an id for, regardless of the directory you're in, run
+`corpus-ls`.
+
+> Optional: to have the corpus tools in *every* directory, register the server at user
+> scope too — `claude mcp add --scope user corpus corpus-mcp-v2` (Gemini:
+> `~/.gemini/settings.json`; Codex: `~/.codex/config.toml`). Project configs win where
+> both exist; everywhere else you get private local memory.
+
 > **After changing server source, run `npm run build`.** `.mcp.json` points at `dist/`, so
 > edits to `src/` have no effect until compiled. Restart the agent to reload tool
 > descriptions.
@@ -91,8 +114,11 @@ graphify query "what calls X" --budget 2000
 3. Teammates point at the same DB with the same `CORPUS_PROJECT` value.
 
 On startup the server logs its mode to stderr:
-`[corpus-v2] ready · project="..." · store=supabase|local`. That line is the fastest way
-to confirm which backend you actually got.
+`[corpus-v2] ready · project="..." · store=supabase|local|disconnected`. That line is the
+fastest way to confirm which backend you actually got. `disconnected` means the repo
+points at a workspace it can't reach (not connected, malformed id, or missing
+credentials) — memory is OFF until `corpus-connect <id>` / `corpus-setup`, never a
+silent local fallback.
 
 ## 4. Dashboard (optional)
 
@@ -132,16 +158,22 @@ Complete list, as actually read by the code — nothing here is aspirational.
 
 ## Troubleshooting
 
-**Tools don't appear in the agent.** Confirm the `corpus` entry in the project's
-`.mcp.json` points at an existing `dist/index.js`, and that you approved the server when
-prompted. `npm link` must have run in `mcp-server-2`.
+**Tools don't appear in the agent.** Confirm the session was opened in the directory
+that holds the `corpus` entry in `.mcp.json` (wiring is per-directory), that `npm link`
+ran in `mcp-server-2` (the entry runs the `corpus-mcp-v2` command from PATH), and that
+you approved the server when prompted.
 
 **Changes to tool behavior don't take.** `npm run build`, then restart the agent — tool
 descriptions are read once at connect time.
 
-**Store says `local` when you configured Supabase.** Both `SUPABASE_URL` and
-`SUPABASE_SERVICE_ROLE_KEY` must be set; one alone silently falls back. Check the stderr
-startup line.
+**Store says `disconnected` when you configured Supabase.** Credentials alone are not
+enough — the repo must also be connected to a workspace (`corpus-connect <id>` or
+`corpus-setup`). Run `corpus-status` for the exact reason and fix, `corpus-ls` for the
+workspace ids you already have access to.
+
+**Tools exist in one directory but not another.** That's the per-directory wiring —
+see "Where Corpus is active" above. Run `corpus-setup` in the other project, or register
+the server at user scope.
 
 **Code queries return "Graphify is not installed here."** See §2 — usually the Windows
 PATH issue. Set `GRAPHIFY_PATH`.

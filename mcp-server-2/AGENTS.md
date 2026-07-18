@@ -3,10 +3,10 @@
 
 This project uses Corpus (MCP tools) for cross-session, cross-tool memory.
 
-- At session start, and whenever asked to continue previous work: call `memory_load`.
+- At session start, and whenever asked to continue previous work: call `corpus_load`.
 - Immediately after finishing an edit, fixing a bug, or making a design decision:
-  call `memory_log` — one line; for decisions include the why.
-- Before ending a session, or when the user says "save state": call `memory_save`
+  call `corpus_log` — one line; for decisions include the why.
+- Before ending a session, or when the user says "save state": call `corpus_save`
   with concrete file/function references in every in-progress item.
 
 ## Exploring code: use `codebase_search` FIRST

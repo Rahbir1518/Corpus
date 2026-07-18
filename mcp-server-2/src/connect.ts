@@ -13,6 +13,7 @@
  * to per-user tokens; until then a membership row would be recorded but never enforced.
  */
 import { patchWorkspace } from "./clients.js";
+import { recordWorkspace } from "./registry.js";
 import { findWorkspace, isWorkspaceId, supabaseConfigured } from "./workspace.js";
 
 const target = process.cwd();
@@ -38,8 +39,9 @@ if (!isWorkspaceId(id)) {
 }
 
 // Validate before writing anything. A typo'd id that silently "connects" would send
-// every future memory_save into a workspace that does not exist, and the failure would
+// every future corpus_save into a workspace that does not exist, and the failure would
 // surface much later as an opaque foreign-key error from the server.
+let verified: { name: string; slug: string } | null = null;
 if (supabaseConfigured()) {
   const ws = await findWorkspace(id);
   if (!ws) {
@@ -50,14 +52,15 @@ if (supabaseConfigured()) {
     );
     process.exit(1);
   }
+  verified = ws;
   console.log(`Workspace: ${ws.name} (${ws.slug})`);
 } else {
   // Not fatal: the id is still worth writing so the repo is configured for whenever
   // credentials do arrive. But say so plainly rather than implying it was verified.
   console.log(
     `! Supabase is not configured here, so the id could not be verified.\n` +
-      `  Writing it anyway; memory stays local until SUPABASE_URL and\n` +
-      `  SUPABASE_SERVICE_ROLE_KEY are set.`,
+      `  Writing it anyway; the workspace is unreachable (memory stays off) until\n` +
+      `  SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are set.`,
   );
 }
 
@@ -70,6 +73,10 @@ if (!wired.length) {
   );
   process.exit(1);
 }
+
+// Remember the id machine-wide (corpus-ls): a shared id only lives in this repo's
+// configs otherwise, and deleting the clone would mean losing access with it.
+recordWorkspace({ id, name: verified?.name, slug: verified?.slug, origin: "connected", repo: target });
 
 console.log("");
 for (const r of results) {

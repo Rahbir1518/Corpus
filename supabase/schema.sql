@@ -77,8 +77,8 @@ create table if not exists documents (
 --
 -- `tool` is deliberately unconstrained text. This is telemetry: adding or renaming a
 -- tool must never require a DDL migration, and must never fail a tool call. (A CHECK
--- listing tool names would already be stale — the tools were renamed to memory_load,
--- memory_log, memory_save and codebase_search.) No FK on workspace_id for the same
+-- listing tool names would already be stale — the tools were renamed to corpus_load,
+-- corpus_log, corpus_save and codebase_search.) No FK on workspace_id for the same
 -- reason: best-effort telemetry must not block a write.
 create table if not exists usage_events (
   id bigserial primary key,
@@ -94,7 +94,7 @@ create index if not exists usage_events_workspace_idx on usage_events (workspace
 create index if not exists usage_events_project_idx on usage_events (project, occurred_at desc);
 
 -- Per-workspace breakdown by agent and tool: event counts + total tokens. Lets the
--- dashboard show "who (claude-code/codex/gemini) used what (memory_load/...) how much"
+-- dashboard show "who (claude-code/codex/gemini) used what (corpus_load/...) how much"
 -- without every consumer re-writing the same group-by. Grouped by workspace_id AND
 -- project so local-mode rows (workspace_id null) still aggregate under their slug.
 create or replace view usage_stats as

@@ -24,6 +24,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { CLIENTS, readClient, registerClient } from "./clients.js";
+import { recordWorkspace } from "./registry.js";
 import { createWorkspace, supabaseConfigured } from "./workspace.js";
 
 const target = process.cwd();
@@ -39,16 +40,22 @@ let workspaceId: string | null =
 
 if (workspaceId) {
   console.log(`✓ Workspace — already connected (${workspaceId})`);
+  // Into the rolodex even on reuse: the id may predate corpus-ls, or have arrived via a
+  // teammate's committed .mcp.json without ever passing through corpus-connect here.
+  recordWorkspace({ id: workspaceId, origin: "connected", repo: target });
 } else if (supabaseConfigured()) {
   try {
     const ws = await createWorkspace(project, project);
     workspaceId = ws.id;
+    recordWorkspace({ id: ws.id, name: ws.name, slug: ws.slug, origin: "created", repo: target });
     console.log(`✓ Workspace — created ${ws.id}`);
     console.log(`  Share this id with teammates: corpus-connect ${ws.id}`);
   } catch (err) {
-    // Not fatal: local memory works with no DB at all, which is the zero-config promise.
     console.error(`– Workspace — could not create: ${err instanceof Error ? err.message : err}`);
-    console.error(`  Continuing with local memory (~/.corpus/${project}).`);
+    console.error(
+      `  Memory will be OFF until this repo joins a workspace — re-run corpus-setup,\n` +
+        `  or corpus-connect <id> if a teammate already has one.`,
+    );
   }
 } else {
   console.log(`– Workspace — Supabase not configured; memory stays local (~/.corpus/${project})`);
@@ -71,10 +78,10 @@ const block = `${BEGIN}
 
 This project uses Corpus (MCP tools) for cross-session, cross-tool memory.
 
-- At session start, and whenever asked to continue previous work: call \`memory_load\`.
+- At session start, and whenever asked to continue previous work: call \`corpus_load\`.
 - Immediately after finishing an edit, fixing a bug, or making a design decision:
-  call \`memory_log\` — one line; for decisions include the why.
-- Before ending a session, or when the user says "save state": call \`memory_save\`
+  call \`corpus_log\` — one line; for decisions include the why.
+- Before ending a session, or when the user says "save state": call \`corpus_save\`
   with concrete file/function references in every in-progress item.
 
 ## Exploring code: use \`codebase_search\` FIRST
@@ -134,13 +141,25 @@ console.log(
     : `– Graphify — skipped: ${g.text.split(".")[0]}. Memory tools work without it.`,
 );
 
+const memoryLine = workspaceId
+  ? `Memory lands in workspace ${workspaceId} — share the id for corpus-connect.`
+  : supabaseConfigured()
+    ? `Memory is OFF until this repo joins a workspace (corpus-setup / corpus-connect <id>).`
+    : `Memory is stored locally in ~/.corpus/${project}/ (no keys, no network).
+To use a shared team workspace later, add SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY
+to mcp-server-2/.env.local and re-run corpus-setup.`;
+
 console.log(`
 Done. Start Claude Code, Gemini CLI, or Codex in this directory and approve the
 "corpus" MCP server. All three share one memory store, so a session in any of them
 picks up where the others left off.
-Memory is stored locally in ~/.corpus/${project}/ (no keys, no network).
-To use a shared team workspace later, add SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY
-to the server's env — in each client config you actually use.
+${memoryLine}
+
+Scope: this wiring lives in THIS directory's config files (.mcp.json, .gemini/,
+.codex/) — agents read them from the directory a session is opened in, so sessions
+started elsewhere will not have Corpus. Run corpus-setup per project (commit the
+configs to share them with teammates), and corpus-ls to see every workspace this
+machine has access to.
 
 Note: Codex only reads .codex/config.toml in projects you have marked trusted; if it
 does not appear under /mcp, copy that block into ~/.codex/config.toml instead.`);

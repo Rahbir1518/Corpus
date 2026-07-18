@@ -20,7 +20,7 @@ Three claims, in pitch order:
    context whether relevant or not — a memory tax on every request. Corpus memory costs zero
    tokens until the model decides it's relevant and calls a tool.
 2. **A running ledger, not a checkpoint.** Almanac updates its wiki after sessions/commits.
-   Corpus logs during the session (`memory_log`), so the memory is never more than one step
+   Corpus logs during the session (`corpus_log`), so the memory is never more than one step
    stale — nothing is lost at a context limit, crash, or closed laptop.
 3. **Portable by format.** Markdown is the interchange format — the DB stores markdown
    documents, not proprietary blobs. Claude → Codex → Gemini → teammate is a fetch of the
@@ -34,9 +34,9 @@ Three claims, in pitch order:
 
 ```
 ┌─ mcp-server-2 (the ONE thing a user installs) ────────────────┐
-│  memory_load        fetch relevant doc(s) from the DB          │
-│  memory_log         append one decision/change (incremental)   │
-│  memory_save        schema-forced state dump → merge into docs │
+│  corpus_load        fetch relevant doc(s) from the DB          │
+│  corpus_log         append one decision/change (incremental)   │
+│  corpus_save        schema-forced state dump → merge into docs │
 │  codebase_search  pass-through to bundled Graphify           │
 └────────────────────────────────────────────────────────────────┘
                  fetch / upsert (markdown documents)
@@ -51,8 +51,10 @@ Three claims, in pitch order:
 **Storage backends (same tool interface, pluggable store):**
 - **Team mode (canonical):** Supabase. Documents are markdown pages keyed by project.
   Teammates' sessions fetch the same brain in real time — no commits, no repo files.
-- **Offline fallback (zero config):** documents live in `~/.corpus/<project>/` — the user's
-  home dir, NEVER the repo. Same format, same merge logic; syncs up when configured.
+- **Local mode (zero config):** documents live in `~/.corpus/<project>/` — the user's
+  home dir, NEVER the repo. Same format, same merge logic. Used only when nothing shared
+  was ever configured; a repo pointed at a workspace it can't reach gets memory OFF
+  instead (never a silent local fork — see design rule 4).
 - The target repo is read-only to Corpus. No generated files, no commit noise. Export to
   a repo file/Gitbook is an explicit user action, not a side effect.
 
@@ -84,8 +86,16 @@ team's memory. Identity must never be derived from a folder name.
 |---|---|
 | `corpus-setup` | First-run wiring. **Creates** a workspace, registers all three clients, installs instruction blocks, builds the graph. Re-running reuses an existing id. |
 | `corpus-connect <id>` | **Joins** a workspace someone else created. Writes `$CORPUS_WORKSPACE` to every wired client. |
-| `corpus-disconnect` | **Detach**, not uninstall. Removes that one env key so memory falls back to `~/.corpus/<slug>`. Never deletes shared documents or membership. |
+| `corpus-disconnect` | **Detach**, not uninstall. Removes that one env key from every client, taking the repo out of ALL workspaces — memory is then OFF (no reads, no writes, no local fork) until the user runs `corpus-connect <id>` to rejoin or `corpus-setup` to create a new one. Never deletes shared documents or membership. |
 | `corpus-status` | Read-only diagnostic: wiring, workspace, store reachability, local memory, graph. |
+| `corpus-ls` | Read-only list of every workspace this machine has access to — created (`corpus-setup`) or shared with you (`corpus-connect`) — verified against the DB when reachable, with the current directory's workspace marked. |
+
+`corpus-ls` reads a machine-local rolodex, `~/.corpus/workspaces.json`, which setup and
+connect append to (registry.ts). Access is bearer — the id is the credential — so "what
+do I have access to" can only be answered from the ids this machine has held; there is
+no CLI login to ask the DB. The rolodex is a contact book, not an ACL: entries persist
+through disconnect (remembering the id is what makes reconnecting possible), and the DB
+remains the truth about which workspaces still exist.
 
 All of them act on every client symmetrically (`clients.ts`). Asymmetry is the bug that
 matters: a repo that disconnects Claude Code but not Gemini keeps writing to a workspace
@@ -117,18 +127,22 @@ keyword-recall simulation.
    lifecycle hooks is a roadmap slide, not a dependency.
 2. **The DB stores markdown documents; the repo stays clean.** The documentation database
    is the canonical store. Corpus never writes into the target repo. Sharing = same
-   workspace in the DB; Auth0 gates dashboard access and workspace writes. Offline
-   fallback = `~/.corpus/<project>/`, same documents, same format.
+   workspace in the DB; Auth0 gates dashboard access and workspace writes. Zero-config
+   local mode = `~/.corpus/<project>/`, same documents, same format — used only when
+   nothing shared was ever configured.
 3. **The server never calls an LLM.** The calling model writes summaries; the server
    validates, renders, and persists them. Zero API keys to run. (This is also the honest
    answer to "where does the intelligence live?" — in the schema + tool descriptions.)
-4. **Degrade gracefully.** No documents yet for a project → return "no memory yet", don't
-   error. No Supabase configured → offline fallback store. No graphify installed → say so
-   and tell the model to fall back to normal exploration.
+4. **Degrade gracefully — but never fork the memory.** No documents yet for a project →
+   return "no memory yet", don't error. No graphify installed → say so and tell the model
+   to fall back to normal exploration. But a repo that points at a workspace it cannot
+   reach (disconnected, malformed id, missing credentials) gets memory OFF with the fix
+   spelled out (`corpus-connect <id>` / `corpus-setup`) — never a silent local fallback,
+   which would create a second, diverging version of the memory.
 
 ## Tool contracts
 
-### memory_load
+### corpus_load
 - **When:** session start, or when the user says "continue" / references past work.
   (The tool description carries this instruction — MCP injects it into every client;
   no AGENTS.md/CLAUDE.md required.)
@@ -138,14 +152,14 @@ keyword-recall simulation.
   the query, as markdown, with a token-estimate footer. No docs yet → friendly
   "session one, no memory yet" message.
 
-### memory_log
+### corpus_log
 - **When:** immediately after any meaningful step — a decision made, a change completed,
   a bug found. Cheap and frequent; this is the crash-safety + freshness mechanism.
 - **In:** `type` (decision | change | bug | note), `summary` (one line), `files?` (paths).
 - **Out:** confirmation. Appends one bullet under today's session heading in `## Session log`.
 - Decisions are ALSO appended to `## Decisions` (the permanent record with the "why").
 
-### memory_save
+### corpus_save
 - **When:** end of session, before a handoff, or on user command ("save state").
 - **In (schema-forced — this is the quality lever):**
   - `summary` — one paragraph, what this session did
@@ -232,14 +246,14 @@ reads first.
    Realtime) + token counter; Auth0 on the dashboard and workspace writes; topical pages.
 3. **Roadmap (pitch only):** auto-save via harness lifecycle hooks; corpus_init that
    bootstraps docs for an existing repo from the Graphify graph; pgvector relevance
-   matching for memory_load queries (v1 server already has this).
+   matching for corpus_load queries (v1 server already has this).
 
 ## Demo script (deterministic — every step user-triggered)
 
 1. Session 1 (Claude Code) works on a feature in a REAL large repo; judges watch
-   memory_log calls stream and the dashboard update live.
+   corpus_log calls stream and the dashboard update live.
 2. Explicit save ("save state") → show the markdown. Kill the session on purpose.
-3. Session 2 (Codex/Gemini): "continue where the last session left off" → memory_load →
+3. Session 2 (Codex/Gemini): "continue where the last session left off" → corpus_load →
    it continues. The handoff is the product.
 4. Token chart: measured with/without totals from real transcripts.
 ```
