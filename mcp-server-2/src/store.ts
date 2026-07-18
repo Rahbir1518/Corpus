@@ -13,6 +13,7 @@ import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
+import { estimateTokens } from "./tokens.js";
 
 // Load .env.local sitting next to this package (mcp-server-2/.env.local) so Supabase
 // credentials never need to live in a git-tracked .mcp.json. Real env vars win.
@@ -32,8 +33,21 @@ export interface DocumentStore {
   getDocument(name: string): Promise<string | null>;
   putDocument(name: string, content: string): Promise<void>;
   listDocuments(): Promise<string[]>;
+  /**
+   * Real (not estimated-multiplier) size of every document in this project's memory
+   * store, in tokens — the measured "without Corpus's targeted fetch, you'd load
+   * everything" baseline for corpus_load. Never throws; returns null if it can't be
+   * measured, so a telemetry hiccup never fabricates a number.
+   */
+  getCorpusTokenTotal(): Promise<number | null>;
   /** Best-effort usage telemetry (dashboard token counter + activity feed). Never throws. */
-  logUsage(event: { tool: string; tokens?: number; agent?: string }): Promise<void>;
+  logUsage(event: {
+    tool: string;
+    tokens?: number;
+    agent?: string;
+    baselineTokens?: number | null;
+    baselineMethod?: string;
+  }): Promise<void>;
 }
 
 /** Project id: explicit env override, else the cwd's folder name (the repo being worked on). */
@@ -71,6 +85,20 @@ class LocalStore implements DocumentStore {
       .readdirSync(this.dir)
       .filter((f) => f.endsWith(".md"))
       .map((f) => f.slice(0, -3));
+  }
+
+  async getCorpusTokenTotal(): Promise<number | null> {
+    if (!fs.existsSync(this.dir)) return null;
+    try {
+      let total = 0;
+      for (const f of fs.readdirSync(this.dir)) {
+        if (!f.endsWith(".md")) continue;
+        total += estimateTokens(fs.readFileSync(path.join(this.dir, f), "utf8"));
+      }
+      return total;
+    } catch {
+      return null;
+    }
   }
 
   // Offline mode has no dashboard to feed.
@@ -133,7 +161,27 @@ class SupabaseStore implements DocumentStore {
     return (data ?? []).map((r) => r.name as string);
   }
 
-  async logUsage(event: { tool: string; tokens?: number; agent?: string }): Promise<void> {
+  async getCorpusTokenTotal(): Promise<number | null> {
+    try {
+      const { data, error } = await this.db.from("documents").select("content").eq("project", this.project);
+      if (error) {
+        console.error(`[corpus-v2] getCorpusTokenTotal failed: ${error.message}`);
+        return null;
+      }
+      return (data ?? []).reduce((sum, r) => sum + estimateTokens((r.content as string) ?? ""), 0);
+    } catch (err) {
+      console.error(`[corpus-v2] getCorpusTokenTotal threw: ${err instanceof Error ? err.message : err}`);
+      return null;
+    }
+  }
+
+  async logUsage(event: {
+    tool: string;
+    tokens?: number;
+    agent?: string;
+    baselineTokens?: number | null;
+    baselineMethod?: string;
+  }): Promise<void> {
     // Best-effort: a telemetry failure must never break a tool call. Supabase-js
     // resolves with { error } rather than throwing, so that's checked (and logged, not
     // swallowed) in addition to the try/catch for genuine network-level exceptions.
@@ -143,6 +191,8 @@ class SupabaseStore implements DocumentStore {
         tool: event.tool,
         tokens: event.tokens ?? null,
         agent: event.agent ?? null,
+        baseline_tokens: event.baselineTokens ?? null,
+        baseline_method: event.baselineTokens != null ? event.baselineMethod ?? null : null,
       });
       if (error) {
         console.error(`[corpus-v2] usage_events insert failed (is supabase/schema.sql applied?): ${error.message}`);

@@ -15,6 +15,7 @@ import { spawnSync } from "node:child_process";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
+import { estimateTokens } from "./tokens.js";
 
 export interface GraphifyResult {
   ok: boolean;
@@ -63,6 +64,47 @@ function run(bin: string, args: string[], cwd: string, timeout: number) {
 
 function graphExists(root: string): boolean {
   return fs.existsSync(path.join(root, "graphify-out", "graph.json"));
+}
+
+let fullGraphTokenCache: { root: string; mtimeMs: number; total: number } | null = null;
+
+/**
+ * Real (not estimated-multiplier) size of every source file the code graph indexes, in
+ * tokens — the measured "what a grep-and-read spiral across this codebase would have
+ * cost" baseline for corpus_code_query. Reads actual files on disk, not a guess. Cached
+ * per graph.json build (mtime-keyed) since it doesn't change between queries in a
+ * session. Never throws — returns null if the graph or any source file is unreadable, so
+ * a telemetry hiccup never fabricates a number.
+ */
+export function estimateFullGraphTokens(root: string): number | null {
+  const graphPath = path.join(root, "graphify-out", "graph.json");
+  try {
+    const stat = fs.statSync(graphPath);
+    if (fullGraphTokenCache && fullGraphTokenCache.root === root && fullGraphTokenCache.mtimeMs === stat.mtimeMs) {
+      return fullGraphTokenCache.total;
+    }
+
+    const graph = JSON.parse(fs.readFileSync(graphPath, "utf8")) as {
+      nodes?: Array<{ source_file?: string }>;
+    };
+    const sourceFiles = new Set(
+      (graph.nodes ?? []).map((n) => n.source_file).filter((f): f is string => !!f),
+    );
+
+    let total = 0;
+    for (const rel of sourceFiles) {
+      try {
+        total += estimateTokens(fs.readFileSync(path.join(root, rel), "utf8"));
+      } catch {
+        // File moved/deleted since the graph was built — skip, don't fail the whole total.
+      }
+    }
+
+    fullGraphTokenCache = { root, mtimeMs: stat.mtimeMs, total };
+    return total;
+  } catch {
+    return null;
+  }
 }
 
 /** Build/refresh the graph. Deterministic tree-sitter extraction — no LLM, no tokens. */

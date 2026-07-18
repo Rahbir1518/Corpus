@@ -69,6 +69,19 @@ export default async function Dashboard() {
               Manage and run your workflows
             </p>
           </Link>
+
+          <a
+            href="https://github.com/Rahbir1518/Corpus"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="dashboard-action-card"
+          >
+            <div className="dashboard-action-icon">📖</div>
+            <h3 className="dashboard-action-title">Documentation</h3>
+            <p className="dashboard-action-desc">
+              View the Corpus source and architecture docs
+            </p>
+          </a>
         </div>
 
         <p className="dashboard-footer-note">
