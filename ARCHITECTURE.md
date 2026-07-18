@@ -62,7 +62,28 @@ Three claims, in pitch order:
   from the `documents` table instead.)
 - **frontend/** — Next.js dashboard: project browser → documentation pages (view/edit),
   token-savings counter, graph views.
-- **supabase/** — SQL for the documentation DB (`documents` table in `documents.sql`).
+- **supabase/** — SQL for the documentation DB: `schema.sql` (`workspaces`,
+  `workspace_members`, `documents`, `usage_events` — see "Sharing & access" below).
+
+## Sharing & access
+
+A **workspace** = one project (1:1 today). `workspaces.id` (uuid) is the opaque,
+shareable identifier used by `corpus-connect <id>` (separate CLI feature, in progress);
+`workspaces.slug` is the human key `mcp-server-2` already resolves locally
+(`resolveProject()` — repo folder name, or `$CORPUS_PROJECT`) and keys `documents` by.
+
+Two access concerns that must not be conflated:
+- **Repo/code access** — cloning, pushing — is git/GitHub, entirely outside Corpus.
+- **Memory access** — who can read/write a workspace's docs — is what
+  `workspace_members` gates: dashboard view/edit via Auth0 (`user_id` = Auth0 `sub`),
+  and, via `status` ('connected' | 'disconnected'), which local sessions'
+  `corpus_log`/`corpus_save` calls are currently landing in the shared workspace
+  (toggled by `corpus-connect`/disconnect).
+
+`usage_events` is an append-only, best-effort telemetry ledger (no FK — must never
+block a tool call) written by every tool call. It backs the dashboard's real
+token-savings counter and live activity feed, replacing the old local
+keyword-recall simulation.
 
 ## Non-negotiable design rules
 

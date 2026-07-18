@@ -10,13 +10,21 @@ export default async function Dashboard() {
   }
 
   const user = session.user;
+  const now = new Date();
+  const hour = now.getHours();
+  const greeting = hour < 12 ? "Good morning" : hour < 18 ? "Good afternoon" : "Good evening";
+  const today = now.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
+  const currentTime = now.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
 
   return (
     <div className="dashboard-container">
       <header className="dashboard-header">
         <div className="dashboard-header-left">
           <div className="dashboard-logo">C</div>
-          <h1 className="dashboard-title">Dashboard</h1>
+          <div>
+            <h1 className="dashboard-title">Dashboard</h1>
+            <p className="dashboard-subtitle">Your Corpus workspace overview · {today} · {currentTime}</p>
+          </div>
         </div>
 
         <div className="dashboard-header-right">
@@ -46,7 +54,7 @@ export default async function Dashboard() {
       <main className="dashboard-main">
         <div className="dashboard-welcome-card">
           <h2 className="dashboard-welcome-heading">
-            Welcome back, {String(user.name || "there")}!
+            {greeting}, {String(user.name || "there")}!
           </h2>
           <p className="dashboard-welcome-text">
             Here&apos;s your workspace. Get started with your workflow.
@@ -62,6 +70,10 @@ export default async function Dashboard() {
             </p>
           </Link>
         </div>
+
+        <p className="dashboard-footer-note">
+          Powered by Corpus — cross-session, cross-tool project memory.
+        </p>
       </main>
     </div>
   );

@@ -32,6 +32,8 @@ export interface DocumentStore {
   getDocument(name: string): Promise<string | null>;
   putDocument(name: string, content: string): Promise<void>;
   listDocuments(): Promise<string[]>;
+  /** Best-effort usage telemetry (dashboard token counter + activity feed). Never throws. */
+  logUsage(event: { tool: string; tokens?: number; agent?: string }): Promise<void>;
 }
 
 /** Project id: explicit env override, else the cwd's folder name (the repo being worked on). */
@@ -70,11 +72,15 @@ class LocalStore implements DocumentStore {
       .filter((f) => f.endsWith(".md"))
       .map((f) => f.slice(0, -3));
   }
+
+  // Offline mode has no dashboard to feed.
+  async logUsage(): Promise<void> {}
 }
 
 /**
- * Expects a `documents` table: (project text, name text, content text, updated_at timestamptz,
- * primary key (project, name)). The dashboard reads the same table (Realtime on updates).
+ * Expects the tables in supabase/schema.sql: `documents` (project, name, content,
+ * updated_at) referencing `workspaces` (slug, ...), plus `usage_events` for telemetry.
+ * The dashboard reads the same tables (Realtime on updates).
  */
 class SupabaseStore implements DocumentStore {
   readonly mode = "supabase" as const;
@@ -98,6 +104,17 @@ class SupabaseStore implements DocumentStore {
   }
 
   async putDocument(name: string, content: string): Promise<void> {
+    // Satisfies documents.project's FK to workspaces.slug with zero setup step: the
+    // first write in a fresh project silently creates its workspace row. Best-effort —
+    // logged, not thrown, so a workspaces hiccup never blocks the document write — but
+    // logged loudly, not swallowed, so a missing/misapplied schema is diagnosable.
+    const { error: workspaceError } = await this.db
+      .from("workspaces")
+      .upsert({ slug: this.project, name: this.project }, { onConflict: "slug", ignoreDuplicates: true });
+    if (workspaceError) {
+      console.error(`[corpus-v2] workspaces upsert failed (is supabase/schema.sql applied?): ${workspaceError.message}`);
+    }
+
     const { error } = await this.db.from("documents").upsert({
       project: this.project,
       name,
@@ -114,6 +131,25 @@ class SupabaseStore implements DocumentStore {
       .eq("project", this.project);
     if (error) throw new Error(`documents list failed: ${error.message}`);
     return (data ?? []).map((r) => r.name as string);
+  }
+
+  async logUsage(event: { tool: string; tokens?: number; agent?: string }): Promise<void> {
+    // Best-effort: a telemetry failure must never break a tool call. Supabase-js
+    // resolves with { error } rather than throwing, so that's checked (and logged, not
+    // swallowed) in addition to the try/catch for genuine network-level exceptions.
+    try {
+      const { error } = await this.db.from("usage_events").insert({
+        project: this.project,
+        tool: event.tool,
+        tokens: event.tokens ?? null,
+        agent: event.agent ?? null,
+      });
+      if (error) {
+        console.error(`[corpus-v2] usage_events insert failed (is supabase/schema.sql applied?): ${error.message}`);
+      }
+    } catch (err) {
+      console.error(`[corpus-v2] usage_events insert threw: ${err instanceof Error ? err.message : err}`);
+    }
   }
 }
 

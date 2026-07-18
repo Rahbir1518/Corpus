@@ -1,92 +1,100 @@
--- Corpus schema — Postgres + pgvector
--- Run in Supabase SQL editor (or `supabase db push`).
+-- Corpus documentation DB schema. Run in the Supabase SQL editor.
+-- See ARCHITECTURE.md "Storage backends" and "Document model".
+-- Supersedes documents.sql — same `documents` table, plus workspaces/membership/usage.
 
-create extension if not exists vector;
-
--- A workspace = a shared "second brain" for a team/project.
+-- One workspace per project (today). `id` is the opaque, shareable identifier used by
+-- `corpus-connect <id>`. `slug` is the human key mcp-server-2 already computes locally
+-- (resolveProject() = repo folder name, or $CORPUS_PROJECT) — store.ts keys documents
+-- by this same string, so no change to how a project is identified there.
 create table if not exists workspaces (
-  id          text primary key,
-  name        text not null,
-  created_at  timestamptz not null default now()
+  id uuid primary key default gen_random_uuid(),
+  slug text unique not null,
+  name text not null,
+  owner_user_id text,              -- Auth0 `sub`; null until claimed from the dashboard
+  created_at timestamptz not null default now()
 );
 
--- A node = one atom of memory: a decision, bug, file, preference, task...
-create table if not exists nodes (
-  id            text primary key,
-  workspace_id  text not null references workspaces(id) on delete cascade,
-  type          text not null,              -- decision | bug | file | preference | task
-  title         text not null,
-  body          text not null default '',
-  tags          text[] not null default '{}',
-  session_id    text,
-  embedding     vector(1536),               -- OpenAI text-embedding-3-small
-  created_at    timestamptz not null default now()
+-- Dashboard access + connector state. A row = "this Auth0 user can see this workspace's
+-- docs in the dashboard." `status` is toggled by corpus-connect/disconnect: 'connected'
+-- means this user's local corpus_log/corpus_save calls are currently landing in this
+-- workspace's shared documents.
+create table if not exists workspace_members (
+  workspace_id uuid not null references workspaces(id) on delete cascade,
+  user_id text not null,           -- Auth0 `sub`
+  role text not null default 'member' check (role in ('owner', 'member')),
+  status text not null default 'connected' check (status in ('connected', 'disconnected')),
+  joined_at timestamptz not null default now(),
+  last_active_at timestamptz not null default now(),
+  primary key (workspace_id, user_id)
 );
 
-create index if not exists nodes_workspace_idx on nodes (workspace_id);
-create index if not exists nodes_embedding_idx
-  on nodes using ivfflat (embedding vector_cosine_ops) with (lists = 100);
-
--- An edge = a relationship between two nodes.
-create table if not exists edges (
-  id            bigint generated always as identity primary key,
-  workspace_id  text not null references workspaces(id) on delete cascade,
-  source_id     text not null references nodes(id) on delete cascade,
-  target_id     text not null references nodes(id) on delete cascade,
-  rel           text not null default 'relates_to',  -- caused | depends_on | touches | relates_to
-  unique (source_id, target_id, rel)
+-- Markdown documents (unchanged shape/keys from documents.sql). FK added: every write
+-- auto-creates its workspace row (see store.ts's SupabaseStore.putDocument), so this
+-- never blocks the zero-config local-first path.
+create table if not exists documents (
+  project text not null references workspaces(slug),
+  name text not null,
+  content text not null,
+  updated_at timestamptz not null default now(),
+  primary key (project, name)
 );
 
-create index if not exists edges_workspace_idx on edges (workspace_id);
-
--- A session = one captured AI session, with token accounting for the savings counter.
-create table if not exists sessions (
-  id                  text primary key,
-  workspace_id        text not null references workspaces(id) on delete cascade,
-  title               text not null default '',
-  raw_token_count     int not null default 0,
-  engram_token_count  int not null default 0,
-  created_at          timestamptz not null default now()
+-- Append-only usage ledger: real numbers for the token-savings counter + a live
+-- dashboard activity feed. Replaces the old, never-defined recall_events/nodes/edges.
+-- No FK on `project` — best-effort telemetry, must never block a tool call.
+create table if not exists usage_events (
+  id bigserial primary key,
+  project text not null,
+  agent text,                      -- $CORPUS_AGENT: claude-code | codex | gemini | session
+  tool text not null check (tool in ('corpus_load','corpus_log','corpus_save','corpus_code_query')),
+  tokens int,                      -- estimateTokens() result where applicable
+  occurred_at timestamptz not null default now()
 );
 
--- A recall_event = a corpus_recall call. Drives the live graph glow + token panel.
-create table if not exists recall_events (
-  id                bigint generated always as identity primary key,
-  workspace_id      text not null references workspaces(id) on delete cascade,
-  query             text not null,
-  node_ids          text[] not null default '{}',
-  full_token_count  int not null default 0,   -- what pasting the whole corpus would cost
-  recall_token_count int not null default 0,  -- what we actually returned
-  created_at        timestamptz not null default now()
-);
+create index if not exists usage_events_project_idx on usage_events (project, occurred_at desc);
 
-create index if not exists recall_events_workspace_idx on recall_events (workspace_id, created_at desc);
+-- Per-project breakdown by agent and tool: event counts + total tokens. Lets the
+-- dashboard show "who (claude-code/codex/gemini) used what (corpus_load/...) how much"
+-- without every consumer re-writing the same group-by.
+create or replace view usage_stats as
+select
+  project,
+  coalesce(agent, 'unknown') as agent,
+  tool,
+  count(*) as event_count,
+  coalesce(sum(tokens), 0) as total_tokens
+from usage_events
+group by project, coalesce(agent, 'unknown'), tool;
 
--- Vector similarity search, scoped to a workspace. Returns nodes + similarity.
-create or replace function match_nodes (
-  query_embedding vector(1536),
-  ws_id           text,
-  match_count     int default 5
-)
-returns table (
-  id          text,
-  type        text,
-  title       text,
-  body        text,
-  tags        text[],
-  similarity  float
-)
-language sql stable
-as $$
-  select
-    n.id, n.type, n.title, n.body, n.tags,
-    1 - (n.embedding <=> query_embedding) as similarity
-  from nodes n
-  where n.workspace_id = ws_id and n.embedding is not null
-  order by n.embedding <=> query_embedding
-  limit match_count;
-$$;
+-- Let the dashboard receive live updates. Guarded so schema.sql stays safely
+-- re-runnable — `alter publication ... add table` errors (and, in the SQL editor,
+-- rolls back the whole script) if the table is already published.
+do $$
+begin
+  if not exists (
+    select 1 from pg_publication_tables
+    where pubname = 'supabase_realtime' and schemaname = 'public' and tablename = 'documents'
+  ) then
+    alter publication supabase_realtime add table documents;
+  end if;
+  if not exists (
+    select 1 from pg_publication_tables
+    where pubname = 'supabase_realtime' and schemaname = 'public' and tablename = 'usage_events'
+  ) then
+    alter publication supabase_realtime add table usage_events;
+  end if;
+  if not exists (
+    select 1 from pg_publication_tables
+    where pubname = 'supabase_realtime' and schemaname = 'public' and tablename = 'workspace_members'
+  ) then
+    alter publication supabase_realtime add table workspace_members;
+  end if;
+end $$;
 
--- Realtime: broadcast changes on these tables to the dashboard.
-alter publication supabase_realtime add table recall_events;
-alter publication supabase_realtime add table nodes;
+-- Migration note: if `documents` already has live rows from documents.sql, backfill
+-- workspaces first, then add the FK — don't drop/recreate:
+--   insert into workspaces (slug, name)
+--     select distinct project, project from documents
+--     on conflict (slug) do nothing;
+--   alter table documents add constraint documents_project_fkey
+--     foreign key (project) references workspaces(slug);
