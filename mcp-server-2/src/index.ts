@@ -17,7 +17,7 @@ import {
   replaceSection,
   stateTemplate,
 } from "./document.js";
-import { queryGraph } from "./graphify.js";
+import { estimateFullGraphTokens, queryGraph } from "./graphify.js";
 import { createStore, resolveProject } from "./store.js";
 import { estimateTokens } from "./tokens.js";
 
@@ -97,7 +97,14 @@ server.registerTool(
       return { content: [{ type: "text", text }] };
     }
     const tokens = estimateTokens(content);
-    await store.logUsage({ tool: "corpus_load", tokens, agent: process.env.CORPUS_AGENT });
+    const baselineTokens = await store.getCorpusTokenTotal();
+    await store.logUsage({
+      tool: "corpus_load",
+      tokens,
+      agent: process.env.CORPUS_AGENT,
+      baselineTokens,
+      baselineMethod: "full_corpus",
+    });
     const footer = `\n\n---\n_Corpus: ~${tokens} tokens (estimate) · store: ${store.mode} · project: ${project}_`;
     return { content: [{ type: "text", text: content + footer }] };
   },
@@ -250,10 +257,13 @@ server.registerTool(
     const r = queryGraph(process.cwd(), question, budget);
     // Ledger label differs from the MCP tool name on purpose: usage_events.tool has a
     // CHECK constraint allowing only corpus_load/corpus_log/corpus_save/corpus_code_query.
+    const baselineTokens = r.ok ? estimateFullGraphTokens(process.cwd()) : null;
     await store.logUsage({
       tool: "corpus_code_query",
       tokens: estimateTokens(r.text),
       agent: process.env.CORPUS_AGENT,
+      baselineTokens,
+      baselineMethod: "full_graph_sources",
     });
     return { content: [{ type: "text", text: r.text }], ...(r.ok ? {} : { isError: false }) };
   },

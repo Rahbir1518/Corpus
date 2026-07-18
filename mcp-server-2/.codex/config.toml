@@ -2,6 +2,9 @@
 [mcp_servers.corpus]
 command = "corpus-mcp-v2"
 args = []
+=======
+command = "node"
+
 
 [mcp_servers.corpus.env]
 CORPUS_PROJECT = "mcp-server-2"
