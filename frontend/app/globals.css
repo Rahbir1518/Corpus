@@ -18,15 +18,15 @@
 }
 
 @theme inline {
-  --color-background: hsl(201 100% 13%);
+  --color-background: hsl(240 10% 5%);
   --color-foreground: hsl(0 0% 100%);
   --color-muted-foreground: hsl(240 4% 66%);
   --color-primary: hsl(0 0% 100%);
-  --color-secondary: hsl(201 100% 18%);
-  --color-muted: hsl(201 100% 18%);
-  --color-accent: hsl(201 100% 20%);
-  --color-border: hsl(201 100% 22%);
-  --color-input: hsl(201 100% 22%);
+  --color-secondary: hsl(240 6% 14%);
+  --color-muted: hsl(240 6% 14%);
+  --color-accent: hsl(240 6% 16%);
+  --color-border: hsl(240 6% 18%);
+  --color-input: hsl(240 6% 18%);
 
   --font-display: var(--font-display);
   --font-body: var(--font-body);
@@ -65,6 +65,7 @@ body {
   color: #fff;
   box-shadow: 0 0 20px var(--accent-glow), 0 2px 8px rgba(0, 0, 0, 0.3);
 }
+
 .btn-primary:hover {
   background: var(--accent-hover);
   box-shadow: 0 0 30px var(--accent-glow), 0 4px 16px rgba(0, 0, 0, 0.4);
@@ -77,6 +78,7 @@ body {
   border: 1px solid var(--border);
   backdrop-filter: blur(8px);
 }
+
 .btn-secondary:hover {
   background: var(--surface-hover);
   border-color: var(--accent);
@@ -91,6 +93,7 @@ body {
   padding: 0.5rem 1.2rem;
   font-size: 0.85rem;
 }
+
 .btn-danger:hover {
   background: var(--danger);
   color: #fff;
@@ -107,6 +110,7 @@ body {
   position: relative;
   overflow: hidden;
 }
+
 .liquid-glass::before {
   content: "";
   position: absolute;
@@ -114,15 +118,14 @@ body {
   left: -100%;
   width: 50%;
   height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.08),
-    transparent
-  );
+  background: linear-gradient(90deg,
+      transparent,
+      rgba(255, 255, 255, 0.08),
+      transparent);
   transform: skewX(-20deg);
   transition: 0.5s;
 }
+
 .liquid-glass:hover::before {
   left: 150%;
   transition: 0.7s ease-in-out;
@@ -133,6 +136,7 @@ body {
     opacity: 0;
     transform: translateY(24px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -166,6 +170,7 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
+
   .animate-fade-rise,
   .animate-fade-rise-delay,
   .animate-fade-rise-delay-2 {
@@ -173,6 +178,7 @@ body {
     opacity: 1;
     transform: none;
   }
+
   .reveal {
     opacity: 1;
     transform: none;
@@ -200,7 +206,9 @@ body {
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .loading-text {
@@ -331,6 +339,7 @@ body {
   color: inherit;
   transition: all 0.2s ease;
 }
+
 .dashboard-action-card:hover {
   background: var(--surface-hover);
   border-color: var(--accent);
@@ -361,17 +370,21 @@ body {
     margin: 1rem;
     padding: 2rem 1.5rem;
   }
+
   .landing-buttons {
     flex-direction: column;
   }
+
   .dashboard-header {
     padding: 0.75rem 1rem;
     flex-wrap: wrap;
     gap: 0.75rem;
   }
+
   .dashboard-user-details {
     display: none;
   }
+
   .dashboard-main {
     padding: 1rem;
   }

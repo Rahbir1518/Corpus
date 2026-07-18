@@ -63,16 +63,15 @@ export default function LandingPage() {
   return (
     <main className="bg-background text-foreground min-h-screen selection:bg-white/20 selection:text-white">
       <nav
-        className={`fixed top-0 inset-x-0 z-50 flex items-center justify-between px-6 py-4 transition-all duration-300 ${
-          scrolled ? "liquid-glass bg-background/50 border-b border-white/5" : "bg-transparent"
-        }`}
+        className={`fixed top-0 inset-x-0 z-50 flex items-center justify-between px-6 py-4 transition-all duration-300 ${scrolled ? "liquid-glass bg-background/50 border-b border-white/5" : "bg-transparent"
+          }`}
       >
         <div className="flex items-center gap-2">
           <Link href="/" className="font-display text-3xl tracking-tight">
             Corpus<sup className="text-xs">®</sup>
           </Link>
         </div>
-        
+
         <div className="hidden md:flex items-center gap-8">
           <a href="#overview" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Overview</a>
           <a href="#how-it-works" className="text-sm text-muted-foreground hover:text-foreground transition-colors">How it works</a>
@@ -105,7 +104,7 @@ export default function LandingPage() {
           <h1 className="font-display text-5xl sm:text-7xl md:text-8xl leading-[0.95] tracking-[-2.46px] animate-fade-rise">
             Your AI <em className="not-italic text-muted-foreground">forgets everything</em> the moment you <em className="not-italic text-muted-foreground">switch tabs.</em>
           </h1>
-          
+
           <p className="text-muted-foreground max-w-2xl mt-8 text-lg sm:text-xl animate-fade-rise-delay">
             Give your AI a portable memory. One lightweight file that any model can read, so it never has to re-learn your work, and you stop paying for redundant context.
           </p>
@@ -143,7 +142,7 @@ export default function LandingPage() {
               How it works
             </h2>
           </Reveal>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <Reveal delay={0}>
               <div className="liquid-glass p-8 rounded-3xl h-full border border-white/5 bg-white/[0.02]">
@@ -154,7 +153,7 @@ export default function LandingPage() {
                 <p className="text-muted-foreground text-sm">Automatically extract the most critical insights and context from your conversations.</p>
               </div>
             </Reveal>
-            
+
             <Reveal delay={100}>
               <div className="liquid-glass p-8 rounded-3xl h-full border border-white/5 bg-white/[0.02]">
                 <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center mb-6">
@@ -164,7 +163,7 @@ export default function LandingPage() {
                 <p className="text-muted-foreground text-sm">Condense sprawling threads into structured, dense knowledge artifacts.</p>
               </div>
             </Reveal>
-            
+
             <Reveal delay={200}>
               <div className="liquid-glass p-8 rounded-3xl h-full border border-white/5 bg-white/[0.02]">
                 <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center mb-6">
@@ -200,7 +199,7 @@ export default function LandingPage() {
               Your memory isn&apos;t a list; it&apos;s a web. Corpus connects related ideas as nodes and edges. When your AI retrieves a piece of context, it pulls the surrounding conceptual neighborhood with it.
             </p>
           </Reveal>
-          
+
           <Reveal delay={200}>
             <div className="relative aspect-video rounded-3xl liquid-glass overflow-hidden flex items-center justify-center border border-white/10 bg-white/[0.01]">
               <div className="absolute inset-0" style={{
@@ -208,7 +207,7 @@ export default function LandingPage() {
                 backgroundSize: '40px 40px',
                 opacity: 0.5
               }}></div>
-              
+
               {/* Abstract Graph Representation */}
               <div className="relative z-10 w-full h-full p-8 flex items-center justify-center">
                 <div className="relative w-64 h-64">
@@ -216,15 +215,15 @@ export default function LandingPage() {
                   <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 rounded-full bg-white/20 border-2 border-white/40 flex items-center justify-center shadow-[0_0_30px_rgba(255,255,255,0.2)] animate-pulse">
                     <span className="text-xs font-mono">Core</span>
                   </div>
-                  
+
                   {/* Surrounding Nodes */}
                   <div className="absolute top-0 left-1/2 -translate-x-1/2 w-10 h-10 rounded-full bg-white/10 border border-white/20 flex items-center justify-center"></div>
                   <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-12 h-12 rounded-full bg-white/10 border border-white/20 flex items-center justify-center"></div>
                   <div className="absolute top-1/2 left-0 -translate-y-1/2 w-8 h-8 rounded-full bg-white/10 border border-white/20 flex items-center justify-center"></div>
                   <div className="absolute top-1/2 right-0 -translate-y-1/2 w-14 h-14 rounded-full bg-white/10 border border-white/20 flex items-center justify-center"></div>
-                  
+
                   {/* Edges */}
-                  <svg className="absolute inset-0 w-full h-full -z-10" style={{stroke: 'rgba(255,255,255,0.15)', strokeWidth: 1.5, fill: 'none', strokeDasharray: '4 4'}}>
+                  <svg className="absolute inset-0 w-full h-full -z-10" style={{ stroke: 'rgba(255,255,255,0.15)', strokeWidth: 1.5, fill: 'none', strokeDasharray: '4 4' }}>
                     <line x1="128" y1="128" x2="128" y2="20" />
                     <line x1="128" y1="128" x2="128" y2="236" />
                     <line x1="128" y1="128" x2="20" y2="128" />
