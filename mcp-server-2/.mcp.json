@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "corpus": {
+      "command": "node",
+      "args": [
+        "C:\\Code\\Hackathons\\Corpus\\Corpus\\mcp-server-2\\dist\\index.js"
+      ],
+      "env": {
+        "CORPUS_PROJECT": "mcp-server-2",
+        "CORPUS_AGENT": "claude-code"
+      }
+    }
+  }
+}

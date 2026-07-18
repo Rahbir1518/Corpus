@@ -20,5 +20,6 @@
   "18": "README.md",
   "19": "eslint.config.mjs",
   "20": "next.config.ts",
-  "21": "postcss.config.mjs"
+  "21": "postcss.config.mjs",
+  "22": "graphify.ts"
 }

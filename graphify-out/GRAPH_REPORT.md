@@ -1,16 +1,16 @@
 # Graph Report - Corpus  (2026-07-18)
 
 ## Corpus Check
-- 37 files · ~12,103 words
+- 39 files · ~14,189 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 275 nodes · 312 edges · 23 communities (20 shown, 3 thin omitted)
+- 290 nodes · 329 edges · 23 communities (20 shown, 3 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `d4cb7069`
+- Built from commit: `42722741`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -43,13 +43,13 @@
 1. `compilerOptions` - 16 edges
 2. `compilerOptions` - 11 edges
 3. `Corpus — Architecture (source of truth)` - 9 edges
-4. `include` - 7 edges
-5. `LocalStore` - 7 edges
-6. `queryGraph()` - 6 edges
-7. `DocumentStore` - 6 edges
-8. `SupabaseStore` - 6 edges
-9. `Corpus v2 — MCP server` - 6 edges
-10. `auth0` - 5 edges
+4. `Requirements & setup` - 8 edges
+5. `include` - 7 edges
+6. `LocalStore` - 7 edges
+7. `queryGraph()` - 6 edges
+8. `DocumentStore` - 6 edges
+9. `SupabaseStore` - 6 edges
+10. `Corpus v2 — MCP server` - 6 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `GET()` --calls--> `getGraph()`  [EXTRACTED]
@@ -81,8 +81,8 @@ Cohesion: 0.20
 Nodes (15): appendToSection(), ensureSessionHeading(), getSection(), replaceSection(), SectionName, sectionRange(), SECTIONS, stampUpdated() (+7 more)
 
 ### Community 3 - "graph.ts"
-Cohesion: 0.16
-Nodes (16): GET(), ForceGraph2D, GraphView(), isHot(), Props, truncate(), getGraph(), Graph (+8 more)
+Cohesion: 0.10
+Nodes (23): GET(), ForceGraph2D, GraphView(), isHot(), Props, truncate(), RecallStat, estTokens() (+15 more)
 
 ### Community 4 - "devDependencies"
 Cohesion: 0.11
@@ -105,7 +105,7 @@ Cohesion: 0.12
 Nodes (15): compilerOptions, declaration, esModuleInterop, module, moduleResolution, outDir, rootDir, skipLibCheck (+7 more)
 
 ### Community 9 - "Corpus v2 — MCP server"
-Cohesion: 0.15
+Cohesion: 0.16
 Nodes (11): Corpus v2 — MCP server, Dev, Setup (per project, one time), Storage modes, Tools, Try the handoff (no keys, no network), Corpus, Demo script (5 min) (+3 more)
 
 ### Community 10 - "Corpus — Architecture (source of truth)"
@@ -113,8 +113,8 @@ Cohesion: 0.15
 Nodes (13): Components, Corpus — Architecture (source of truth), corpus_code_query, corpus_load, corpus_log, corpus_save, Demo script (deterministic — every step user-triggered), Document model (+5 more)
 
 ### Community 11 - "Workspace.tsx"
-Cohesion: 0.26
-Nodes (7): RecallStat, estTokens(), Workspace(), getBrowserSupabase(), Handlers, RecallEvent, useRealtimeCorpus()
+Cohesion: 0.18
+Nodes (11): 1. MCP server (required), 2. Code queries (optional), 3. Team mode — Supabase (optional), 4. Dashboard (optional), Dashboard (`frontend/.env.local`), Environment variables, MCP server (`mcp-server-2`), Prerequisites (+3 more)
 
 ### Community 12 - "include"
 Cohesion: 0.20
@@ -129,8 +129,8 @@ Cohesion: 0.29
 Nodes (4): client, dir, h, transport
 
 ### Community 15 - "setup.ts"
-Cohesion: 0.29
-Nodes (5): g, mcpConfig, mcpPath, serverPath, target
+Cohesion: 0.20
+Nodes (7): codexEnd, codexPath, codexStart, g, project, serverPath, target
 
 ### Community 16 - "corpus"
 Cohesion: 0.40
@@ -149,7 +149,7 @@ Cohesion: 0.57
 Nodes (6): buildGraph(), graphExists(), GraphifyResult, queryGraph(), resolveBin(), run()
 
 ## Knowledge Gaps
-- **136 isolated node(s):** `node`, `CORPUS_PROJECT`, `CORPUS_AGENT`, `Line`, `SCRIPT` (+131 more)
+- **146 isolated node(s):** `node`, `CORPUS_PROJECT`, `CORPUS_AGENT`, `Line`, `SCRIPT` (+141 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **3 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
@@ -157,16 +157,16 @@ Nodes (6): buildGraph(), graphExists(), GraphifyResult, queryGraph(), resolveBin
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `devDependencies` connect `devDependencies` to `dependencies`?**
-  _High betweenness centrality (0.015) - this node is a cross-community bridge._
-- **Why does `compilerOptions` connect `compilerOptions` to `include`?**
+  _High betweenness centrality (0.014) - this node is a cross-community bridge._
+- **Why does `Corpus — Architecture (source of truth)` connect `Corpus — Architecture (source of truth)` to `Corpus v2 — MCP server`?**
   _High betweenness centrality (0.009) - this node is a cross-community bridge._
 - **What connects `node`, `CORPUS_PROJECT`, `CORPUS_AGENT` to the rest of the system?**
-  _136 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _146 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `package.json` be split into smaller, more focused modules?**
   _Cohesion score 0.07692307692307693 - nodes in this community are weakly interconnected._
 - **Should `dependencies` be split into smaller, more focused modules?**
   _Cohesion score 0.08333333333333333 - nodes in this community are weakly interconnected._
+- **Should `graph.ts` be split into smaller, more focused modules?**
+  _Cohesion score 0.1028225806451613 - nodes in this community are weakly interconnected._
 - **Should `devDependencies` be split into smaller, more focused modules?**
-  _Cohesion score 0.10526315789473684 - nodes in this community are weakly interconnected._
-- **Should `compilerOptions` be split into smaller, more focused modules?**
   _Cohesion score 0.10526315789473684 - nodes in this community are weakly interconnected._
