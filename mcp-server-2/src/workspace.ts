@@ -29,12 +29,8 @@ export function supabaseConfigured(): boolean {
   return Boolean(process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY);
 }
 
-const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-
-/** workspaces.id is a uuid; anything else can only ever be a typo or a placeholder. */
-export function isWorkspaceId(value: string): boolean {
-  return UUID_RE.test(value);
-}
+export { isWorkspaceId } from "./store.js";
+import { isWorkspaceId } from "./store.js";
 
 export async function findWorkspace(id: string): Promise<Workspace | null> {
   const db = client();

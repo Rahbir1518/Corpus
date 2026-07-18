@@ -99,11 +99,23 @@ export function readAllClients(target: string): ClientState[] {
   return CLIENTS.map((def) => readClient(target, def));
 }
 
+/**
+ * The command clients spawn. `corpus-mcp-v2` is the package's bin, put on PATH by
+ * `npm link` / `npm i -g`, so this is machine-independent.
+ *
+ * It used to be `node <absolute path to dist/index.js>`. Client configs get committed —
+ * that is how teammates pick up an MCP server — so an absolute path meant every clone
+ * carried one machine's filesystem layout. mcp-server-2/.mcp.json in this repo still
+ * points at C:\Code\Hackathons\... and cannot start anywhere else. Failing with
+ * "command not found" when Corpus isn't installed is a far better failure than silently
+ * pointing at a path that does not exist.
+ */
+export const SERVER_COMMAND = "corpus-mcp-v2";
+
 /** Full registration — used by corpus-setup. Merges; never clobbers unrelated keys. */
 export function registerClient(
   target: string,
   def: ClientDef,
-  serverPath: string,
   project: string,
   workspaceId: string | null,
 ): void {
@@ -114,7 +126,7 @@ export function registerClient(
   if (def.format === "json") {
     const config = readJson(p) ?? {};
     config.mcpServers ??= {};
-    config.mcpServers["corpus"] = { command: "node", args: [serverPath], env };
+    config.mcpServers["corpus"] = { command: SERVER_COMMAND, args: [], env };
     writeJson(p, config);
     return;
   }
@@ -122,15 +134,14 @@ export function registerClient(
   // Codex: rather than take a TOML parser dependency just to round-trip a user's file,
   // guard our table with comment markers and splice it — same idempotency contract as
   // the markdown blocks in setup.ts, leaving every other key untouched. JSON.stringify
-  // is safe for TOML basic strings (same escape rules) and, importantly, escapes the
-  // backslashes in a Windows serverPath.
+  // is safe for TOML basic strings (same escape rules).
   const envLines = Object.entries(env)
     .map(([k, v]) => `${k} = ${JSON.stringify(v)}`)
     .join("\n");
   const block = `${TOML_BEGIN}
 [mcp_servers.corpus]
-command = "node"
-args = [${JSON.stringify(serverPath)}]
+command = ${JSON.stringify(SERVER_COMMAND)}
+args = []
 
 [mcp_servers.corpus.env]
 ${envLines}

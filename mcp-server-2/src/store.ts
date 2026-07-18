@@ -57,6 +57,13 @@ export function resolveWorkspace(): string | null {
   return value ? value : null;
 }
 
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+/** workspaces.id is a uuid; anything else can only ever be a typo or a placeholder. */
+export function isWorkspaceId(value: string): boolean {
+  return UUID_RE.test(value);
+}
+
 class LocalStore implements DocumentStore {
   readonly mode = "local" as const;
   private dir: string;
@@ -173,6 +180,17 @@ export function createStore(project: string): DocumentStore {
   const url = process.env.SUPABASE_URL;
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
   const workspaceId = resolveWorkspace();
+
+  // A malformed id is worse than none: Postgres rejects a non-uuid at the driver level,
+  // so SupabaseStore would throw on EVERY read and write rather than degrading. Fall back
+  // to local and say why — losing sharing is recoverable, losing every tool call is not.
+  if (workspaceId && !isWorkspaceId(workspaceId)) {
+    console.error(
+      `[corpus-v2] CORPUS_WORKSPACE="${workspaceId}" is not a valid workspace id (expected a ` +
+        `uuid) — using local memory (~/.corpus/${project}). Fix with \`corpus-connect <id>\`.`,
+    );
+    return new LocalStore(project);
+  }
 
   // All three required. Credentials alone are not enough: without a workspace id there
   // is no safe answer to "which shared pile does this repo write to", and guessing from

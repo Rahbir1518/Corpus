@@ -28,7 +28,6 @@ import { createWorkspace, supabaseConfigured } from "./workspace.js";
 
 const target = process.cwd();
 const project = path.basename(target);
-const serverPath = path.resolve(import.meta.dirname, "index.js");
 
 // --- 1. Workspace ----------------------------------------------------------
 // Since the server no longer auto-creates a workspace on write (that keyed on slug, so
@@ -60,7 +59,7 @@ if (workspaceId) {
 // act on the same set. CORPUS_AGENT differs per client so the session ledger shows which
 // tool wrote what.
 for (const def of CLIENTS) {
-  registerClient(target, def, serverPath, project, workspaceId);
+  registerClient(target, def, project, workspaceId);
   console.log(`✓ ${def.file} — registered "corpus" (${def.label})`);
 }
 
