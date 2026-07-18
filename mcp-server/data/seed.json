@@ -1,0 +1,54 @@
+{
+  "workspace": { "id": "demo", "name": "Northwind — subscription commerce app" },
+  "sessions": [
+    { "id": "s1-auth",     "title": "Auth setup",        "raw_token_count": 41200, "engram_token_count": 640 },
+    { "id": "s2-payments", "title": "Payments + Stripe",  "raw_token_count": 52800, "engram_token_count": 910 },
+    { "id": "s3-deploy",   "title": "Deploy to Vercel",   "raw_token_count": 33400, "engram_token_count": 520 },
+    { "id": "s4-search",   "title": "Product search",     "raw_token_count": 47600, "engram_token_count": 780 }
+  ],
+  "nodes": [
+    { "id": "n-auth0",        "type": "decision",   "session_id": "s1-auth",     "title": "Use Auth0 for authentication", "body": "Chose Auth0 over rolling our own — need social login + MFA fast, and SOC2 later. Trade-off: vendor lock-in accepted.", "tags": ["auth", "auth0", "security"] },
+    { "id": "n-ts-strict",    "type": "preference", "session_id": "s1-auth",     "title": "TypeScript strict, no JS", "body": "All code TypeScript with strict mode. No implicit any. Terse answers preferred, no emojis in code.", "tags": ["typescript", "style"] },
+    { "id": "n-auth-file",    "type": "file",       "session_id": "s1-auth",     "title": "lib/auth0.ts", "body": "Auth0Client wrapper + middleware. Session read via auth0.getSession().", "tags": ["auth", "file"] },
+    { "id": "n-session-len",  "type": "task",       "session_id": "s1-auth",     "title": "Decide session expiry length", "body": "Open: 7-day rolling vs 30-day absolute. Security wants shorter; UX wants longer.", "tags": ["auth", "open"] },
+
+    { "id": "n-postgres",     "type": "decision",   "session_id": "s2-payments", "title": "Postgres over Mongo for billing", "body": "Need relational joins across customers, subscriptions, invoices. Chose Postgres (Supabase). Mongo rejected.", "tags": ["db", "postgres", "billing"] },
+    { "id": "n-stripe",       "type": "decision",   "session_id": "s2-payments", "title": "Stripe for payments", "body": "Stripe Billing for subscriptions + metered usage. Webhooks drive our subscription state machine.", "tags": ["payments", "stripe", "billing"] },
+    { "id": "n-webhook-bug",  "type": "bug",        "session_id": "s2-payments", "title": "Stripe webhook returns 401 on retry", "body": "Webhook handler rejects Stripe retries with 401. Root cause: signature verified against raw body, but Next parses body first so the raw bytes differ. Retries then pile up.", "tags": ["payments", "stripe", "webhook", "bug"] },
+    { "id": "n-webhook-file", "type": "file",       "session_id": "s2-payments", "title": "app/api/webhook/route.ts", "body": "Stripe webhook receiver. Must read raw request body (not parsed JSON) before constructEvent.", "tags": ["payments", "webhook", "file"] },
+    { "id": "n-webhook-task", "type": "task",       "session_id": "s2-payments", "title": "Verify webhook signature on raw body", "body": "Fix: disable body parsing for the route, pass raw bytes to stripe.webhooks.constructEvent with STRIPE_WEBHOOK_SECRET. Add retry idempotency key.", "tags": ["payments", "webhook", "open"] },
+    { "id": "n-idempotency",  "type": "decision",   "session_id": "s2-payments", "title": "Idempotency keys on write endpoints", "body": "All payment-mutating endpoints require an idempotency key to survive Stripe retries and double-clicks.", "tags": ["payments", "reliability"] },
+
+    { "id": "n-vercel",       "type": "decision",   "session_id": "s3-deploy",   "title": "Deploy on Vercel", "body": "Next.js app deploys to Vercel. Preview deploys per PR. Serverless functions for API routes.", "tags": ["deploy", "vercel"] },
+    { "id": "n-staging-bug",  "type": "bug",        "session_id": "s3-deploy",   "title": "Staging build fails: missing env var", "body": "Build breaks on staging — STRIPE_WEBHOOK_SECRET not set in Vercel staging env. Works locally via .env.local.", "tags": ["deploy", "vercel", "bug", "env"] },
+    { "id": "n-vercel-file",  "type": "file",       "session_id": "s3-deploy",   "title": "vercel.json", "body": "Region pinned to iad1 (near Supabase). Function maxDuration bumped to 30s for webhook processing.", "tags": ["deploy", "file"] },
+    { "id": "n-env-task",     "type": "task",       "session_id": "s3-deploy",   "title": "Sync env vars across Vercel environments", "body": "Open: script to diff/push env vars between local, staging, prod so builds stop breaking.", "tags": ["deploy", "env", "open"] },
+
+    { "id": "n-pgvector",     "type": "decision",   "session_id": "s4-search",   "title": "Use pgvector for product search", "body": "Add pgvector to the existing Postgres for semantic product search instead of a separate vector DB. One less service.", "tags": ["search", "pgvector", "db"] },
+    { "id": "n-embed-task",   "type": "task",       "session_id": "s4-search",   "title": "Embed product descriptions nightly", "body": "Open: cron to embed new/changed product descriptions with text-embedding-3-small and upsert vectors.", "tags": ["search", "embeddings", "open"] },
+    { "id": "n-search-file",  "type": "file",       "session_id": "s4-search",   "title": "lib/search.ts", "body": "matchProducts(query): embed query, ivfflat cosine search, return top 20. Mirrors billing DB choice (Postgres).", "tags": ["search", "file"] },
+    { "id": "n-rerank",       "type": "decision",   "session_id": "s4-search",   "title": "No reranker for v1", "body": "Ship raw vector similarity first. Revisit a reranker only if relevance complaints appear. YAGNI.", "tags": ["search", "scope"] }
+  ],
+  "edges": [
+    { "source_id": "n-auth0",       "target_id": "n-auth-file",    "rel": "touches" },
+    { "source_id": "n-auth0",       "target_id": "n-session-len",  "rel": "relates_to" },
+    { "source_id": "n-ts-strict",   "target_id": "n-auth-file",    "rel": "relates_to" },
+
+    { "source_id": "n-postgres",    "target_id": "n-stripe",       "rel": "relates_to" },
+    { "source_id": "n-stripe",      "target_id": "n-webhook-bug",  "rel": "caused" },
+    { "source_id": "n-webhook-bug", "target_id": "n-webhook-file", "rel": "touches" },
+    { "source_id": "n-webhook-bug", "target_id": "n-webhook-task", "rel": "relates_to" },
+    { "source_id": "n-webhook-task","target_id": "n-idempotency",  "rel": "depends_on" },
+    { "source_id": "n-stripe",      "target_id": "n-idempotency",  "rel": "relates_to" },
+
+    { "source_id": "n-vercel",      "target_id": "n-staging-bug",  "rel": "caused" },
+    { "source_id": "n-staging-bug", "target_id": "n-vercel-file",  "rel": "touches" },
+    { "source_id": "n-staging-bug", "target_id": "n-env-task",     "rel": "relates_to" },
+    { "source_id": "n-staging-bug", "target_id": "n-webhook-file", "rel": "relates_to" },
+
+    { "source_id": "n-pgvector",    "target_id": "n-postgres",     "rel": "depends_on" },
+    { "source_id": "n-pgvector",    "target_id": "n-embed-task",   "rel": "relates_to" },
+    { "source_id": "n-pgvector",    "target_id": "n-search-file",  "rel": "touches" },
+    { "source_id": "n-search-file", "target_id": "n-rerank",       "rel": "relates_to" }
+  ]
+}
