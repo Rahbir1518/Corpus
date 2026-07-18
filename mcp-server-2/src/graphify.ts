@@ -117,5 +117,25 @@ export function queryGraph(root: string, question: string, budget: number): Grap
   if (!out) {
     return { ok: false, text: "Graphify returned no results for that question. Fall back to normal exploration." };
   }
+
+  // "what calls X" phrasing makes graphify's own heuristic narrow traversal to
+  // context=call edges only. But graphify's extractor records some real call sites
+  // (e.g. a function only ever referenced via its import binding) as context=import
+  // instead of context=call, so the narrowed query silently drops the caller. Since
+  // graphify reports when it applied this heuristic (`Context: call (heuristic)` in
+  // its header), detect that case and retry once with both contexts explicit.
+  if (out.includes("Context: call (heuristic)")) {
+    const broadened = run(
+      bin,
+      ["query", question, "--budget", String(budget), "--context", "call", "--context", "import"],
+      root,
+      30_000,
+    );
+    const broadenedOut = broadened.stdout?.trim();
+    if (!broadened.error && broadened.status === 0 && broadenedOut) {
+      return { ok: true, text: broadenedOut };
+    }
+  }
+
   return { ok: true, text: out };
 }
