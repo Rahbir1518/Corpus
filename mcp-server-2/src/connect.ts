@@ -2,18 +2,22 @@
 /**
  * `corpus-connect <id>` — point this repo's shared memory at an existing workspace.
  *
- * Narrower than corpus-setup on purpose: setup does first-run wiring (registers the
- * server with every client, installs the standing-instruction blocks, builds the graph)
- * and CREATES a workspace. connect only re-points an already-wired repo at a workspace
- * someone else already made. That is the share flow: a teammate pastes you an id.
+ * The one difference from corpus-setup: setup CREATES a workspace; connect JOINS one
+ * someone else already made. That is the share flow — a teammate pastes you an id, and
+ * `git clone` + `corpus-connect <id>` is a complete install: on a repo that was never
+ * set up, connect runs the same first-run wiring as setup (wire.ts — clients,
+ * instruction blocks, graph), just bound to the given id instead of a fresh workspace.
+ * On an already-wired repo it only re-points the workspace binding.
  *
  * Identity is the id itself — there is no login. Whoever holds it can read and write the
  * workspace, so treat it like a credential. Real per-user access control has to wait for
  * the server to stop using the Supabase service-role key (which bypasses RLS) and move
  * to per-user tokens; until then a membership row would be recorded but never enforced.
  */
-import { patchWorkspace } from "./clients.js";
+import path from "node:path";
+import { patchWorkspace, readAllClients } from "./clients.js";
 import { recordWorkspace } from "./registry.js";
+import { wireRepo } from "./wire.js";
 import { findWorkspace, isWorkspaceId, supabaseConfigured } from "./workspace.js";
 
 const target = process.cwd();
@@ -64,15 +68,24 @@ if (supabaseConfigured()) {
   );
 }
 
+// A repo that was never set up gets the FULL first-run wiring, bound to this id. The
+// old behavior ("run corpus-setup first") was a trap: setup would create a brand-new
+// workspace, exactly what someone holding a teammate's id doesn't want — and skipping
+// the instruction blocks meant agents in this repo never used the tools they'd been
+// given.
+const anyWired = readAllClients(target).some((c) => c.wired);
+if (!anyWired) {
+  console.log(`\nThis repo has no Corpus wiring yet — running first-time setup for it:\n`);
+  await wireRepo(target, path.basename(target), id);
+  recordWorkspace({ id, name: verified?.name, slug: verified?.slug, origin: "connected", repo: target });
+  console.log(`\nConnected to workspace ${id}.
+Start Claude Code, Gemini CLI, or Codex in this directory and approve the "corpus"
+MCP server — memory in this repo now lands in the shared workspace.`);
+  process.exit(0);
+}
+
 const results = patchWorkspace(target, id);
 const wired = results.filter((r) => r.wired);
-
-if (!wired.length) {
-  console.error(
-    `\nThis repo has no Corpus client entries to update — run corpus-setup first.`,
-  );
-  process.exit(1);
-}
 
 // Remember the id machine-wide (corpus-ls): a shared id only lives in this repo's
 // configs otherwise, and deleting the clone would mean losing access with it.
