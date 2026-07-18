@@ -108,7 +108,7 @@ server.registerTool(
       );
     }
     await store.putDocument(STATE_DOC, state);
-    await store.logUsage({ tool: "corpus_log", agent: process.env.CORPUS_AGENT });
+    await store.logUsage({ tool: "corpus_log", tokens: estimateTokens(state), agent: process.env.CORPUS_AGENT });
     return { content: [{ type: "text", text: `Logged [${type}] to "${project}" (${store.mode}).` }] };
   },
 );
@@ -175,7 +175,7 @@ server.registerTool(
     state = ensureSessionHeading(state, sessionLabel);
     state = appendToSection(state, "Session log", `- [save] ${summary}`);
     await store.putDocument(STATE_DOC, state);
-    await store.logUsage({ tool: "corpus_save", agent: process.env.CORPUS_AGENT });
+    await store.logUsage({ tool: "corpus_save", tokens: estimateTokens(state), agent: process.env.CORPUS_AGENT });
 
     return {
       content: [

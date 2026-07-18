@@ -10,8 +10,11 @@ export default async function Dashboard() {
   }
 
   const user = session.user;
-  const hour = new Date().getHours();
+  const now = new Date();
+  const hour = now.getHours();
   const greeting = hour < 12 ? "Good morning" : hour < 18 ? "Good afternoon" : "Good evening";
+  const today = now.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
+  const currentTime = now.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
 
   return (
     <div className="dashboard-container">
@@ -20,7 +23,7 @@ export default async function Dashboard() {
           <div className="dashboard-logo">C</div>
           <div>
             <h1 className="dashboard-title">Dashboard</h1>
-            <p className="dashboard-subtitle">Your Corpus workspace overview</p>
+            <p className="dashboard-subtitle">Your Corpus workspace overview · {today} · {currentTime}</p>
           </div>
         </div>
 

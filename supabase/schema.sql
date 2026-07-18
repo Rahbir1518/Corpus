@@ -53,10 +53,43 @@ create table if not exists usage_events (
 
 create index if not exists usage_events_project_idx on usage_events (project, occurred_at desc);
 
--- Let the dashboard receive live updates.
-alter publication supabase_realtime add table documents;
-alter publication supabase_realtime add table usage_events;
-alter publication supabase_realtime add table workspace_members;
+-- Per-project breakdown by agent and tool: event counts + total tokens. Lets the
+-- dashboard show "who (claude-code/codex/gemini) used what (corpus_load/...) how much"
+-- without every consumer re-writing the same group-by.
+create or replace view usage_stats as
+select
+  project,
+  coalesce(agent, 'unknown') as agent,
+  tool,
+  count(*) as event_count,
+  coalesce(sum(tokens), 0) as total_tokens
+from usage_events
+group by project, coalesce(agent, 'unknown'), tool;
+
+-- Let the dashboard receive live updates. Guarded so schema.sql stays safely
+-- re-runnable — `alter publication ... add table` errors (and, in the SQL editor,
+-- rolls back the whole script) if the table is already published.
+do $$
+begin
+  if not exists (
+    select 1 from pg_publication_tables
+    where pubname = 'supabase_realtime' and schemaname = 'public' and tablename = 'documents'
+  ) then
+    alter publication supabase_realtime add table documents;
+  end if;
+  if not exists (
+    select 1 from pg_publication_tables
+    where pubname = 'supabase_realtime' and schemaname = 'public' and tablename = 'usage_events'
+  ) then
+    alter publication supabase_realtime add table usage_events;
+  end if;
+  if not exists (
+    select 1 from pg_publication_tables
+    where pubname = 'supabase_realtime' and schemaname = 'public' and tablename = 'workspace_members'
+  ) then
+    alter publication supabase_realtime add table workspace_members;
+  end if;
+end $$;
 
 -- Migration note: if `documents` already has live rows from documents.sql, backfill
 -- workspaces first, then add the FK — don't drop/recreate:
