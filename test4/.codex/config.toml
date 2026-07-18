@@ -1,0 +1,10 @@
+# corpus:begin
+[mcp_servers.corpus]
+command = "corpus-mcp-v2"
+args = []
+
+[mcp_servers.corpus.env]
+CORPUS_PROJECT = "test4"
+CORPUS_AGENT = "codex"
+CORPUS_WORKSPACE = "5905c282-be56-494f-993f-f0f326333981"
+# corpus:end
