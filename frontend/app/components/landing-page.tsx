@@ -48,6 +48,137 @@ function Reveal({
   );
 }
 
+/* ───────── Terminal demo: /corpus_remembers + /corpus_recalls ───────── */
+
+type Line = {
+  who: "user" | "corpus";
+  text: string;
+  mono?: boolean;
+};
+
+const SCRIPT: Line[] = [
+  { who: "user", text: "/corpus_remembers", mono: true },
+  {
+    who: "corpus",
+    text: "Saved 3 decisions, 2 open threads → engram written (812 tokens)",
+  },
+  { who: "user", text: "/corpus_recalls webhook bug", mono: true },
+  {
+    who: "corpus",
+    text: "Loaded 2 relevant nodes — auth-decision, webhook-bug. Context restored.",
+  },
+];
+
+const TYPE_SPEED = 38; // ms per character
+const HOLD_AFTER_LINE = 900; // pause after a line finishes
+const HOLD_BEFORE_LOOP = 2200; // pause on full transcript before resetting
+
+function CorpusTerminal() {
+  const [lineIndex, setLineIndex] = useState(0);
+  const [charIndex, setCharIndex] = useState(0);
+  const [committed, setCommitted] = useState<Line[]>([]);
+
+  useEffect(() => {
+    if (lineIndex >= SCRIPT.length) {
+      const resetTimer = setTimeout(() => {
+        setCommitted([]);
+        setLineIndex(0);
+        setCharIndex(0);
+      }, HOLD_BEFORE_LOOP);
+      return () => clearTimeout(resetTimer);
+    }
+
+    const current = SCRIPT[lineIndex];
+
+    if (charIndex < current.text.length) {
+      const typeTimer = setTimeout(() => {
+        setCharIndex((c) => c + 1);
+      }, TYPE_SPEED);
+      return () => clearTimeout(typeTimer);
+    }
+
+    const advanceTimer = setTimeout(() => {
+      setCommitted((prev) => [...prev, current]);
+      setLineIndex((i) => i + 1);
+      setCharIndex(0);
+    }, HOLD_AFTER_LINE);
+    return () => clearTimeout(advanceTimer);
+  }, [lineIndex, charIndex]);
+
+  const activeLine = lineIndex < SCRIPT.length ? SCRIPT[lineIndex] : null;
+  const activeText = activeLine ? activeLine.text.slice(0, charIndex) : "";
+  const isTypingUser = activeLine?.who === "user" && charIndex < activeLine.text.length;
+
+  return (
+    <div className="liquid-glass rounded-2xl border border-white/10 bg-white/[0.02] overflow-hidden w-full max-w-md shadow-[0_20px_60px_-15px_rgba(0,0,0,0.6)]">
+      {/* window chrome */}
+      <div className="flex items-center gap-2 px-4 py-3 border-b border-white/10 bg-white/[0.03]">
+        <span className="w-3 h-3 rounded-full bg-[#ef4444]" />
+        <span className="w-3 h-3 rounded-full bg-[#eab308]" />
+        <span className="w-3 h-3 rounded-full bg-[#22c55e]" />
+        <span className="ml-3 text-xs font-mono text-muted-foreground tracking-wide">
+          corpus — mcp
+        </span>
+      </div>
+
+      {/* transcript */}
+      <div className="px-5 py-6 font-mono text-[13px] leading-relaxed min-h-[220px] flex flex-col gap-3">
+        {committed.map((line, i) => (
+          <TerminalLine key={i} line={line} text={line.text} caret={false} />
+        ))}
+
+        {activeLine && (
+          <TerminalLine
+            line={activeLine}
+            text={activeText}
+            caret={isTypingUser}
+            thinking={activeLine.who === "corpus" && activeText.length === 0}
+          />
+        )}
+      </div>
+    </div>
+  );
+}
+
+function TerminalLine({
+  line,
+  text,
+  caret,
+  thinking,
+}: {
+  line: Line;
+  text: string;
+  caret: boolean;
+  thinking?: boolean;
+}) {
+  if (line.who === "user") {
+    return (
+      <div className="flex items-start gap-2 text-white/90">
+        <span className="text-white/40 select-none">$</span>
+        <span>
+          {text}
+          {caret && <span className="inline-block w-[7px] h-[14px] bg-white/70 ml-0.5 align-middle animate-pulse" />}
+        </span>
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex items-start gap-2 text-muted-foreground">
+      <span className="text-[hsl(240,6%,50%)] select-none">→</span>
+      {thinking ? (
+        <span className="inline-flex gap-1 items-center">
+          <span className="w-1.5 h-1.5 rounded-full bg-white/30 animate-pulse" />
+          <span className="w-1.5 h-1.5 rounded-full bg-white/30 animate-pulse [animation-delay:150ms]" />
+          <span className="w-1.5 h-1.5 rounded-full bg-white/30 animate-pulse [animation-delay:300ms]" />
+        </span>
+      ) : (
+        <span>{text}</span>
+      )}
+    </div>
+  );
+}
+
 export default function LandingPage() {
   const [scrolled, setScrolled] = useState(false);
 
@@ -236,28 +367,82 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <section id="pitch" className="py-40 px-6 relative z-10 border-t border-white/5">
-        <div className="max-w-3xl mx-auto text-center">
-          <Reveal>
-            <h2 className="font-display text-5xl sm:text-7xl tracking-tight mb-8">
-              Never explain yourself twice.
-            </h2>
-          </Reveal>
-          <Reveal delay={100}>
-            <div className="mt-12">
-              <Link
-                href="/auth/login?screen_hint=signup"
-                className="liquid-glass rounded-full px-14 py-5 text-lg font-medium inline-block hover:bg-white/10 transition-all hover:scale-105"
-              >
-                Start Remembering
-              </Link>
-            </div>
-          </Reveal>
-        </div>
-      </section>
+      <footer id="pitch" className="relative pt-32 pb-10 px-6 border-t border-white/5 z-10 bg-background overflow-hidden flex flex-col">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover object-bottom opacity-50"
+          style={{
+            WebkitMaskImage:
+              "linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 30%, rgba(0,0,0,1) 100%)",
+            maskImage:
+              "linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 30%, rgba(0,0,0,1) 100%)",
+          }}
+        >
+          <source src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260619_191346_9d19d66e-86a4-47f7-8dc6-712c1788c3b2.mp4" type="video/mp4" />
+        </video>
 
-      <footer className="py-12 px-6 border-t border-white/5 text-center text-sm text-muted-foreground relative z-10 bg-background">
-        <p>&copy; {new Date().getFullYear()} Corpus. All rights reserved.</p>
+        <div className="relative z-10 max-w-6xl mx-auto w-full mb-24 mt-10">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <Reveal>
+              <div>
+                <p className="text-sm font-mono text-muted-foreground tracking-widest uppercase mb-4">
+                  Two tools. That&apos;s the whole interface.
+                </p>
+                <h2 className="font-display text-4xl sm:text-6xl tracking-tight mb-8">
+                  Two commands. Total recall.
+                </h2>
+                <p className="text-xl text-muted-foreground leading-relaxed mb-6">
+                  Corpus ships as a pair of MCP tools any agent can call.{" "}
+                  <code className="font-mono text-base text-foreground bg-white/10 px-1.5 py-0.5 rounded">corpus_remembers</code>{" "}
+                  writes the current session down as a portable engram. {" "}
+                  <code className="font-mono text-base text-foreground bg-white/10 px-1.5 py-0.5 rounded">corpus_recalls</code>{" "}
+                  pulls only the nodes relevant to what you&apos;re doing right now back into context.
+                </p>
+                <p className="text-muted-foreground leading-relaxed mb-10">
+                  No dashboards, no config files to maintain. Your agent just calls the tool, the same way it calls any other function.
+                </p>
+                <Link
+                  href="/auth/login?screen_hint=signup"
+                  className="liquid-glass rounded-full px-14 py-5 text-lg font-medium inline-block hover:bg-white/10 transition-all hover:scale-105"
+                >
+                  Start Remembering
+                </Link>
+              </div>
+            </Reveal>
+
+            <Reveal delay={150} className="flex justify-center lg:justify-end">
+              <CorpusTerminal />
+            </Reveal>
+          </div>
+        </div>
+
+        <div className="relative z-10 max-w-6xl mx-auto w-full mt-auto">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-10 pb-10 border-b border-white/5">
+            <div>
+              <p className="font-display text-3xl tracking-tight mb-3">
+                Corpus<sup className="text-xs">®</sup>
+              </p>
+              <p className="text-sm text-muted-foreground max-w-xs leading-relaxed">
+                A portable memory layer for every model you use.
+              </p>
+            </div>
+
+            <nav className="flex flex-wrap gap-x-8 gap-y-3 text-xs uppercase tracking-[0.2em] text-muted-foreground">
+              <a href="#overview" className="hover:text-foreground transition-colors">Overview</a>
+              <a href="#how-it-works" className="hover:text-foreground transition-colors">How it works</a>
+              <a href="#graph" className="hover:text-foreground transition-colors">The Graph</a>
+              <a href="#pitch" className="hover:text-foreground transition-colors">Pitch</a>
+            </nav>
+          </div>
+
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-8 text-xs text-muted-foreground">
+            <p>&copy; {new Date().getFullYear()} Corpus. All rights reserved.</p>
+            <p className="uppercase tracking-[0.15em]">Never explain yourself twice</p>
+          </div>
+        </div>
       </footer>
     </main>
   );
