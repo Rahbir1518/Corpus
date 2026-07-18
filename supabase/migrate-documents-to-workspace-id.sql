@@ -105,6 +105,14 @@ alter table documents add constraint documents_workspace_id_fkey
   foreign key (workspace_id) references workspaces(id) on delete cascade;
 alter table documents drop column project;
 
+-- ---------------------------------------------------------------------------
+-- 7. slug becomes a pure display label. With documents keyed by workspace_id, two
+--    unrelated repos both named `api` must each get their OWN workspace — the unique
+--    constraint would make the second corpus-setup fail instead. Must run after the
+--    project column (whose FK targets workspaces.slug) is dropped above.
+-- ---------------------------------------------------------------------------
+alter table workspaces drop constraint if exists workspaces_slug_key;
+
 commit;
 
 -- ---------------------------------------------------------------------------
@@ -121,6 +129,10 @@ commit;
 --   from documents d join workspaces w on w.id = d.workspace_id
 --   order by w.slug, d.name;
 --
--- Then re-run schema.sql (now a no-op for documents) and reconnect each repo with
--- `corpus-connect <workspace-id>` so its client config carries the id.
+-- Then:
+--   1. Restart every running agent session. The server detects the keying ONCE per
+--      process; a server that probed before this ran still writes the old columns.
+--   2. Make sure each repo is connected (corpus-status) — under id keying the workspace
+--      id in the client config is what selects the data, so an unconnected repo has
+--      memory OFF rather than falling back to slug lookups.
 -- ---------------------------------------------------------------------------

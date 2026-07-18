@@ -9,17 +9,23 @@ Design source of truth: [../ARCHITECTURE.md](../ARCHITECTURE.md).
 
 Requires **Node ≥ 18**. Full prerequisites and env reference: [../REQUIREMENTS.md](../REQUIREMENTS.md).
 
-## Setup (per project, one time)
+## Setup
+
+Once per machine — the installer at the repo root does the clone/`npm install`/
+`npm link`/Graphify dance in one command ([../README.md](../README.md#quick-start) has
+the copy-paste one-liners):
+
+```powershell
+powershell -ExecutionPolicy Bypass -c "irm https://raw.githubusercontent.com/Rahbir1518/Corpus/main/install.ps1 | iex"   # Windows
+```
+```bash
+curl -fsSL https://raw.githubusercontent.com/Rahbir1518/Corpus/main/install.sh | bash   # macOS / Linux
+```
+
+Then once per project:
 
 ```bash
-# clone the repo, then from this directory, once:
-npm install        # auto-builds via the prepare hook
-npm link           # puts `corpus-setup` and `corpus-mcp-v2` on your PATH
-
-# optional: enable codebase_search (package name has two ys)
-python -m pip install graphifyy
-
-# then, from THE PROJECT YOU WANT MEMORY IN:
+# from THE PROJECT YOU WANT MEMORY IN:
 corpus-setup
 ```
 
@@ -100,8 +106,10 @@ install. Verify with `/mcp` in Claude Code or Codex, `/mcp list` in Gemini CLI.
 - **Team (Supabase):** set `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` — in
   `mcp-server-2/.env.local` (preferred; git-ignored, keeps keys out of a tracked
   `.mcp.json`) or in the server's `env` block in `.mcp.json`. Real env vars win over the
-  file. Same documents, shared workspace, dashboard-browsable. Requires the `documents`
-  table from [../supabase/documents.sql](../supabase/documents.sql).
+  file. Same documents, shared workspace, dashboard-browsable. Requires the tables from
+  [../supabase/schema.sql](../supabase/schema.sql); DBs created before workspace-id
+  keying also run [../supabase/migrate-documents-to-workspace-id.sql](../supabase/migrate-documents-to-workspace-id.sql)
+  once (the server detects either schema and warns until migrated).
 - **Disconnected (memory OFF):** any state where the repo points at a workspace it can't
   reach — after `corpus-disconnect`, with a malformed workspace id, or with a workspace id
   but missing credentials. Memory tools refuse to read or write and say how to fix it

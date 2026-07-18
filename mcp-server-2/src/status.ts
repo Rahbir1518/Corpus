@@ -14,7 +14,7 @@ import os from "node:os";
 import path from "node:path";
 import { readAllClients } from "./clients.js";
 import { resolveProject, resolveWorkspace } from "./store.js";
-import { findWorkspace, isWorkspaceId, probe, supabaseConfigured } from "./workspace.js";
+import { documentsKeying, findWorkspace, isWorkspaceId, probe, supabaseConfigured } from "./workspace.js";
 
 const target = process.cwd();
 const project = resolveProject();
@@ -69,6 +69,14 @@ if (!supabaseConfigured() && !workspaceId) {
           ? `  Workspace name ${ws.name} (slug: ${ws.slug})`
           : `  ! ORPHANED     no workspace with this id exists — writes will fail`,
       );
+      const keying = await documentsKeying();
+      if (keying === "slug") {
+        console.log(`  ! SLUG-KEYED   documents are still keyed by project slug — repos sharing a`);
+        console.log(`                 folder name share memory. Run supabase/migrate-documents-to-`);
+        console.log(`                 workspace-id.sql once, then restart sessions.`);
+      } else if (keying === "id") {
+        console.log(`  Documents      keyed by workspace id — folder-name collisions impossible`);
+      }
     }
   } catch (err) {
     console.log(`  Store          supabase — lookup failed: ${err instanceof Error ? err.message : err}`);

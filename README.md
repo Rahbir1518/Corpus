@@ -32,7 +32,7 @@ Four MCP tools, usable from any MCP client:
   Setup, usage, and handoff-testing instructions: [mcp-server-2/README.md](mcp-server-2/README.md).
 - **[frontend/](frontend/)** — Next.js + Auth0 dashboard: browse projects → their
   documentation pages, token-savings counter, graph views.
-- **[supabase/](supabase/)** — SQL for the documentation DB ([documents.sql](supabase/documents.sql)).
+- **[supabase/](supabase/)** — SQL for the documentation DB ([schema.sql](supabase/schema.sql)).
 - **[REQUIREMENTS.md](REQUIREMENTS.md)** — prerequisites, env var reference, verification
   steps, troubleshooting. Start here if you are setting up on a new machine.
 
@@ -42,13 +42,23 @@ Four MCP tools, usable from any MCP client:
 
 ## Quick start
 
-Needs **Node ≥ 18** and any MCP client. No keys, no database, no network.
+Needs **Node ≥ 18** and any MCP client. No keys, no database, no network. One command
+installs everything (clone, build, PATH link, optional Graphify):
+
+```powershell
+# Windows
+powershell -ExecutionPolicy Bypass -c "irm https://raw.githubusercontent.com/Rahbir1518/Corpus/main/install.ps1 | iex"
+```
 
 ```bash
-cd mcp-server-2
-npm install    # auto-builds via the prepare hook
-npm link       # puts `corpus-setup` on your PATH
+# macOS / Linux
+curl -fsSL https://raw.githubusercontent.com/Rahbir1518/Corpus/main/install.sh | bash
+```
 
+(Already cloned? `.\install.ps1` / `./install.sh` from the repo root does the same.
+Re-run anytime to update.) Then the one per-project step:
+
+```bash
 cd your-project
 corpus-setup   # registers the MCP server + installs agent instructions (idempotent)
 ```
@@ -67,9 +77,9 @@ then read the memory yourself at `~/.corpus/<project>/state.md`. It is plain mar
 **Optional extras** — each degrades gracefully if skipped:
 
 - **Code queries:** `python -m pip install graphifyy` (two ys).
-- **Team mode:** run [supabase/documents.sql](supabase/documents.sql), then set
+- **Team mode:** run [supabase/schema.sql](supabase/schema.sql), then set
   `SUPABASE_URL` + `SUPABASE_SERVICE_ROLE_KEY` in `mcp-server-2/.env.local`. Teammates
-  point at the same DB and `CORPUS_PROJECT`.
+  join with `corpus-connect <workspace-id>` (the id `corpus-setup` prints).
 - **Dashboard:** `cd frontend && npm install && npm run dev` (Node ≥ 20.9).
 
 **Full prerequisites, every env var, and troubleshooting: [REQUIREMENTS.md](REQUIREMENTS.md).**

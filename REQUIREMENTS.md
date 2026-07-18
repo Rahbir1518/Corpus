@@ -19,11 +19,32 @@ Design source of truth: [ARCHITECTURE.md](ARCHITECTURE.md).
 
 ## 1. MCP server (required)
 
+**One-command install** — handles the clone, `npm install`, `npm link`, and the optional
+Graphify install (§2) in one go; idempotent, re-run to update:
+
+```powershell
+# Windows
+powershell -ExecutionPolicy Bypass -c "irm https://raw.githubusercontent.com/Rahbir1518/Corpus/main/install.ps1 | iex"
+```
+
 ```bash
-git clone <repo> && cd Corpus/mcp-server-2
+# macOS / Linux
+curl -fsSL https://raw.githubusercontent.com/Rahbir1518/Corpus/main/install.sh | bash
+```
+
+From an existing clone, `.\install.ps1` / `./install.sh` does the same. What it runs,
+if you'd rather do it by hand:
+
+```bash
+git clone https://github.com/Rahbir1518/Corpus.git && cd Corpus/mcp-server-2
 npm install        # auto-builds via the prepare hook
 npm link           # puts `corpus-setup` and `corpus-mcp-v2` on your PATH
+python -m pip install graphifyy   # optional — see §2
+```
 
+Either way, the one step no installer can do for you (wiring is per-directory):
+
+```bash
 cd /path/to/any-project-you-want-memory-in
 corpus-setup
 ```
@@ -103,15 +124,21 @@ graphify query "what calls X" --budget 2000
 
 ## 3. Team mode — Supabase (optional)
 
-1. Run [supabase/documents.sql](supabase/documents.sql) in the Supabase SQL editor. It
-   creates `documents (project, name, content, updated_at)` keyed on `(project, name)`.
-   Uncomment the last line to enable Realtime for the dashboard.
+1. Run [supabase/schema.sql](supabase/schema.sql) in the Supabase SQL editor. It creates
+   `workspaces`, `workspace_members`, `documents` (keyed by `(workspace_id, name)`, so
+   repos with the same folder name can never overwrite each other), and `usage_events`.
+   **Existing DBs** whose `documents` is still keyed by project slug: run
+   [supabase/migrate-documents-to-workspace-id.sql](supabase/migrate-documents-to-workspace-id.sql)
+   once instead — a single transaction that backfills and aborts on any collision — then
+   restart sessions. The server detects either schema at runtime and nags until migrated
+   (`corpus-status` shows which one you're on).
 2. Give the server credentials, **either**:
    - `mcp-server-2/.env.local` (git-ignored, loaded by [store.ts:17-28](mcp-server-2/src/store.ts#L17-L28)) — preferred, keeps keys out of a tracked `.mcp.json`; **or**
    - the `env` block of the project's `.mcp.json`.
 
    Real environment variables win over `.env.local` on conflict.
-3. Teammates point at the same DB with the same `CORPUS_PROJECT` value.
+3. Teammates join with `corpus-connect <workspace-id>` — the id `corpus-setup` printed
+   (recover it anytime with `corpus-ls`).
 
 On startup the server logs its mode to stderr:
 `[corpus-v2] ready · project="..." · store=supabase|local|disconnected`. That line is the
@@ -178,8 +205,10 @@ the server at user scope.
 **Code queries return "Graphify is not installed here."** See §2 — usually the Windows
 PATH issue. Set `GRAPHIFY_PATH`.
 
-**Two sessions aren't sharing memory.** They resolved different project ids. Folder name
-is the default; set `CORPUS_PROJECT` explicitly on both.
+**Two sessions aren't sharing memory.** They're connected to different workspaces — run
+`corpus-status` in both repos and `corpus-connect` them to the same id (`corpus-ls`
+lists the ids you hold). On a pre-migration DB (slug-keyed documents), also make sure
+both resolve the same `CORPUS_PROJECT` — there, the project string is the key.
 
 **Stale `mcp-server-2/.env.local`.** Clones carrying a v1-era file may list
 `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, `CORPUS_WORKSPACE`, `EMBEDDING_MODEL`, or

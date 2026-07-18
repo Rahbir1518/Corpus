@@ -56,6 +56,19 @@ export async function createWorkspace(slug: string, name: string): Promise<Works
   return data as Workspace;
 }
 
+/**
+ * Which column keys `documents` on the live DB — "id" (workspace_id, canonical) or
+ * "slug" (project, pre-migration). Mirrors SupabaseStore's runtime probe so
+ * corpus-status reports what a session would actually do. Null when undeterminable.
+ */
+export async function documentsKeying(): Promise<"id" | "slug" | null> {
+  const db = client();
+  if (!db) return null;
+  const { error } = await db.from("documents").select("workspace_id").limit(1);
+  if (!error) return "id";
+  return error.code === "42703" ? "slug" : null;
+}
+
 /** Cheap connectivity probe for corpus-status: config says supabase, but is it reachable? */
 export async function probe(): Promise<{ ok: boolean; detail: string }> {
   const db = client();

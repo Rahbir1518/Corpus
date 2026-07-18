@@ -248,8 +248,10 @@ server.registerTool(
   },
   async ({ question, budget }) => {
     const r = queryGraph(process.cwd(), question, budget);
+    // Ledger label differs from the MCP tool name on purpose: usage_events.tool has a
+    // CHECK constraint allowing only corpus_load/corpus_log/corpus_save/corpus_code_query.
     await store.logUsage({
-      tool: "codebase_search",
+      tool: "corpus_code_query",
       tokens: estimateTokens(r.text),
       agent: process.env.CORPUS_AGENT,
     });

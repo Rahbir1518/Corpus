@@ -70,15 +70,24 @@ Three claims, in pitch order:
 ## Sharing & access
 
 A **workspace** = one project (1:1 today). `workspaces.id` (uuid) is the opaque,
-shareable identifier, and it is the **only** thing that identifies a workspace:
-`documents` is keyed by `workspace_id`, and `$CORPUS_WORKSPACE` — written into the
-client configs by `corpus-setup`/`corpus-connect` — is what the server resolves.
+shareable identifier: it is what `corpus-setup` prints, what teammates paste into
+`corpus-connect <id>`, and — as `$CORPUS_WORKSPACE` in the client configs — the
+connect/disconnect switch the server reads (present ⇒ shared mode, absent with
+credentials ⇒ memory OFF; see design rule 4).
 
-`workspaces.slug` (`resolveProject()` — repo folder name, or `$CORPUS_PROJECT`) is a
-**display label only, and deliberately not unique**. It used to key `documents`, which
-meant two unrelated teams both working in a folder called `api` computed the same key
-and silently shared one workspace — the second team read, then overwrote, the first
-team's memory. Identity must never be derived from a folder name.
+**`documents` is keyed by `(workspace_id, name)`** — the uuid alone is identity, so two
+repos with the same folder name can never touch each other's rows. `workspaces.slug`
+(`resolveProject()`: repo folder name, or `$CORPUS_PROJECT`) is a display label,
+deliberately not unique.
+
+**The server detects the keying at runtime** (store.ts probes for the
+`documents.workspace_id` column once per process) because a previous re-keying shipped
+code before the DB had the column and broke every tool call. Against a pre-migration DB
+(documents keyed by `project` slug) it keeps working with the old queries and warns —
+loudly, on stderr and in `corpus-status` — that folder-name collisions remain possible
+until `supabase/migrate-documents-to-workspace-id.sql` is run (SQL editor, once, single
+transaction with abort-on-collision checks; restart sessions after). schema.sql creates
+the id-keyed shape directly for fresh DBs.
 
 ### The connect verbs
 

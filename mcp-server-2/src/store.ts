@@ -109,56 +109,103 @@ class LocalStore implements DocumentStore {
 }
 
 /**
- * Expects the tables in supabase/schema.sql: `documents` (project, name, content,
- * updated_at) referencing `workspaces` (slug, ...), plus `usage_events` for telemetry.
- * The dashboard reads the same tables (Realtime on updates).
+ * Works against BOTH document keyings, detected at runtime, because the last outage here
+ * was code that assumed a column the live DB didn't have:
+ *
+ * - "id"   — migrated schema: `documents (workspace_id uuid FK → workspaces.id, name)`.
+ *            Two repos with the same folder name write to different rows. Canonical;
+ *            what schema.sql now creates and migrate-documents-to-workspace-id.sql
+ *            produces.
+ * - "slug" — original schema: `documents (project text FK → workspaces.slug, name)`.
+ *            Folder-name collisions share rows. Kept working, with a loud nudge to
+ *            migrate, so shipping this code before the SQL runs breaks nothing.
  */
 class SupabaseStore implements DocumentStore {
   readonly mode = "supabase" as const;
   private db: SupabaseClient;
   private workspaceId: string;
   private project: string;
+  private keying: "id" | "slug" | null = null;
 
   constructor(url: string, key: string, workspaceId: string, project: string) {
     this.db = createClient(url, key);
     this.workspaceId = workspaceId;
-    this.project = project; // display label only; never an identity
+    this.project = project;
+  }
+
+  /** Probe which column keys `documents`. Memoized on success; retried after failures. */
+  private async keyed(): Promise<"id" | "slug"> {
+    if (this.keying) return this.keying;
+    const { error } = await this.db.from("documents").select("workspace_id").limit(1);
+    if (error && error.code !== "42703") {
+      // Genuine failure (network, auth, missing table) — don't cache a guess.
+      throw new Error(`documents probe failed: ${error.message}`);
+    }
+    this.keying = error ? "slug" : "id"; // 42703 = column does not exist
+    if (this.keying === "slug") {
+      console.error(
+        `[corpus-v2] documents is still keyed by project slug — repos with the same folder ` +
+          `name share memory. Run supabase/migrate-documents-to-workspace-id.sql (SQL ` +
+          `editor, once) to key by workspace id.`,
+      );
+    }
+    return this.keying;
   }
 
   async getDocument(name: string): Promise<string | null> {
-    const { data, error } = await this.db
-      .from("documents")
-      .select("content")
-      .eq("workspace_id", this.workspaceId)
-      .eq("name", name)
-      .maybeSingle();
+    const q = this.db.from("documents").select("content").eq("name", name);
+    const { data, error } =
+      (await this.keyed()) === "id"
+        ? await q.eq("workspace_id", this.workspaceId).maybeSingle()
+        : await q.eq("project", this.project).maybeSingle();
     if (error) throw new Error(`documents fetch failed: ${error.message}`);
     return data?.content ?? null;
   }
 
   async putDocument(name: string, content: string): Promise<void> {
-    // No workspace auto-create. Workspaces are created explicitly by corpus-setup /
-    // corpus-connect, which is what keeps identity opaque: a write can only ever land in
-    // a workspace someone deliberately connected this repo to. (The old auto-upsert
-    // keyed on slug, so two unrelated teams with a folder named `api` silently shared
-    // one workspace — the second team read, then overwrote, the first team's memory.)
-    const { error } = await this.db.from("documents").upsert(
-      {
-        workspace_id: this.workspaceId,
-        name,
-        content,
-        updated_at: new Date().toISOString(),
-      },
-      { onConflict: "workspace_id,name" },
-    );
+    if ((await this.keyed()) === "id") {
+      // No auto-create here: the FK to workspaces.id means a write can only land in a
+      // workspace corpus-setup/connect deliberately made — the point of id keying.
+      const { error } = await this.db.from("documents").upsert(
+        { workspace_id: this.workspaceId, name, content, updated_at: new Date().toISOString() },
+        { onConflict: "workspace_id,name" },
+      );
+      if (error) {
+        const hint =
+          error.code === "23503" // FK violation: the configured workspace row is gone
+            ? ` (workspace ${this.workspaceId} does not exist — check corpus-status, reconnect with corpus-connect <id>)`
+            : "";
+        throw new Error(`documents upsert failed: ${error.message}${hint}`);
+      }
+      return;
+    }
+
+    // Slug keying: satisfies documents.project's FK to workspaces.slug with zero setup
+    // step — the first write in a fresh project silently creates its workspace row.
+    // Best-effort: logged loudly, not thrown, so a workspaces hiccup never blocks the
+    // document write but a missing/misapplied schema stays diagnosable.
+    const { error: workspaceError } = await this.db
+      .from("workspaces")
+      .upsert({ slug: this.project, name: this.project }, { onConflict: "slug", ignoreDuplicates: true });
+    if (workspaceError) {
+      console.error(`[corpus-v2] workspaces upsert failed (is supabase/schema.sql applied?): ${workspaceError.message}`);
+    }
+
+    const { error } = await this.db.from("documents").upsert({
+      project: this.project,
+      name,
+      content,
+      updated_at: new Date().toISOString(),
+    });
     if (error) throw new Error(`documents upsert failed: ${error.message}`);
   }
 
   async listDocuments(): Promise<string[]> {
-    const { data, error } = await this.db
-      .from("documents")
-      .select("name")
-      .eq("workspace_id", this.workspaceId);
+    const q = this.db.from("documents").select("name");
+    const { data, error } =
+      (await this.keyed()) === "id"
+        ? await q.eq("workspace_id", this.workspaceId)
+        : await q.eq("project", this.project);
     if (error) throw new Error(`documents list failed: ${error.message}`);
     return (data ?? []).map((r) => r.name as string);
   }
@@ -169,7 +216,6 @@ class SupabaseStore implements DocumentStore {
     // swallowed) in addition to the try/catch for genuine network-level exceptions.
     try {
       const { error } = await this.db.from("usage_events").insert({
-        workspace_id: this.workspaceId,
         project: this.project,
         tool: event.tool,
         tokens: event.tokens ?? null,
