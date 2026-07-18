@@ -13,7 +13,7 @@
  * to per-user tokens; until then a membership row would be recorded but never enforced.
  */
 import { patchWorkspace } from "./clients.js";
-import { findWorkspace, supabaseConfigured } from "./workspace.js";
+import { findWorkspace, isWorkspaceId, supabaseConfigured } from "./workspace.js";
 
 const target = process.cwd();
 const id = process.argv[2];
@@ -25,6 +25,15 @@ Connects this repo to an existing shared workspace. To create a new one, run
 corpus-setup — it registers the clients and creates the workspace in one step.
 
 Run corpus-status to see which workspace this repo is on now.`);
+  process.exit(1);
+}
+
+if (!isWorkspaceId(id)) {
+  console.error(
+    `"${id}" is not a workspace id — expected a uuid like\n` +
+      `  3f2a9c14-7b8e-4d51-9a02-1c6e5b7d8f90\n\n` +
+      `Run corpus-status to see this repo's current workspace.`,
+  );
   process.exit(1);
 }
 

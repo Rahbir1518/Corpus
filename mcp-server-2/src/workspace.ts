@@ -29,9 +29,20 @@ export function supabaseConfigured(): boolean {
   return Boolean(process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY);
 }
 
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+/** workspaces.id is a uuid; anything else can only ever be a typo or a placeholder. */
+export function isWorkspaceId(value: string): boolean {
+  return UUID_RE.test(value);
+}
+
 export async function findWorkspace(id: string): Promise<Workspace | null> {
   const db = client();
   if (!db) return null;
+  // Check the shape first. Postgres rejects a malformed uuid with a driver-level error
+  // ("invalid input syntax for type uuid"), which would otherwise propagate as a crash
+  // out of corpus-status — the one command that has to survive a broken setup.
+  if (!isWorkspaceId(id)) return null;
   const { data, error } = await db.from("workspaces").select("id,slug,name").eq("id", id).maybeSingle();
   if (error) throw new Error(`workspace lookup failed: ${error.message}`);
   return (data as Workspace) ?? null;
