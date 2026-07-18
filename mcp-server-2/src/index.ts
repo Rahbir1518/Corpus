@@ -40,9 +40,9 @@ async function getOrCreateState(): Promise<string> {
 }
 
 server.registerTool(
-  "corpus_load",
+  "memory_load",
   {
-    title: "Load project memory",
+    title: "Corpus — load project memory",
     description:
       "Fetch this project's memory: current status, in-progress work, decisions and their " +
       "reasons, and exact next steps — written by previous sessions (possibly in other " +
@@ -66,7 +66,7 @@ server.registerTool(
       const text =
         name === STATE_DOC
           ? `No memory yet for project "${project}" — this is session one. ` +
-            `Work normally; record progress with corpus_log and corpus_save.`
+            `Work normally; record progress with memory_log and memory_save.`
           : `No document named "${name}" for project "${project}". Available: ${
               docs.length ? docs.join(", ") : "(none)"
             }.`;
@@ -78,9 +78,9 @@ server.registerTool(
 );
 
 server.registerTool(
-  "corpus_log",
+  "memory_log",
   {
-    title: "Log a step to project memory",
+    title: "Corpus — log a step to project memory",
     description:
       "Append one line to the project's session ledger. Call this IMMEDIATELY after each of " +
       "these moments: you finish editing a file, you fix a bug, you make a design decision " +
@@ -111,9 +111,9 @@ server.registerTool(
 );
 
 server.registerTool(
-  "corpus_save",
+  "memory_save",
   {
-    title: "Save session state to project memory",
+    title: "Corpus — save session state to project memory",
     description:
       "Write a structured save-state so ANY future session — in any tool, by any teammate — " +
       "can continue this work cold. Call this when: the user says 'save state', 'done for " +
@@ -179,7 +179,7 @@ server.registerTool(
           type: "text",
           text:
             `Saved state for "${project}" (${store.mode}). Any session in any tool can now ` +
-            `continue via corpus_load.\n\n${getSection(state, "Status")}\n\n## Next steps\n` +
+            `continue via memory_load.\n\n${getSection(state, "Status")}\n\n## Next steps\n` +
             getSection(state, "Next steps"),
         },
       ],
@@ -188,9 +188,9 @@ server.registerTool(
 );
 
 server.registerTool(
-  "corpus_code_query",
+  "codebase_search",
   {
-    title: "Query the code graph",
+    title: "Corpus — search the codebase structure",
     description:
       "Ask a natural-language question about the codebase's structure and get back the " +
       "relevant nodes, source locations, and connections. Use this BEFORE your first grep " +

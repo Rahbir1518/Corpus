@@ -20,7 +20,7 @@ Three claims, in pitch order:
    context whether relevant or not — a memory tax on every request. Corpus memory costs zero
    tokens until the model decides it's relevant and calls a tool.
 2. **A running ledger, not a checkpoint.** Almanac updates its wiki after sessions/commits.
-   Corpus logs during the session (`corpus_log`), so the memory is never more than one step
+   Corpus logs during the session (`memory_log`), so the memory is never more than one step
    stale — nothing is lost at a context limit, crash, or closed laptop.
 3. **Portable by format.** Markdown is the interchange format — the DB stores markdown
    documents, not proprietary blobs. Claude → Codex → Gemini → teammate is a fetch of the
@@ -34,10 +34,10 @@ Three claims, in pitch order:
 
 ```
 ┌─ mcp-server-2 (the ONE thing a user installs) ────────────────┐
-│  corpus_load        fetch relevant doc(s) from the DB          │
-│  corpus_log         append one decision/change (incremental)   │
-│  corpus_save        schema-forced state dump → merge into docs │
-│  corpus_code_query  pass-through to bundled Graphify           │
+│  memory_load        fetch relevant doc(s) from the DB          │
+│  memory_log         append one decision/change (incremental)   │
+│  memory_save        schema-forced state dump → merge into docs │
+│  codebase_search  pass-through to bundled Graphify           │
 └────────────────────────────────────────────────────────────────┘
                  fetch / upsert (markdown documents)
                       ▼
@@ -82,7 +82,7 @@ Three claims, in pitch order:
 
 ## Tool contracts
 
-### corpus_load
+### memory_load
 - **When:** session start, or when the user says "continue" / references past work.
   (The tool description carries this instruction — MCP injects it into every client;
   no AGENTS.md/CLAUDE.md required.)
@@ -92,14 +92,14 @@ Three claims, in pitch order:
   the query, as markdown, with a token-estimate footer. No docs yet → friendly
   "session one, no memory yet" message.
 
-### corpus_log
+### memory_log
 - **When:** immediately after any meaningful step — a decision made, a change completed,
   a bug found. Cheap and frequent; this is the crash-safety + freshness mechanism.
 - **In:** `type` (decision | change | bug | note), `summary` (one line), `files?` (paths).
 - **Out:** confirmation. Appends one bullet under today's session heading in `## Session log`.
 - Decisions are ALSO appended to `## Decisions` (the permanent record with the "why").
 
-### corpus_save
+### memory_save
 - **When:** end of session, before a handoff, or on user command ("save state").
 - **In (schema-forced — this is the quality lever):**
   - `summary` — one paragraph, what this session did
@@ -114,7 +114,7 @@ Three claims, in pitch order:
   from becoming a contradictory pile.
 - Validation: reject saves with empty `nextSteps` or `inProgress` items with no file refs.
 
-### corpus_code_query
+### codebase_search
 - **When:** instead of grep/read exploration — "what calls X", "how does auth connect to db".
 - **In:** `question` (natural language), `budget?` (max response tokens, default 2000).
 - **Out:** Graphify's answer (structure: nodes, source locations, connections — not raw code).
@@ -186,14 +186,14 @@ reads first.
    Realtime) + token counter; Auth0 on the dashboard and workspace writes; topical pages.
 3. **Roadmap (pitch only):** auto-save via harness lifecycle hooks; corpus_init that
    bootstraps docs for an existing repo from the Graphify graph; pgvector relevance
-   matching for corpus_load queries (v1 server already has this).
+   matching for memory_load queries (v1 server already has this).
 
 ## Demo script (deterministic — every step user-triggered)
 
 1. Session 1 (Claude Code) works on a feature in a REAL large repo; judges watch
-   corpus_log calls stream and the dashboard update live.
+   memory_log calls stream and the dashboard update live.
 2. Explicit save ("save state") → show the markdown. Kill the session on purpose.
-3. Session 2 (Codex/Gemini): "continue where the last session left off" → corpus_load →
+3. Session 2 (Codex/Gemini): "continue where the last session left off" → memory_load →
    it continues. The handoff is the product.
 4. Token chart: measured with/without totals from real transcripts.
 ```

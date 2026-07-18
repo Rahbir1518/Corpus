@@ -16,14 +16,14 @@ Requires **Node ≥ 18**. Full prerequisites and env reference: [../REQUIREMENTS
 npm install        # auto-builds via the prepare hook
 npm link           # puts `corpus-setup` and `corpus-mcp-v2` on your PATH
 
-# optional: enable corpus_code_query (package name has two ys)
+# optional: enable codebase_search (package name has two ys)
 python -m pip install graphifyy
 
 # then, from THE PROJECT YOU WANT MEMORY IN:
 corpus-setup
 ```
 
-Graphify is only required for `corpus_code_query`; the memory and handoff tools work without
+Graphify is only required for `codebase_search`; the memory and handoff tools work without
 it. The Python package is named `graphifyy`, but it installs the `graphify` command.
 `corpus-setup` builds the code graph automatically if Graphify is installed (finding it even
 when pip's Scripts dir isn't on PATH; `GRAPHIFY_PATH` overrides). If the graph is missing at
@@ -70,10 +70,10 @@ install. Verify with `/mcp` in Claude Code or Codex, `/mcp list` in Gemini CLI.
 
 | Tool | When the model calls it | What it does |
 |---|---|---|
-| `corpus_load` | Session start; "continue where we left off" | Fetches status, decisions, next steps |
-| `corpus_log` | After each edit/bugfix/decision | Appends one ledger line (crash-safety) |
-| `corpus_save` | Task done / "save state" / handoff | Structured state dump; vague saves rejected |
-| `corpus_code_query` | Instead of grep/read exploration | Natural-language question → Graphify graph answer |
+| `memory_load` | Session start; "continue where we left off" | Fetches status, decisions, next steps |
+| `memory_log` | After each edit/bugfix/decision | Appends one ledger line (crash-safety) |
+| `memory_save` | Task done / "save state" / handoff | Structured state dump; vague saves rejected |
+| `codebase_search` | Instead of grep/read exploration | Natural-language question → Graphify graph answer |
 
 ## Storage modes
 

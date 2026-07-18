@@ -6,8 +6,10 @@
  *   1. Registers the MCP server with every supported client (merged, not overwritten):
  *      .mcp.json (Claude Code), .gemini/settings.json (Gemini CLI),
  *      .codex/config.toml (Codex CLI).
- *   2. Installs a standing-instruction block into CLAUDE.md and AGENTS.md (creating both),
- *      so agents log/save/query proactively without the user prompting for it.
+ *   2. Installs a standing-instruction block into CLAUDE.md, GEMINI.md and AGENTS.md
+ *      (creating each), so agents log/save/query proactively without being prompted.
+ *      One instruction file per client we register in step 1 — they do not read each
+ *      other's.
  *
  * Idempotent: markers guard the instruction block; re-running updates in place.
  * This is an EXPLICIT user action — the only time Corpus ever writes into a repo.
@@ -89,15 +91,15 @@ const block = `${BEGIN}
 
 This project uses Corpus (MCP tools) for cross-session, cross-tool memory.
 
-- At session start, and whenever asked to continue previous work: call \`corpus_load\`.
+- At session start, and whenever asked to continue previous work: call \`memory_load\`.
 - Immediately after finishing an edit, fixing a bug, or making a design decision:
-  call \`corpus_log\` — one line; for decisions include the why.
-- Before ending a session, or when the user says "save state": call \`corpus_save\`
+  call \`memory_log\` — one line; for decisions include the why.
+- Before ending a session, or when the user says "save state": call \`memory_save\`
   with concrete file/function references in every in-progress item.
 
-## Exploring code: use \`corpus_code_query\` FIRST
+## Exploring code: use \`codebase_search\` FIRST
 
-\`corpus_code_query\` answers structural questions from a pre-built code graph in ~2K
+\`codebase_search\` answers structural questions from a pre-built code graph in ~2K
 tokens. The grep-and-read spiral it replaces costs tens of thousands. **Reach for it
 before your first grep, not after exploration stalls** — and without waiting to be
 asked. It is a default, not an escalation.
@@ -133,10 +135,14 @@ function installBlock(file: string, createIfMissing: boolean): void {
   console.log(`✓ ${file} — Corpus instructions ${start !== -1 ? "updated" : "appended"}`);
 }
 
-// Both, unconditionally: CLAUDE.md covers Claude Code, AGENTS.md is the cross-tool
-// convention (Cursor, Codex, Copilot, Zed…). Corpus is explicitly cross-tool memory, so
-// the standing instructions must land for agents that never read CLAUDE.md.
+// All three, unconditionally: CLAUDE.md covers Claude Code, GEMINI.md covers Gemini CLI
+// (which reads neither of the others), and AGENTS.md is the cross-tool convention
+// (Cursor, Codex, Copilot, Zed…). Corpus is explicitly cross-tool memory, so the standing
+// instructions must land for every client we register above — registering the server
+// without installing instructions is the worst case: tools present, nothing advocating
+// for them.
 installBlock("CLAUDE.md", true);
+installBlock("GEMINI.md", true);
 installBlock("AGENTS.md", true);
 
 // --- 3. Graphify graph (best effort) ---------------------------------------
@@ -144,7 +150,7 @@ const { buildGraph } = await import("./graphify.js");
 const g = buildGraph(target);
 console.log(
   g.ok
-    ? `✓ Graphify — code graph built (graphify-out/); corpus_code_query is live`
+    ? `✓ Graphify — code graph built (graphify-out/); codebase_search is live`
     : `– Graphify — skipped: ${g.text.split(".")[0]}. Memory tools work without it.`,
 );
 

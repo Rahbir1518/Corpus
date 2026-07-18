@@ -34,17 +34,17 @@ function step(name: string, ok: boolean, detail?: string) {
 const tools = await client.listTools();
 step(
   "tools registered",
-  ["corpus_load", "corpus_log", "corpus_save", "corpus_code_query"].every((t) =>
+  ["memory_load", "memory_log", "memory_save", "codebase_search"].every((t) =>
     tools.tools.some((x) => x.name === t),
   ),
   tools.tools.map((t) => t.name).join(", "),
 );
 
-const empty = await client.callTool({ name: "corpus_load", arguments: {} });
+const empty = await client.callTool({ name: "memory_load", arguments: {} });
 step("load on fresh project says 'no memory yet'", text(empty).includes("No memory yet"));
 
 const logged = await client.callTool({
-  name: "corpus_log",
+  name: "memory_log",
   arguments: {
     type: "decision",
     summary: "Chose Supabase over Firebase because pgvector enables relevance matching later",
@@ -54,7 +54,7 @@ const logged = await client.callTool({
 step("log a decision", text(logged).includes("Logged [decision]"));
 
 const badSave = await client.callTool({
-  name: "corpus_save",
+  name: "memory_save",
   arguments: {
     summary: "Worked on the store layer and wired the tools together end to end.",
     completed: ["store.ts with pluggable backends"],
@@ -66,18 +66,18 @@ const badSave = await client.callTool({
 step("vague in-progress item is REJECTED", text(badSave).includes("Rejected"));
 
 const goodSave = await client.callTool({
-  name: "corpus_save",
+  name: "memory_save",
   arguments: {
     summary: "Built the v2 store layer and wired all four tools over stdio.",
     completed: ["store.ts with Supabase + local backends", "document.ts merge logic"],
-    inProgress: ["smoke coverage for corpus_code_query in src/scripts/smoke.ts — graphify branch untested"],
+    inProgress: ["smoke coverage for codebase_search in src/scripts/smoke.ts — graphify branch untested"],
     decisions: [{ choice: "Documents live in the DB, never the repo", reason: "repo stays clean; dashboard browses everything" }],
     nextSteps: ["Create the documents table in Supabase", "Point the dashboard at it"],
   },
 });
 step("valid save is accepted", text(goodSave).includes("Saved state"));
 
-const hydrated = await client.callTool({ name: "corpus_load", arguments: {} });
+const hydrated = await client.callTool({ name: "memory_load", arguments: {} });
 const h = text(hydrated);
 step(
   "reload returns hydrated state",

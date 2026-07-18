@@ -13,7 +13,7 @@ Design source of truth: [ARCHITECTURE.md](ARCHITECTURE.md).
 | **Node.js ≥ 18** | MCP server | `engines` in `mcp-server-2/package.json`. Verified on 24.x. |
 | **Node.js ≥ 20.9** | Dashboard | Next.js 16 requirement. If you only run the server, 18 is fine. |
 | **An MCP client** | Using Corpus | Claude Code, Cursor, Codex, or any MCP-capable agent. |
-| Python 3.9+ + `graphifyy` | `corpus_code_query` | Optional. Without it, the other three tools work and code queries return a fallback message. |
+| Python 3.9+ + `graphifyy` | `codebase_search` | Optional. Without it, the other three tools work and code queries return a fallback message. |
 | Supabase project | Team mode, dashboard | Optional. Without it the server uses `~/.corpus/<project>/`. |
 | Auth0 tenant | Dashboard login | Optional, dashboard only. |
 

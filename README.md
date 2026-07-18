@@ -14,14 +14,14 @@ file, it hasn't been made.
 
 Four MCP tools, usable from any MCP client:
 
-- **`corpus_load`** — fetch the project's memory (status, decisions + reasons, next steps)
+- **`memory_load`** — fetch the project's memory (status, decisions + reasons, next steps)
   at session start or on "continue where we left off". Costs nothing until called — memory
   as tools, not prompt-stuffing.
-- **`corpus_log`** — one ledger line after each edit / bugfix / decision, *during* the
+- **`memory_log`** — one ledger line after each edit / bugfix / decision, *during* the
   session. Crash-safe, never stale — this is the difference from checkpoint-based tools.
-- **`corpus_save`** — structured save-state for handoffs: any tool, any teammate, any time.
+- **`memory_save`** — structured save-state for handoffs: any tool, any teammate, any time.
   Vague saves (no file/function references) are rejected at the schema level.
-- **`corpus_code_query`** — natural-language questions about code structure, answered from
+- **`codebase_search`** — natural-language questions about code structure, answered from
   a [Graphify](https://github.com/safishamsi/graphify) graph in ~2K tokens instead of a
   40K-token grep-and-read spiral.
 
@@ -73,7 +73,7 @@ then read the memory yourself at `~/.corpus/<project>/state.md`. It is plain mar
 
 1. **Hook**: "AI forgets everything between sessions — and every vendor's fix is locked to
    their tool. You pay to re-explain yourself, in tokens and in time."
-2. Session 1 (Claude Code) works on a real feature; `corpus_log` entries stream into the
+2. Session 1 (Claude Code) works on a real feature; `memory_log` entries stream into the
    ledger as it works. "Save state." Kill the session on purpose.
 3. Session 2 (**a different vendor's tool**): "continue where the last session left off" —
    it continues mid-thought. Same memory, different brain.
