@@ -50,7 +50,11 @@ export function resolveProject(): string {
  * never resolve to the same workspace.
  */
 export function resolveWorkspace(): string | null {
-  return process.env.CORPUS_WORKSPACE ?? null;
+  // Empty/whitespace counts as unset. `??` alone would let CORPUS_WORKSPACE="" (common in
+  // a .env stub or an exported-but-empty shell var) shadow a real id from the client
+  // config, so a connected repo would report itself private.
+  const value = process.env.CORPUS_WORKSPACE?.trim();
+  return value ? value : null;
 }
 
 class LocalStore implements DocumentStore {
