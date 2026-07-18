@@ -3,15 +3,15 @@
 
 This project uses Corpus (MCP tools) for cross-session, cross-tool memory.
 
-- At session start, and whenever asked to continue previous work: call `corpus_load`.
+- At session start, and whenever asked to continue previous work: call `memory_load`.
 - Immediately after finishing an edit, fixing a bug, or making a design decision:
-  call `corpus_log` — one line; for decisions include the why.
-- Before ending a session, or when the user says "save state": call `corpus_save`
+  call `memory_log` — one line; for decisions include the why.
+- Before ending a session, or when the user says "save state": call `memory_save`
   with concrete file/function references in every in-progress item.
 
-## Exploring code: use `corpus_code_query` FIRST
+## Exploring code: use `codebase_search` FIRST
 
-`corpus_code_query` answers structural questions from a pre-built code graph in ~2K
+`codebase_search` answers structural questions from a pre-built code graph in ~2K
 tokens. The grep-and-read spiral it replaces costs tens of thousands. **Reach for it
 before your first grep, not after exploration stalls** — and without waiting to be
 asked. It is a default, not an escalation.

@@ -36,9 +36,21 @@ export interface DocumentStore {
   logUsage(event: { tool: string; tokens?: number; agent?: string }): Promise<void>;
 }
 
-/** Project id: explicit env override, else the cwd's folder name (the repo being worked on). */
+/** Display label: explicit env override, else the cwd's folder name. NOT an identity. */
 export function resolveProject(): string {
   return process.env.CORPUS_PROJECT ?? path.basename(process.cwd());
+}
+
+/**
+ * Shared-workspace identity: the opaque uuid written by corpus-setup / corpus-connect.
+ *
+ * Its presence is what "connected" means. Absent -> this repo is private and we use
+ * LocalStore, even when Supabase credentials are available. Deliberately NOT derived
+ * from the folder name: two unrelated teams both working in a folder called `api` must
+ * never resolve to the same workspace.
+ */
+export function resolveWorkspace(): string | null {
+  return process.env.CORPUS_WORKSPACE ?? null;
 }
 
 class LocalStore implements DocumentStore {
@@ -85,18 +97,20 @@ class LocalStore implements DocumentStore {
 class SupabaseStore implements DocumentStore {
   readonly mode = "supabase" as const;
   private db: SupabaseClient;
+  private workspaceId: string;
   private project: string;
 
-  constructor(url: string, key: string, project: string) {
+  constructor(url: string, key: string, workspaceId: string, project: string) {
     this.db = createClient(url, key);
-    this.project = project;
+    this.workspaceId = workspaceId;
+    this.project = project; // display label only; never an identity
   }
 
   async getDocument(name: string): Promise<string | null> {
     const { data, error } = await this.db
       .from("documents")
       .select("content")
-      .eq("project", this.project)
+      .eq("workspace_id", this.workspaceId)
       .eq("name", name)
       .maybeSingle();
     if (error) throw new Error(`documents fetch failed: ${error.message}`);
@@ -104,23 +118,20 @@ class SupabaseStore implements DocumentStore {
   }
 
   async putDocument(name: string, content: string): Promise<void> {
-    // Satisfies documents.project's FK to workspaces.slug with zero setup step: the
-    // first write in a fresh project silently creates its workspace row. Best-effort —
-    // logged, not thrown, so a workspaces hiccup never blocks the document write — but
-    // logged loudly, not swallowed, so a missing/misapplied schema is diagnosable.
-    const { error: workspaceError } = await this.db
-      .from("workspaces")
-      .upsert({ slug: this.project, name: this.project }, { onConflict: "slug", ignoreDuplicates: true });
-    if (workspaceError) {
-      console.error(`[corpus-v2] workspaces upsert failed (is supabase/schema.sql applied?): ${workspaceError.message}`);
-    }
-
-    const { error } = await this.db.from("documents").upsert({
-      project: this.project,
-      name,
-      content,
-      updated_at: new Date().toISOString(),
-    });
+    // No workspace auto-create. Workspaces are created explicitly by corpus-setup /
+    // corpus-connect, which is what keeps identity opaque: a write can only ever land in
+    // a workspace someone deliberately connected this repo to. (The old auto-upsert
+    // keyed on slug, so two unrelated teams with a folder named `api` silently shared
+    // one workspace — the second team read, then overwrote, the first team's memory.)
+    const { error } = await this.db.from("documents").upsert(
+      {
+        workspace_id: this.workspaceId,
+        name,
+        content,
+        updated_at: new Date().toISOString(),
+      },
+      { onConflict: "workspace_id,name" },
+    );
     if (error) throw new Error(`documents upsert failed: ${error.message}`);
   }
 
@@ -128,7 +139,7 @@ class SupabaseStore implements DocumentStore {
     const { data, error } = await this.db
       .from("documents")
       .select("name")
-      .eq("project", this.project);
+      .eq("workspace_id", this.workspaceId);
     if (error) throw new Error(`documents list failed: ${error.message}`);
     return (data ?? []).map((r) => r.name as string);
   }
@@ -139,6 +150,7 @@ class SupabaseStore implements DocumentStore {
     // swallowed) in addition to the try/catch for genuine network-level exceptions.
     try {
       const { error } = await this.db.from("usage_events").insert({
+        workspace_id: this.workspaceId,
         project: this.project,
         tool: event.tool,
         tokens: event.tokens ?? null,
@@ -156,6 +168,18 @@ class SupabaseStore implements DocumentStore {
 export function createStore(project: string): DocumentStore {
   const url = process.env.SUPABASE_URL;
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (url && key) return new SupabaseStore(url, key, project);
+  const workspaceId = resolveWorkspace();
+
+  // All three required. Credentials alone are not enough: without a workspace id there
+  // is no safe answer to "which shared pile does this repo write to", and guessing from
+  // the folder name is exactly the bug this replaced. Unconnected repos stay private.
+  if (url && key && workspaceId) return new SupabaseStore(url, key, workspaceId, project);
+
+  if (url && key && !workspaceId) {
+    console.error(
+      `[corpus-v2] Supabase credentials present but this repo is not connected to a ` +
+        `workspace — using local memory (~/.corpus/${project}). Run \`corpus-connect <id>\` to share.`,
+    );
+  }
   return new LocalStore(project);
 }

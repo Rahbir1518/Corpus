@@ -77,7 +77,7 @@ Two access concerns that must not be conflated:
 - **Memory access** — who can read/write a workspace's docs — is what
   `workspace_members` gates: dashboard view/edit via Auth0 (`user_id` = Auth0 `sub`),
   and, via `status` ('connected' | 'disconnected'), which local sessions'
-  `corpus_log`/`corpus_save` calls are currently landing in the shared workspace
+  `memory_log`/`memory_save` calls are currently landing in the shared workspace
   (toggled by `corpus-connect`/disconnect).
 
 `usage_events` is an append-only, best-effort telemetry ledger (no FK — must never
