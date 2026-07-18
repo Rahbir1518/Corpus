@@ -1,7 +1,0 @@
--- Superseded by schema.sql, which defines this same `documents` table plus
--- workspaces/workspace_members/usage_events. Run schema.sql instead.
---
--- Migration note for an existing Supabase project with live `documents` rows:
--- schema.sql's table/index statements are all `if not exists` (safe re-run), but the
--- new FK on documents.project needs a manual backfill first — see the note at the
--- bottom of schema.sql.
