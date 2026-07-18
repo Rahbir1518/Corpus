@@ -198,6 +198,26 @@ reads first.
   re-orientation on every subsequent session/agent/teammate.
 - Estimator in code: chars/4 (labelled as an estimate everywhere it appears).
 
+### `usage_events.baseline_tokens` — the ongoing without-Corpus counterfactual
+
+Every `usage_events` row also carries a *measured* (not multiplier-guessed)
+"without Corpus" number, so the dashboard can chart actual-vs-baseline over time without
+re-running the manual transcript comparison above. Populated only where a real substitute
+cost exists to measure — no invented savings percentage, ever:
+
+- `corpus_load` → `baseline_method = 'full_corpus'`: the real total size of every document
+  in the project's memory store (`DocumentStore.getCorpusTokenTotal()`), vs the one doc
+  actually fetched. Represents the cost of loading everything instead of Corpus's targeted
+  fetch.
+- `corpus_code_query` → `baseline_method = 'full_graph_sources'`: the real total size, read
+  off disk, of every source file the code graph indexes (`estimateFullGraphTokens()` in
+  `graphify.ts`), vs the budgeted graph answer. Represents a grep-and-read spiral across
+  the same code.
+- `corpus_log` / `corpus_save` → `baseline_tokens = null`. These are writes; there is no
+  substitute cost to measure at write time — their payoff is amortized into future,
+  cheaper `corpus_load` calls. Do not backfill a guessed number here; `null` is the honest
+  answer.
+
 ## Phases
 
 1. **Phase 1 (demo-critical):** mcp-server-2 with the pluggable store (offline fallback
