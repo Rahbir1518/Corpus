@@ -31,9 +31,22 @@ query time, the server builds it once automatically (`graphify update .` — tre
 LLM, seconds); if Graphify itself is missing, code queries return a fallback message instead
 of stopping the server.
 
-`corpus-setup` does two things (idempotent — safe to re-run):
+`corpus-setup` does three things (idempotent — safe to re-run):
 
-1. Registers the `corpus` MCP server in the project's `.mcp.json` (merged, never overwritten).
+1. Registers the `corpus` MCP server with **every supported client**. Each reads a different
+   file in a different format, so all three are written; existing entries are merged, never
+   overwritten:
+
+   | Client | File | Format | Key |
+   |---|---|---|---|
+   | Claude Code | `.mcp.json` | JSON | `mcpServers` |
+   | Gemini CLI | `.gemini/settings.json` | JSON | `mcpServers` |
+   | Codex CLI | `.codex/config.toml` | TOML | `mcp_servers` |
+
+   Each entry sets `CORPUS_AGENT` to the client's name, so the session ledger records which
+   tool wrote which memory. All three point at the same store — start a task in Claude Code,
+   pick it up in Codex.
+
 2. Installs a marker-guarded instruction block into **both** `CLAUDE.md` and `AGENTS.md`,
    creating either if absent, so agents log, save, and query the code graph
    **proactively** — no per-session prompting needed. `AGENTS.md` is the cross-tool
@@ -41,12 +54,17 @@ of stopping the server.
    instructions have to land for agents that never read `CLAUDE.md`.
 3. Builds the code graph, if Graphify is installed.
 
-Then start your agent (Claude Code, Cursor, Codex — any MCP client) in that project and
-approve the `corpus` server. That's the whole install.
+Then start your agent in that project and approve the `corpus` server. That's the whole
+install. Verify with `/mcp` in Claude Code or Codex, `/mcp list` in Gemini CLI.
 
-> **After editing `src/`, run `npm run build`** — `.mcp.json` points at `dist/`, so source
-> changes are inert until compiled. Restart the agent afterward: tool descriptions are read
-> once, at connect time.
+> **Codex and project-scoped config:** Codex reads `.codex/config.toml` only in projects you
+> have marked trusted. If `corpus` does not show up under `/mcp`, copy the marker-guarded
+> block into `~/.codex/config.toml` instead — it is valid unchanged. Gemini CLI likewise
+> accepts `~/.gemini/settings.json` as the global fallback.
+
+> **After editing `src/`, run `npm run build`** — every client config points at `dist/`, so
+> source changes are inert until compiled. Restart the agent afterward: tool descriptions are
+> read once, at connect time.
 
 ## Tools
 
