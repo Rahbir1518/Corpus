@@ -364,6 +364,200 @@ body {
   margin: 0;
 }
 
+/* ───────── Workflow / Memory graph ───────── */
+.workflow-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.ws {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  min-height: 0;
+}
+
+.ws-graph {
+  position: relative;
+  background: radial-gradient(circle at 50% 40%, #12121c 0%, #0a0a0f 70%);
+  overflow: hidden;
+}
+
+.ws-side {
+  border-left: 1px solid var(--border);
+  background: rgba(22, 22, 29, 0.7);
+  backdrop-filter: blur(16px);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  overflow-y: auto;
+}
+
+/* Live indicator */
+.ws-live {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  color: #22c55e;
+  font-weight: 600;
+}
+.ws-live-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #22c55e;
+  box-shadow: 0 0 8px #22c55e;
+  animation: pulse 1.4s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+
+/* Token panel */
+.token-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+}
+.token-panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.9rem;
+}
+.token-panel-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-dim);
+  font-weight: 700;
+}
+.token-panel-saved {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #22c55e;
+}
+.token-query {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  font-style: italic;
+  margin-bottom: 0.9rem;
+}
+.token-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin: 0.35rem 0;
+}
+.token-row-label {
+  font-size: 0.8rem;
+  color: var(--text-dim);
+}
+.token-row-val {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+.token-row-full {
+  color: var(--text-muted);
+  text-decoration: line-through;
+  text-decoration-color: rgba(239, 68, 68, 0.5);
+}
+.token-row-recall {
+  color: #22c55e;
+}
+.token-bar {
+  height: 8px;
+  border-radius: 6px;
+  background: rgba(239, 68, 68, 0.18);
+  overflow: hidden;
+  margin: 0.4rem 0;
+}
+.token-bar-fill {
+  height: 100%;
+  border-radius: 6px;
+  background: linear-gradient(90deg, #22c55e, #4ade80);
+  transition: width 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.token-empty {
+  font-size: 0.85rem;
+  color: var(--text-dim);
+}
+
+/* Recall input */
+.ws-recall-label {
+  display: block;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-dim);
+  font-weight: 700;
+  margin-bottom: 0.6rem;
+}
+.ws-recall-row {
+  display: flex;
+  gap: 0.5rem;
+}
+.ws-input {
+  flex: 1;
+  min-width: 0;
+  padding: 0.55rem 0.8rem;
+  border-radius: 10px;
+  background: var(--background);
+  border: 1px solid var(--border);
+  color: var(--foreground);
+  font-size: 0.85rem;
+  outline: none;
+}
+.ws-input:focus {
+  border-color: var(--accent);
+}
+.ws-clear {
+  margin-top: 0.6rem;
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-size: 0.8rem;
+  cursor: pointer;
+  padding: 0;
+}
+.ws-clear:hover {
+  color: var(--accent-hover);
+}
+
+/* Legend */
+.ws-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  margin-top: auto;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+}
+.ws-legend-item {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  display: inline-flex;
+  align-items: center;
+}
+.ws-legend-item::before {
+  content: "";
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  margin-right: 0.4rem;
+}
+.ws-dot-decision::before { background: #6366f1; }
+.ws-dot-bug::before { background: #ef4444; }
+.ws-dot-file::before { background: #22c55e; }
+.ws-dot-preference::before { background: #f59e0b; }
+.ws-dot-task::before { background: #8b5cf6; }
+
 /* ───────── Responsive ───────── */
 @media (max-width: 640px) {
   .landing-card {

@@ -1,0 +1,33 @@
+{
+  "name": "corpus-mcp-server",
+  "version": "0.1.0",
+  "description": "Corpus — portable, vendor-neutral memory for AI agents, as an MCP server.",
+  "type": "module",
+  "bin": { "corpus-mcp": "dist/index.js" },
+  "main": "dist/index.js",
+  "files": ["dist", "data", "README.md"],
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "start": "tsx src/index.ts",
+    "build": "tsc -p tsconfig.build.json",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm run build",
+    "recall": "tsx src/scripts/test-recall.ts",
+    "remember": "tsx src/scripts/test-remember.ts",
+    "seed": "tsx src/scripts/seed.ts",
+    "smoke": "tsx src/scripts/smoke.ts"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.68.0",
+    "@modelcontextprotocol/sdk": "^1.22.0",
+    "@supabase/supabase-js": "^2.75.0",
+    "dotenv": "^17.2.0",
+    "openai": "^6.10.0",
+    "zod": "^3.25.0"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0",
+    "@types/node": "^20.0.0"
+  }
+}
