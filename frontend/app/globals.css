@@ -18,10 +18,18 @@
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-background: hsl(201 100% 13%);
+  --color-foreground: hsl(0 0% 100%);
+  --color-muted-foreground: hsl(240 4% 66%);
+  --color-primary: hsl(0 0% 100%);
+  --color-secondary: hsl(201 100% 18%);
+  --color-muted: hsl(201 100% 18%);
+  --color-accent: hsl(201 100% 20%);
+  --color-border: hsl(201 100% 22%);
+  --color-input: hsl(201 100% 22%);
+
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
 }
 
 * {
@@ -31,7 +39,7 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans, "Inter", system-ui, -apple-system, sans-serif);
+  font-family: var(--font-body), system-ui, -apple-system, sans-serif;
   margin: 0;
   min-height: 100vh;
 }
@@ -89,63 +97,41 @@ body {
   transform: translateY(-1px);
 }
 
-/* ───────── Landing Page ───────── */
-.landing-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
+/* ───────── Cinematic Landing ───────── */
+.liquid-glass {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 24px -1px rgba(0, 0, 0, 0.2);
   position: relative;
   overflow: hidden;
 }
-
-.landing-glow {
+.liquid-glass::before {
+  content: "";
   position: absolute;
-  border-radius: 50%;
-  filter: blur(120px);
-  opacity: 0.4;
-  pointer-events: none;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.08),
+    transparent
+  );
+  transform: skewX(-20deg);
+  transition: 0.5s;
 }
-.landing-glow-1 {
-  width: 500px;
-  height: 500px;
-  background: var(--accent);
-  top: -150px;
-  right: -100px;
-  animation: float 8s ease-in-out infinite;
-}
-.landing-glow-2 {
-  width: 400px;
-  height: 400px;
-  background: #8b5cf6;
-  bottom: -100px;
-  left: -100px;
-  animation: float 10s ease-in-out infinite reverse;
+.liquid-glass:hover::before {
+  left: 150%;
+  transition: 0.7s ease-in-out;
 }
 
-@keyframes float {
-  0%, 100% { transform: translate(0, 0); }
-  50% { transform: translate(30px, -20px); }
-}
-
-.landing-card {
-  text-align: center;
-  padding: 3.5rem;
-  background: rgba(22, 22, 29, 0.6);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  backdrop-filter: blur(24px);
-  max-width: 440px;
-  width: 100%;
-  position: relative;
-  z-index: 1;
-  animation: fadeUp 0.6s ease-out;
-}
-
-@keyframes fadeUp {
+@keyframes fade-rise {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(24px);
   }
   to {
     opacity: 1;
@@ -153,46 +139,45 @@ body {
   }
 }
 
-.landing-logo {
-  width: 64px;
-  height: 64px;
-  border-radius: 16px;
-  background: linear-gradient(135deg, var(--accent), #8b5cf6);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.75rem;
-  font-weight: 800;
-  color: #fff;
-  margin-bottom: 1.25rem;
-  box-shadow: 0 0 30px var(--accent-glow);
+.animate-fade-rise {
+  animation: fade-rise 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  opacity: 0;
 }
 
-.landing-title {
-  font-size: 2.25rem;
-  font-weight: 800;
-  margin: 0 0 0.5rem;
-  background: linear-gradient(135deg, #fff, var(--text-muted));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+.animate-fade-rise-delay {
+  animation: fade-rise 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.15s forwards;
+  opacity: 0;
 }
 
-.landing-subtitle {
-  color: var(--text-muted);
-  font-size: 1rem;
-  margin: 0 0 2rem;
-  line-height: 1.5;
+.animate-fade-rise-delay-2 {
+  animation: fade-rise 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+  opacity: 0;
 }
 
-.landing-buttons {
-  display: flex;
-  gap: 0.75rem;
-  justify-content: center;
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s ease-out, transform 0.7s ease-out;
 }
-.landing-buttons .btn {
-  flex: 1;
-  min-width: 0;
+
+.reveal.in-view {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-rise,
+  .animate-fade-rise-delay,
+  .animate-fade-rise-delay-2 {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
 }
 
 /* ───────── Loading ───────── */
