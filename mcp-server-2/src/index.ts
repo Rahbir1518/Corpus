@@ -72,7 +72,9 @@ server.registerTool(
             }.`;
       return { content: [{ type: "text", text }] };
     }
-    const footer = `\n\n---\n_Corpus: ~${estimateTokens(content)} tokens (estimate) · store: ${store.mode} · project: ${project}_`;
+    const tokens = estimateTokens(content);
+    await store.logUsage({ tool: "corpus_load", tokens, agent: process.env.CORPUS_AGENT });
+    const footer = `\n\n---\n_Corpus: ~${tokens} tokens (estimate) · store: ${store.mode} · project: ${project}_`;
     return { content: [{ type: "text", text: content + footer }] };
   },
 );
@@ -106,6 +108,7 @@ server.registerTool(
       );
     }
     await store.putDocument(STATE_DOC, state);
+    await store.logUsage({ tool: "corpus_log", agent: process.env.CORPUS_AGENT });
     return { content: [{ type: "text", text: `Logged [${type}] to "${project}" (${store.mode}).` }] };
   },
 );
@@ -172,6 +175,7 @@ server.registerTool(
     state = ensureSessionHeading(state, sessionLabel);
     state = appendToSection(state, "Session log", `- [save] ${summary}`);
     await store.putDocument(STATE_DOC, state);
+    await store.logUsage({ tool: "corpus_save", agent: process.env.CORPUS_AGENT });
 
     return {
       content: [
@@ -209,6 +213,11 @@ server.registerTool(
   },
   async ({ question, budget }) => {
     const r = queryGraph(process.cwd(), question, budget);
+    await store.logUsage({
+      tool: "corpus_code_query",
+      tokens: estimateTokens(r.text),
+      agent: process.env.CORPUS_AGENT,
+    });
     return { content: [{ type: "text", text: r.text }], ...(r.ok ? {} : { isError: false }) };
   },
 );
