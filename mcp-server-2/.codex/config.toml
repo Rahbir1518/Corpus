@@ -1,7 +1,7 @@
 # corpus:begin
 [mcp_servers.corpus]
 command = "node"
-args = ["C:\\Code\\Hackathons\\Corpus\\Corpus\\mcp-server-2\\dist\\index.js"]
+args = ["/Users/nishchayranjan_1/Desktop/HackThe6ix/Corpus/mcp-server-2/dist/index.js"]
 
 [mcp_servers.corpus.env]
 CORPUS_PROJECT = "mcp-server-2"
