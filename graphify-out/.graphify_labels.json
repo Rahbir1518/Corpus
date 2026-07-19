@@ -36,5 +36,9 @@
   "34": "AGENTS.md",
   "35": "CLAUDE.md",
   "36": "GEMINI.md",
-  "37": "page.tsx"
+  "37": "page.tsx",
+  "38": "corpus",
+  "39": "AGENTS.md",
+  "40": "CLAUDE.md",
+  "41": "migrate-documents-to-workspace-id.sql"
 }

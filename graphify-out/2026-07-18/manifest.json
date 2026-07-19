@@ -1,7 +1,7 @@
 {
   ".mcp.json": {
-    "mtime": 1784421342.5690916,
-    "ast_hash": "11cb6ffb3f18a17fb1715297636b0352",
+    "mtime": 1784423861.060803,
+    "ast_hash": "a5a5932ed74607bc41ec4b254189ef8a",
     "semantic_hash": ""
   },
   "frontend/app/(dashboard)/dashboard/page.tsx": {
@@ -175,8 +175,8 @@
     "semantic_hash": ""
   },
   "mcp-server-2/README.md": {
-    "mtime": 1784421333.6771376,
-    "ast_hash": "2589ad0bc783fa378834af179a50afc4",
+    "mtime": 1784421981.2925477,
+    "ast_hash": "af57aeadef1332ab0f3731316d622b39",
     "semantic_hash": ""
   },
   "frontend/public/file.svg": {
@@ -205,8 +205,8 @@
     "semantic_hash": ""
   },
   ".claude/settings.local.json": {
-    "mtime": 1784421307.4665766,
-    "ast_hash": "7936c23e2416657ae7ab26836c844b2c",
+    "mtime": 1784422039.0222113,
+    "ast_hash": "e024395cbdb132749cbbae0786acc9f4",
     "semantic_hash": ""
   },
   "REQUIREMENTS.md": {
@@ -215,18 +215,18 @@
     "semantic_hash": ""
   },
   ".claude/settings.json": {
-    "mtime": 1784421342.585035,
-    "ast_hash": "16e16c82f8846286583070f01c9ffa77",
+    "mtime": 1784423861.113156,
+    "ast_hash": "36a6cd8d9a8a5185f1092ee12216e71c",
     "semantic_hash": ""
   },
   ".codex/hooks.json": {
-    "mtime": 1784421342.607741,
+    "mtime": 1784423861.1439035,
     "ast_hash": "fa154600a11acaa18251eedf9aa93804",
     "semantic_hash": ""
   },
   ".gemini/settings.json": {
-    "mtime": 1784421342.607741,
-    "ast_hash": "e72cf08ca2b5bc2effaef062e0463e89",
+    "mtime": 1784423861.140113,
+    "ast_hash": "c2c5074a6101a28c0dee439e50b7a881",
     "semantic_hash": ""
   },
   "frontend/app/auth/login-error/page.tsx": {
@@ -260,8 +260,8 @@
     "semantic_hash": ""
   },
   "mcp-server-2/src/clients.ts": {
-    "mtime": 1784415704.9254403,
-    "ast_hash": "dc24e82fbc0371c8eaae20275500d983",
+    "mtime": 1784423847.1090944,
+    "ast_hash": "be2a0f973d0d76d21679c5c7ac62b6e3",
     "semantic_hash": ""
   },
   "mcp-server-2/src/connect.ts": {
@@ -275,18 +275,18 @@
     "semantic_hash": ""
   },
   "mcp-server-2/src/hooks.ts": {
-    "mtime": 1784421066.1090193,
-    "ast_hash": "53554bcc736b44fc86bf46f3ee211d89",
+    "mtime": 1784423380.4217224,
+    "ast_hash": "872cac042831aba69b921aa5e3ef1a5c",
     "semantic_hash": ""
   },
   "mcp-server-2/src/hookwire.ts": {
-    "mtime": 1784421086.6724021,
-    "ast_hash": "47247629e8d21415670d2342cf77c3a6",
+    "mtime": 1784421925.5534148,
+    "ast_hash": "ed0c105b0c74e01316b29b7c7d54189a",
     "semantic_hash": ""
   },
   "mcp-server-2/src/ls.ts": {
-    "mtime": 1784415704.9666183,
-    "ast_hash": "550d6623c03caaed5e76d3c8e1129161",
+    "mtime": 1784423864.5715594,
+    "ast_hash": "8d4345481e2f83ccfd9c8d45e5ee1b54",
     "semantic_hash": ""
   },
   "mcp-server-2/src/registry.ts": {
@@ -295,8 +295,8 @@
     "semantic_hash": ""
   },
   "mcp-server-2/src/status.ts": {
-    "mtime": 1784415705.0212076,
-    "ast_hash": "06b6d276009bb05076305229a2b0a4e9",
+    "mtime": 1784423838.9116714,
+    "ast_hash": "0e4b6452db032b2870ee68a54768fafb",
     "semantic_hash": ""
   },
   "mcp-server-2/src/wire.ts": {
@@ -325,22 +325,22 @@
     "semantic_hash": ""
   },
   ".agents/rules/corpus.md": {
-    "mtime": 1784421342.5806282,
+    "mtime": 1784423861.08086,
     "ast_hash": "b07e47b8bb1f6a7e12abe19f50a6edf8",
     "semantic_hash": ""
   },
   "AGENTS.md": {
-    "mtime": 1784421342.5796285,
+    "mtime": 1784423861.0773697,
     "ast_hash": "b07e47b8bb1f6a7e12abe19f50a6edf8",
     "semantic_hash": ""
   },
   "CLAUDE.md": {
-    "mtime": 1784421342.5776284,
+    "mtime": 1784423861.068885,
     "ast_hash": "b07e47b8bb1f6a7e12abe19f50a6edf8",
     "semantic_hash": ""
   },
   "GEMINI.md": {
-    "mtime": 1784421342.5776284,
+    "mtime": 1784423861.0714738,
     "ast_hash": "b07e47b8bb1f6a7e12abe19f50a6edf8",
     "semantic_hash": ""
   },
@@ -382,6 +382,11 @@
   "test4/notes.txt": {
     "mtime": 1784415705.166519,
     "ast_hash": "c645e38f0a415305ae42ae290a9b32f7",
+    "semantic_hash": ""
+  },
+  "mcp-server-2/src/color.ts": {
+    "mtime": 1784423789.2445185,
+    "ast_hash": "024d9f0eb5abdffeb4e717fa54463a72",
     "semantic_hash": ""
   }
 }
