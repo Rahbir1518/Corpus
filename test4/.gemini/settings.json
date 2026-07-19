@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "corpus": {
+      "command": "corpus-mcp-v2",
+      "args": [],
+      "env": {
+        "CORPUS_PROJECT": "test4",
+        "CORPUS_AGENT": "gemini",
+        "CORPUS_WORKSPACE": "5905c282-be56-494f-993f-f0f326333981"
+      }
+    }
+  }
+}

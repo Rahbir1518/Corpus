@@ -31,6 +31,29 @@ const sessionLabel = `${new Date().toISOString().slice(0, 16).replace("T", " ")}
 
 const server = new McpServer({ name: "corpus-v2", version: "0.1.0" });
 
+/**
+ * Uniform answer for every memory tool while the repo is in no workspace (the state
+ * `corpus-disconnect` puts it in). isError so the calling model treats it as "nothing was
+ * read or written", never as "no memory yet, work normally" — the workspace this repo
+ * left may hold plenty. stderr alone can't carry this: MCP clients don't show it.
+ */
+function disconnectedResult() {
+  return {
+    isError: true as const,
+    content: [
+      {
+        type: "text" as const,
+        text:
+          `Corpus memory is OFF — ${store.reason}.\n\n` +
+          `Nothing was read or written. This repo is not part of any workspace. ` +
+          `Tell the user to pick one and restart the session:\n` +
+          `- corpus-connect <workspace-id> — reconnect to a previous workspace\n` +
+          `- corpus-setup — create a new workspace`,
+      },
+    ],
+  };
+}
+
 async function getOrCreateState(): Promise<string> {
   const existing = await store.getDocument(STATE_DOC);
   if (existing) return existing;
@@ -42,7 +65,7 @@ async function getOrCreateState(): Promise<string> {
 server.registerTool(
   "corpus_load",
   {
-    title: "Load project memory",
+    title: "Corpus — load project memory",
     description:
       "Fetch this project's memory: current status, in-progress work, decisions and their " +
       "reasons, and exact next steps — written by previous sessions (possibly in other " +
@@ -59,6 +82,7 @@ server.registerTool(
     },
   },
   async ({ document }) => {
+    if (store.mode === "disconnected") return disconnectedResult();
     const name = document ?? STATE_DOC;
     const content = await store.getDocument(name);
     if (!content) {
@@ -73,7 +97,14 @@ server.registerTool(
       return { content: [{ type: "text", text }] };
     }
     const tokens = estimateTokens(content);
-    await store.logUsage({ tool: "corpus_load", tokens, agent: process.env.CORPUS_AGENT });
+    const baselineTokens = await store.getCorpusTokenTotal();
+    await store.logUsage({
+      tool: "corpus_load",
+      tokens,
+      agent: process.env.CORPUS_AGENT,
+      baselineTokens,
+      baselineMethod: "full_corpus",
+    });
     const footer = `\n\n---\n_Corpus: ~${tokens} tokens (estimate) · store: ${store.mode} · project: ${project}_`;
     return { content: [{ type: "text", text: content + footer }] };
   },
@@ -82,7 +113,7 @@ server.registerTool(
 server.registerTool(
   "corpus_log",
   {
-    title: "Log a step to project memory",
+    title: "Corpus — log a step to project memory",
     description:
       "Append one line to the project's session ledger. Call this IMMEDIATELY after each of " +
       "these moments: you finish editing a file, you fix a bug, you make a design decision " +
@@ -96,6 +127,7 @@ server.registerTool(
     },
   },
   async ({ type, summary, files }) => {
+    if (store.mode === "disconnected") return disconnectedResult();
     let state = await getOrCreateState();
     state = ensureSessionHeading(state, sessionLabel);
     const fileNote = files?.length ? ` (files: ${files.join(", ")})` : "";
@@ -109,14 +141,16 @@ server.registerTool(
     }
     await store.putDocument(STATE_DOC, state);
     await store.logUsage({ tool: "corpus_log", tokens: estimateTokens(state), agent: process.env.CORPUS_AGENT });
-    return { content: [{ type: "text", text: `Logged [${type}] to "${project}" (${store.mode}).` }] };
+    return {
+      content: [{ type: "text", text: `Logged [${type}] to "${project}" (${store.mode}).` }],
+    };
   },
 );
 
 server.registerTool(
   "corpus_save",
   {
-    title: "Save session state to project memory",
+    title: "Corpus — save session state to project memory",
     description:
       "Write a structured save-state so ANY future session — in any tool, by any teammate — " +
       "can continue this work cold. Call this when: the user says 'save state', 'done for " +
@@ -142,6 +176,7 @@ server.registerTool(
     },
   },
   async ({ summary, completed, inProgress, decisions, nextSteps }) => {
+    if (store.mode === "disconnected") return disconnectedResult();
     // Validation is the quality lever (ARCHITECTURE.md): reject vague in-progress items.
     const vague = inProgress.filter((i) => !/[\w-]+\.[a-zA-Z]{1,4}|\(\)/.test(i));
     if (vague.length) {
@@ -177,13 +212,20 @@ server.registerTool(
     await store.putDocument(STATE_DOC, state);
     await store.logUsage({ tool: "corpus_save", tokens: estimateTokens(state), agent: process.env.CORPUS_AGENT });
 
+    // Reach is a property of the backend, not of the save succeeding. Promising a handoff
+    // the store cannot deliver would misrepresent a machine-local save as a team one.
+    const reach =
+      store.mode === "supabase"
+        ? "Any session in any tool can now continue via corpus_load."
+        : "Stored on this machine only — teammates and other machines cannot read it.";
+
     return {
       content: [
         {
           type: "text",
           text:
-            `Saved state for "${project}" (${store.mode}). Any session in any tool can now ` +
-            `continue via corpus_load.\n\n${getSection(state, "Status")}\n\n## Next steps\n` +
+            `Saved state for "${project}" (${store.mode}). ${reach}\n\n` +
+            `${getSection(state, "Status")}\n\n## Next steps\n` +
             getSection(state, "Next steps"),
         },
       ],
@@ -192,9 +234,9 @@ server.registerTool(
 );
 
 server.registerTool(
-  "corpus_code_query",
+  "codebase_search",
   {
-    title: "Query the code graph",
+    title: "Corpus — search the codebase structure",
     description:
       "Ask a natural-language question about the codebase's structure and get back the " +
       "relevant nodes, source locations, and connections. Use this BEFORE your first grep " +
@@ -213,10 +255,15 @@ server.registerTool(
   },
   async ({ question, budget }) => {
     const r = queryGraph(process.cwd(), question, budget);
+    // Ledger label differs from the MCP tool name on purpose: usage_events.tool has a
+    // CHECK constraint allowing only corpus_load/corpus_log/corpus_save/corpus_code_query.
+    const baselineTokens = r.ok ? estimateFullGraphTokens(process.cwd()) : null;
     await store.logUsage({
       tool: "corpus_code_query",
       tokens: estimateTokens(r.text),
       agent: process.env.CORPUS_AGENT,
+      baselineTokens,
+      baselineMethod: "full_graph_sources",
     });
     return { content: [{ type: "text", text: r.text }], ...(r.ok ? {} : { isError: false }) };
   },

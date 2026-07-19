@@ -15,6 +15,7 @@ import { spawnSync } from "node:child_process";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
+import { estimateTokens } from "./tokens.js";
 
 export interface GraphifyResult {
   ok: boolean;
@@ -63,6 +64,47 @@ function run(bin: string, args: string[], cwd: string, timeout: number) {
 
 function graphExists(root: string): boolean {
   return fs.existsSync(path.join(root, "graphify-out", "graph.json"));
+}
+
+let fullGraphTokenCache: { root: string; mtimeMs: number; total: number } | null = null;
+
+/**
+ * Real (not estimated-multiplier) size of every source file the code graph indexes, in
+ * tokens — the measured "what a grep-and-read spiral across this codebase would have
+ * cost" baseline for corpus_code_query. Reads actual files on disk, not a guess. Cached
+ * per graph.json build (mtime-keyed) since it doesn't change between queries in a
+ * session. Never throws — returns null if the graph or any source file is unreadable, so
+ * a telemetry hiccup never fabricates a number.
+ */
+export function estimateFullGraphTokens(root: string): number | null {
+  const graphPath = path.join(root, "graphify-out", "graph.json");
+  try {
+    const stat = fs.statSync(graphPath);
+    if (fullGraphTokenCache && fullGraphTokenCache.root === root && fullGraphTokenCache.mtimeMs === stat.mtimeMs) {
+      return fullGraphTokenCache.total;
+    }
+
+    const graph = JSON.parse(fs.readFileSync(graphPath, "utf8")) as {
+      nodes?: Array<{ source_file?: string }>;
+    };
+    const sourceFiles = new Set(
+      (graph.nodes ?? []).map((n) => n.source_file).filter((f): f is string => !!f),
+    );
+
+    let total = 0;
+    for (const rel of sourceFiles) {
+      try {
+        total += estimateTokens(fs.readFileSync(path.join(root, rel), "utf8"));
+      } catch {
+        // File moved/deleted since the graph was built — skip, don't fail the whole total.
+      }
+    }
+
+    fullGraphTokenCache = { root, mtimeMs: stat.mtimeMs, total };
+    return total;
+  } catch {
+    return null;
+  }
 }
 
 /** Build/refresh the graph. Deterministic tree-sitter extraction — no LLM, no tokens. */
@@ -179,5 +221,25 @@ export function queryGraph(root: string, question: string, budget: number): Grap
   if (!out) {
     return { ok: false, text: "Graphify returned no results for that question. Fall back to normal exploration." };
   }
+
+  // "what calls X" phrasing makes graphify's own heuristic narrow traversal to
+  // context=call edges only. But graphify's extractor records some real call sites
+  // (e.g. a function only ever referenced via its import binding) as context=import
+  // instead of context=call, so the narrowed query silently drops the caller. Since
+  // graphify reports when it applied this heuristic (`Context: call (heuristic)` in
+  // its header), detect that case and retry once with both contexts explicit.
+  if (out.includes("Context: call (heuristic)")) {
+    const broadened = run(
+      bin,
+      ["query", question, "--budget", String(budget), "--context", "call", "--context", "import"],
+      root,
+      30_000,
+    );
+    const broadenedOut = broadened.stdout?.trim();
+    if (!broadened.error && broadened.status === 0 && broadenedOut) {
+      return { ok: true, text: broadenedOut };
+    }
+  }
+
   return { ok: true, text: out };
 }

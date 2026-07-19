@@ -24,7 +24,7 @@ Five MCP tools, usable from any MCP client:
   session. Crash-safe, never stale — this is the difference from checkpoint-based tools.
 - **`corpus_save`** — structured save-state for handoffs: any tool, any teammate, any time.
   Vague saves (no file/function references) are rejected at the schema level.
-- **`corpus_code_query`** — natural-language questions about code structure, answered from
+- **`codebase_search`** — natural-language questions about code structure, answered from
   a [Graphify](https://github.com/safishamsi/graphify) graph in ~2K tokens instead of a
   40K-token grep-and-read spiral.
 
@@ -35,7 +35,7 @@ Five MCP tools, usable from any MCP client:
   Setup, usage, and handoff-testing instructions: [mcp-server-2/README.md](mcp-server-2/README.md).
 - **[frontend/](frontend/)** — Next.js + Auth0 dashboard: browse projects → their
   documentation pages, token-savings counter, graph views.
-- **[supabase/](supabase/)** — SQL for the documentation DB ([documents.sql](supabase/documents.sql)).
+- **[supabase/](supabase/)** — SQL for the documentation DB ([schema.sql](supabase/schema.sql)).
 - **[REQUIREMENTS.md](REQUIREMENTS.md)** — prerequisites, env var reference, verification
   steps, troubleshooting. Start here if you are setting up on a new machine.
 
@@ -45,13 +45,23 @@ Five MCP tools, usable from any MCP client:
 
 ## Quick start
 
-Needs **Node ≥ 18** and any MCP client. No keys, no database, no network.
+Needs **Node ≥ 18** and any MCP client. No keys, no database, no network. One command
+installs everything (clone, build, PATH link, optional Graphify):
+
+```powershell
+# Windows
+powershell -ExecutionPolicy Bypass -c "irm https://raw.githubusercontent.com/Rahbir1518/Corpus/main/install.ps1 | iex"
+```
 
 ```bash
-cd mcp-server-2
-npm install    # auto-builds via the prepare hook
-npm link       # puts `corpus-setup` on your PATH
+# macOS / Linux
+curl -fsSL https://raw.githubusercontent.com/Rahbir1518/Corpus/main/install.sh | bash
+```
 
+(Already cloned? `.\install.ps1` / `./install.sh` from the repo root does the same.
+Re-run anytime to update.) Then the one per-project step:
+
+```bash
 cd your-project
 corpus-setup   # registers the MCP server + installs agent instructions (idempotent)
 ```
@@ -59,15 +69,20 @@ corpus-setup   # registers the MCP server + installs agent instructions (idempot
 Then start your agent in that project and work normally. Say **"save state"** before you
 stop; say **"continue where the last session left off"** in any tool, any time later.
 
+> **Scope:** the commands are global (PATH), but MCP wiring is **per-directory** — an
+> agent only sees Corpus if its session is opened in a directory `corpus-setup` ran in.
+> Commit the generated configs to share the setup with teammates. `corpus-ls` shows every
+> workspace your machine has access to, from anywhere.
+
 Verify it works — `npm run smoke` in `mcp-server-2/` drives the full loop over real stdio,
 then read the memory yourself at `~/.corpus/<project>/state.md`. It is plain markdown.
 
 **Optional extras** — each degrades gracefully if skipped:
 
 - **Code queries:** `python -m pip install graphifyy` (two ys).
-- **Team mode:** run [supabase/documents.sql](supabase/documents.sql), then set
+- **Team mode:** run [supabase/schema.sql](supabase/schema.sql), then set
   `SUPABASE_URL` + `SUPABASE_SERVICE_ROLE_KEY` in `mcp-server-2/.env.local`. Teammates
-  point at the same DB and `CORPUS_PROJECT`.
+  join with `corpus-connect <workspace-id>` (the id `corpus-setup` prints).
 - **Dashboard:** `cd frontend && npm install && npm run dev` (Node ≥ 20.9).
 
 **Full prerequisites, every env var, and troubleshooting: [REQUIREMENTS.md](REQUIREMENTS.md).**

@@ -1,8 +1,7 @@
 # corpus:begin
 [mcp_servers.corpus]
-command = "node"
+command = "corpus-mcp-v2"
 args = ["/Users/nishchayranjan_1/Desktop/HackThe6ix/Corpus/mcp-server-2/dist/index.js"]
-
 [mcp_servers.corpus.env]
 CORPUS_PROJECT = "mcp-server-2"
 CORPUS_AGENT = "codex"

@@ -1,11 +1,11 @@
 # Graph Report - Corpus  (2026-07-18)
 
 ## Corpus Check
-- 37 files · ~11,602 words
+- 37 files · ~12,103 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 270 nodes · 301 edges · 22 communities (19 shown, 3 thin omitted)
+- 275 nodes · 312 edges · 23 communities (20 shown, 3 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS
 - Token cost: 0 input · 0 output
 
@@ -37,6 +37,7 @@
 - eslint.config.mjs
 - next.config.ts
 - postcss.config.mjs
+- graphify.ts
 
 ## God Nodes (most connected - your core abstractions)
 1. `compilerOptions` - 16 edges
@@ -44,11 +45,11 @@
 3. `Corpus — Architecture (source of truth)` - 9 edges
 4. `include` - 7 edges
 5. `LocalStore` - 7 edges
-6. `DocumentStore` - 6 edges
-7. `SupabaseStore` - 6 edges
-8. `Corpus v2 — MCP server` - 6 edges
-9. `auth0` - 5 edges
-10. `getGraph()` - 5 edges
+6. `queryGraph()` - 6 edges
+7. `DocumentStore` - 6 edges
+8. `SupabaseStore` - 6 edges
+9. `Corpus v2 — MCP server` - 6 edges
+10. `auth0` - 5 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `GET()` --calls--> `getGraph()`  [EXTRACTED]
@@ -65,7 +66,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (22 total, 3 thin omitted)
+## Communities (23 total, 3 thin omitted)
 
 ### Community 0 - "package.json"
 Cohesion: 0.08
@@ -76,8 +77,8 @@ Cohesion: 0.08
 Nodes (23): @auth0/nextjs-auth0, dependencies, @auth0/nextjs-auth0, gsap, next, react, react-dom, react-force-graph-2d (+15 more)
 
 ### Community 2 - "index.ts"
-Cohesion: 0.17
-Nodes (17): appendToSection(), ensureSessionHeading(), getSection(), replaceSection(), SectionName, sectionRange(), SECTIONS, stampUpdated() (+9 more)
+Cohesion: 0.20
+Nodes (15): appendToSection(), ensureSessionHeading(), getSection(), replaceSection(), SectionName, sectionRange(), SECTIONS, stampUpdated() (+7 more)
 
 ### Community 3 - "graph.ts"
 Cohesion: 0.16
@@ -128,8 +129,8 @@ Cohesion: 0.29
 Nodes (4): client, dir, h, transport
 
 ### Community 15 - "setup.ts"
-Cohesion: 0.33
-Nodes (4): mcpConfig, mcpPath, serverPath, target
+Cohesion: 0.29
+Nodes (5): g, mcpConfig, mcpPath, serverPath, target
 
 ### Community 16 - "corpus"
 Cohesion: 0.40
@@ -143,8 +144,12 @@ Nodes (3): instrumentSerif, inter, metadata
 Cohesion: 0.50
 Nodes (3): Deploy on Vercel, Getting Started, Learn More
 
+### Community 22 - "graphify.ts"
+Cohesion: 0.57
+Nodes (6): buildGraph(), graphExists(), GraphifyResult, queryGraph(), resolveBin(), run()
+
 ## Knowledge Gaps
-- **135 isolated node(s):** `node`, `CORPUS_PROJECT`, `CORPUS_AGENT`, `Line`, `SCRIPT` (+130 more)
+- **136 isolated node(s):** `node`, `CORPUS_PROJECT`, `CORPUS_AGENT`, `Line`, `SCRIPT` (+131 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **3 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
@@ -152,11 +157,11 @@ Nodes (3): Deploy on Vercel, Getting Started, Learn More
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `devDependencies` connect `devDependencies` to `dependencies`?**
-  _High betweenness centrality (0.016) - this node is a cross-community bridge._
+  _High betweenness centrality (0.015) - this node is a cross-community bridge._
 - **Why does `compilerOptions` connect `compilerOptions` to `include`?**
   _High betweenness centrality (0.009) - this node is a cross-community bridge._
 - **What connects `node`, `CORPUS_PROJECT`, `CORPUS_AGENT` to the rest of the system?**
-  _135 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _136 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `package.json` be split into smaller, more focused modules?**
   _Cohesion score 0.07692307692307693 - nodes in this community are weakly interconnected._
 - **Should `dependencies` be split into smaller, more focused modules?**

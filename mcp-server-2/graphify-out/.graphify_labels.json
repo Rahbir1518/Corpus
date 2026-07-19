@@ -1,0 +1,20 @@
+{
+  "0": "index.ts",
+  "1": "package.json",
+  "2": "store.ts",
+  "3": "status.ts",
+  "4": "clients.ts",
+  "5": "compilerOptions",
+  "6": "dependencies",
+  "7": "devDependencies",
+  "8": "Corpus v2 — MCP server",
+  "9": "smoke.ts",
+  "10": "LocalStore",
+  "11": "corpus",
+  "12": "AGENTS.md",
+  "13": "CLAUDE.md",
+  "14": "GEMINI.md",
+  "15": "ls.ts",
+  "16": "DisconnectedStore",
+  "17": "backup-tmp.mjs"
+}

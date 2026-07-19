@@ -1,7 +1,7 @@
 {
   "mcpServers": {
     "corpus": {
-      "command": "node",
+      "command": "corpus-mcp-v2",
       "args": [
         "/Users/nishchayranjan_1/Desktop/HackThe6ix/Corpus/mcp-server-2/dist/index.js"
       ],
