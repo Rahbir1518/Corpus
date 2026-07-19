@@ -169,7 +169,7 @@ export default function DashboardClient({ user, workspaces: initialWorkspaces, u
             priority
           />
           <span className="font-display text-3xl tracking-tight">
-            Corpus<sup className="text-xs">®</sup>
+            Corpus
           </span>
         </Link>
 
@@ -334,7 +334,7 @@ export default function DashboardClient({ user, workspaces: initialWorkspaces, u
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-10 pb-10 border-b border-white/5">
               <div>
                 <p className="font-display text-3xl tracking-tight mb-3">
-                  Corpus<sup className="text-xs">®</sup>
+                  Corpus
                 </p>
                 <p className="text-sm text-muted-foreground max-w-xs leading-relaxed">
                   A portable memory layer for every model you use.
@@ -342,7 +342,6 @@ export default function DashboardClient({ user, workspaces: initialWorkspaces, u
               </div>
             </div>
             <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-8 text-xs text-muted-foreground">
-              <p>&copy; {new Date().getFullYear()} Corpus. All rights reserved.</p>
               <p className="uppercase tracking-[0.15em]">Never explain yourself twice</p>
             </div>
           </div>
