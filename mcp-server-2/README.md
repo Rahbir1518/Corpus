@@ -9,21 +9,27 @@ Design source of truth: [../ARCHITECTURE.md](../ARCHITECTURE.md).
 
 Requires **Node ≥ 18**. Full prerequisites and env reference: [../REQUIREMENTS.md](../REQUIREMENTS.md).
 
-## Setup (per project, one time)
+## Setup
+
+Once per machine — the installer at the repo root does the clone/`npm install`/
+`npm link`/Graphify dance in one command ([../README.md](../README.md#quick-start) has
+the copy-paste one-liners):
+
+```powershell
+powershell -ExecutionPolicy Bypass -c "irm https://raw.githubusercontent.com/Rahbir1518/Corpus/main/install.ps1 | iex"   # Windows
+```
+```bash
+curl -fsSL https://raw.githubusercontent.com/Rahbir1518/Corpus/main/install.sh | bash   # macOS / Linux
+```
+
+Then once per project:
 
 ```bash
-# clone the repo, then from this directory, once:
-npm install        # auto-builds via the prepare hook
-npm link           # puts `corpus-setup` and `corpus-mcp-v2` on your PATH
-
-# optional: enable corpus_code_query (package name has two ys)
-python -m pip install graphifyy
-
-# then, from THE PROJECT YOU WANT MEMORY IN:
+# from THE PROJECT YOU WANT MEMORY IN:
 corpus-setup
 ```
 
-Graphify is only required for `corpus_code_query`; the memory and handoff tools work without
+Graphify is only required for `codebase_search`; the memory and handoff tools work without
 it. The Python package is named `graphifyy`, but it installs the `graphify` command.
 `corpus-setup` builds the code graph automatically if Graphify is installed (finding it even
 when pip's Scripts dir isn't on PATH; `GRAPHIFY_PATH` overrides). If the graph is missing at
@@ -57,6 +63,24 @@ of stopping the server.
 Then start your agent in that project and approve the `corpus` server. That's the whole
 install. Verify with `/mcp` in Claude Code or Codex, `/mcp list` in Gemini CLI.
 
+> **Scope — read this once and the setup model makes sense.** `npm link` makes the
+> *commands* global (runnable from any terminal), but MCP *wiring* is per-directory:
+> agents only discover servers from config files in the directory a session is opened
+> in. A session opened in an un-setup directory has no Corpus, no matter what any
+> terminal's cwd is. Run `corpus-setup` per project; commit the configs so teammates'
+> agents pick the server up automatically. `corpus-ls` lists every workspace this
+> machine has access to, from anywhere.
+
+## Commands (global, from `npm link`)
+
+| Command | Does |
+|---|---|
+| `corpus-setup` | Per-project install: creates a workspace, wires all three clients, installs instruction blocks, builds the graph. Idempotent. |
+| `corpus-connect <id>` | Joins a workspace someone shared with you (writes the id to every wired client). |
+| `corpus-disconnect` | Leaves ALL workspaces — memory is OFF until you connect/setup again. Deletes nothing. |
+| `corpus-status` | Read-only diagnostic for the current directory: wiring, workspace, store reachability, graph. |
+| `corpus-ls` | Every workspace this machine has access to — created by you or shared with you — and which is wired here. |
+
 > **Codex and project-scoped config:** Codex reads `.codex/config.toml` only in projects you
 > have marked trusted. If `corpus` does not show up under `/mcp`, copy the marker-guarded
 > block into `~/.codex/config.toml` instead — it is valid unchanged. Gemini CLI likewise
@@ -73,7 +97,7 @@ install. Verify with `/mcp` in Claude Code or Codex, `/mcp list` in Gemini CLI.
 | `corpus_load` | Session start; "continue where we left off" | Fetches status, decisions, next steps |
 | `corpus_log` | After each edit/bugfix/decision | Appends one ledger line (crash-safety) |
 | `corpus_save` | Task done / "save state" / handoff | Structured state dump; vague saves rejected |
-| `corpus_code_query` | Instead of grep/read exploration | Natural-language question → Graphify graph answer |
+| `codebase_search` | Instead of grep/read exploration | Natural-language question → Graphify graph answer |
 
 ## Storage modes
 
@@ -82,12 +106,18 @@ install. Verify with `/mcp` in Claude Code or Codex, `/mcp list` in Gemini CLI.
 - **Team (Supabase):** set `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` — in
   `mcp-server-2/.env.local` (preferred; git-ignored, keeps keys out of a tracked
   `.mcp.json`) or in the server's `env` block in `.mcp.json`. Real env vars win over the
-  file. Same documents, shared workspace, dashboard-browsable. Requires the `documents`
-  table from [../supabase/documents.sql](../supabase/documents.sql).
+  file. Same documents, shared workspace, dashboard-browsable. Requires the tables from
+  [../supabase/schema.sql](../supabase/schema.sql); DBs created before workspace-id
+  keying also run [../supabase/migrate-documents-to-workspace-id.sql](../supabase/migrate-documents-to-workspace-id.sql)
+  once (the server detects either schema and warns until migrated).
+- **Disconnected (memory OFF):** any state where the repo points at a workspace it can't
+  reach — after `corpus-disconnect`, with a malformed workspace id, or with a workspace id
+  but missing credentials. Memory tools refuse to read or write and say how to fix it
+  (`corpus-connect <id>` / `corpus-setup`). There is deliberately no local fallback here:
+  it would create a second version of the memory that diverges from the workspace.
 
-Copy [.env.local.example](.env.local.example) to get started. Both Supabase vars must be
-set — one alone silently falls back to local mode. On startup the server logs which
-backend it got: `[corpus-v2] ready · project="…" · store=supabase|local`.
+Copy [.env.local.example](.env.local.example) to get started. On startup the server logs
+which backend it got: `[corpus-v2] ready · project="…" · store=supabase|local|disconnected`.
 
 Optional env: `CORPUS_PROJECT` (project id; defaults to the working directory's folder
 name — set it explicitly so differently-named clones share one memory), `CORPUS_AGENT`

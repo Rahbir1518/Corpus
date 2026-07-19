@@ -1,0 +1,4 @@
+Test note created 2026-07-18.
+
+Scratch file for exercising the Corpus log/save flow on the
+connect-disconnect branch.

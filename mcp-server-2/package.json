@@ -3,7 +3,14 @@
   "version": "0.1.0",
   "description": "Corpus v2 — markdown-first, local-first project memory for AI agents (MCP server). No DB, no API keys.",
   "type": "module",
-  "bin": { "corpus-mcp-v2": "dist/index.js", "corpus-setup": "dist/setup.js" },
+  "bin": {
+    "corpus-mcp-v2": "dist/index.js",
+    "corpus-setup": "dist/setup.js",
+    "corpus-connect": "dist/connect.js",
+    "corpus-disconnect": "dist/disconnect.js",
+    "corpus-status": "dist/status.js",
+    "corpus-ls": "dist/ls.js"
+  },
   "main": "dist/index.js",
   "files": ["dist", "README.md"],
   "engines": { "node": ">=18" },
