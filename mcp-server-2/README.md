@@ -80,6 +80,33 @@ install. Verify with `/mcp` in Claude Code or Codex, `/mcp list` in Gemini CLI.
 | `corpus-disconnect` | Leaves ALL workspaces — memory is OFF until you connect/setup again. Deletes nothing. |
 | `corpus-status` | Read-only diagnostic for the current directory: wiring, workspace, store reachability, graph. |
 | `corpus-ls` | Every workspace this machine has access to — created by you or shared with you — and which is wired here. |
+| `corpus-hook` | Not run by hand — client hook systems invoke it (see Hooks below). |
+
+## Hooks (installed by `corpus-setup`)
+
+Instruction files advocate for the tools at session start; hooks advocate **at the
+moment of decision**. `corpus-setup` installs both:
+
+| Client | Event | What fires |
+|---|---|---|
+| Claude Code | `SessionStart` | Injects the memory brief (local `state.md` excerpt, or a `corpus_load` pointer) before the first turn — no tool call needed. |
+| Claude Code | `PreToolUse` (`Grep\|Glob\|Read`) | **Denies** the session's first raw search and redirects to `codebase_search`. Retry is always allowed; every later search is allowed. |
+| Claude Code | `PostToolUse` (edits / corpus tools) | Silently tracks which files changed and whether they were logged. No stdout, so zero tokens. |
+| Claude Code | `Stop` | If the session edited files and never called `corpus_log`, **blocks the turn once** and asks for it. |
+| Gemini CLI | `BeforeTool` | Same first-search redirect (best-effort — schema newer than Claude's). |
+| Codex CLI | `PreToolUse` | Same, before shell calls (best-effort; same trust gate as `.codex/config.toml`). |
+| Antigravity | — | No hook system; gets the standing-instruction block as `.agents/rules/corpus.md`. |
+
+**Why deny instead of remind.** An advisory line gets read and ignored — measured, in
+this repo's own sessions. A deny cannot be ignored: the call does not happen and the
+model must respond to the reason.
+
+**Why this cannot become annoying.** Every blocking path fires **at most once per
+session** and then disables itself (state in `~/.corpus/tmp/`, self-cleaning after
+48h). The search redirect never fires without a graph present and never fires on a
+corpus tool. The Stop check never fires on a turn with no edits, and honors
+`stop_hook_active` so a blocked turn can always finish. Set `CORPUS_STRICT=0` to keep
+the silent bookkeeping and drop all blocking. Hook failures degrade to silence.
 
 > **Codex and project-scoped config:** Codex reads `.codex/config.toml` only in projects you
 > have marked trusted. If `corpus` does not show up under `/mcp`, copy the marker-guarded

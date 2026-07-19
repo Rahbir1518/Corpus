@@ -12,6 +12,7 @@
  * Read-only, like corpus-status: safe to run anytime, degrades to cached names offline.
  */
 import { readAllClients } from "./clients.js";
+import { bad, cmd, heading, hint, ok, value, warn } from "./color.js";
 import { REGISTRY_FILE, listKnownWorkspaces, type KnownWorkspace } from "./registry.js";
 import { findWorkspace, supabaseConfigured } from "./workspace.js";
 
@@ -31,10 +32,10 @@ const unlisted: KnownWorkspace[] = [...hereIds]
 const all = [...known, ...unlisted];
 
 if (!all.length) {
-  console.log(`No workspaces known to this machine yet.
+  console.log(`${warn("No workspaces known to this machine yet.")}
 
-Workspaces appear here when you create one (corpus-setup) or join one a teammate
-shared (corpus-connect <id>). Rolodex: ${REGISTRY_FILE}`);
+${hint("Workspaces appear here when you create one")} (${cmd("corpus-setup")}) ${hint("or join one a")}
+${hint("teammate shared")} (${cmd("corpus-connect <id>")}). ${hint(`Rolodex: ${REGISTRY_FILE}`)}`);
   process.exit(0);
 }
 
@@ -42,38 +43,45 @@ shared (corpus-connect <id>). Rolodex: ${REGISTRY_FILE}`);
 // workspace may have been deleted since. Offline, cached names still beat bare uuids.
 const online = supabaseConfigured();
 if (!online) {
-  console.log(`! Supabase is not configured — showing cached names, not verifying against the DB.`);
+  console.log(
+    warn(`! Supabase is not configured — showing cached names, not verifying against the DB.`),
+  );
 }
 
-console.log(`\nWorkspaces this machine has access to (${REGISTRY_FILE})\n`);
+console.log(`\n${heading("Workspaces this machine has access to")} ${hint(`(${REGISTRY_FILE})`)}\n`);
 
 for (const w of all) {
-  let label = w.name ? `${w.name} (slug: ${w.slug ?? "?"})` : "(name unknown)";
+  let label = w.name ? `${w.name} ${hint(`(slug: ${w.slug ?? "?"})`)}` : hint("(name unknown)");
   let gone = false;
   if (online) {
     try {
       const ws = await findWorkspace(w.id);
-      if (ws) label = `${ws.name} (slug: ${ws.slug})`;
+      if (ws) label = `${ws.name} ${hint(`(slug: ${ws.slug})`)}`;
       else {
         gone = true;
-        label = w.name ? `${w.name} — NO LONGER EXISTS in the DB` : "NO LONGER EXISTS in the DB";
+        label = w.name
+          ? `${w.name} — ${bad("NO LONGER EXISTS in the DB")}`
+          : bad("NO LONGER EXISTS in the DB");
       }
     } catch (err) {
-      label = `${label} — lookup failed: ${err instanceof Error ? err.message : err}`;
+      label = `${label} — ${bad(`lookup failed: ${err instanceof Error ? err.message : err}`)}`;
     }
   }
 
-  const mark = hereIds.has(w.id) ? "*" : " ";
+  // The current directory's workspace is the one the user is almost always looking for,
+  // so it gets the only strong color in the list.
+  const here = hereIds.has(w.id);
+  const mark = here ? ok("*") : " ";
   const origin = w.origin === "created" ? "created by you" : "shared with you";
-  console.log(`${mark} ${w.id}`);
+  console.log(`${mark} ${here ? ok(w.id) : value(w.id)}`);
   console.log(`    ${label}`);
-  console.log(`    ${origin}${w.addedAt ? ` · since ${w.addedAt}` : ""}`);
-  if (w.repos.length) console.log(`    repos on this machine: ${w.repos.join(", ")}`);
-  if (!gone) console.log(`    join a repo to it:      corpus-connect ${w.id}`);
+  console.log(hint(`    ${origin}${w.addedAt ? ` · since ${w.addedAt}` : ""}`));
+  if (w.repos.length) console.log(hint(`    repos on this machine: ${w.repos.join(", ")}`));
+  if (!gone) console.log(`    ${hint("join a repo to it:")}      ${cmd(`corpus-connect ${w.id}`)}`);
   console.log("");
 }
 
-console.log(`* = wired in the current directory (${target})`);
+console.log(hint(`${ok("*")} = wired in the current directory (${target})`));
 if (!hereIds.size) {
-  console.log(`The current directory is not connected to any workspace.`);
+  console.log(warn(`The current directory is not connected to any workspace.`));
 }

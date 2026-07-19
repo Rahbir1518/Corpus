@@ -255,9 +255,9 @@ server.registerTool(
   },
   async ({ question, budget }) => {
     const r = queryGraph(process.cwd(), question, budget);
+    const baselineTokens = r.ok ? estimateFullGraphTokens(process.cwd()) : null;
     // Ledger label differs from the MCP tool name on purpose: usage_events.tool has a
     // CHECK constraint allowing only corpus_load/corpus_log/corpus_save/corpus_code_query.
-    const baselineTokens = r.ok ? estimateFullGraphTokens(process.cwd()) : null;
     await store.logUsage({
       tool: "corpus_code_query",
       tokens: estimateTokens(r.text),

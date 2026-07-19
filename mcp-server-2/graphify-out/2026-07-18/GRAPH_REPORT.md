@@ -1,16 +1,16 @@
 # Graph Report - mcp-server-2  (2026-07-18)
 
 ## Corpus Check
-- 20 files · ~9,107 words
+- 26 files · ~14,824 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 169 nodes · 226 edges · 15 communities (11 shown, 4 thin omitted)
+- 229 nodes · 339 edges · 19 communities (13 shown, 6 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `51207698`
+- Built from commit: `cf313e51`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -30,89 +30,111 @@
 - AGENTS.md
 - CLAUDE.md
 - GEMINI.md
+- ls.ts
+- DisconnectedStore
+- backup-tmp.mjs
+- hookwire.ts
 
 ## God Nodes (most connected - your core abstractions)
 1. `compilerOptions` - 11 edges
-2. `LocalStore` - 8 edges
-3. `readClient()` - 7 edges
-4. `patchWorkspace()` - 7 edges
-5. `DocumentStore` - 7 edges
-6. `SupabaseStore` - 7 edges
-7. `bin` - 6 edges
-8. `queryGraph()` - 6 edges
-9. `Corpus v2 — MCP server` - 6 edges
-10. `scripts` - 5 edges
+2. `readClient()` - 9 edges
+3. `DocumentStore` - 9 edges
+4. `LocalStore` - 9 edges
+5. `SupabaseStore` - 9 edges
+6. `DisconnectedStore` - 9 edges
+7. `bin` - 8 edges
+8. `patchWorkspace()` - 7 edges
+9. `estimateTokens()` - 7 edges
+10. `wireRepo()` - 7 edges
 
 ## Surprising Connections (you probably didn't know these)
+- `resolveProject()` --calls--> `readClient()`  [EXTRACTED]
+  src/hooks.ts → src/clients.ts
+- `wireRepo()` --calls--> `registerClient()`  [EXTRACTED]
+  src/wire.ts → src/clients.ts
 - `getOrCreateState()` --calls--> `stateTemplate()`  [EXTRACTED]
   src/index.ts → src/document.ts
+- `estimateFullGraphTokens()` --calls--> `estimateTokens()`  [EXTRACTED]
+  src/graphify.ts → src/tokens.ts
+- `findWorkspace()` --calls--> `isWorkspaceId()`  [EXTRACTED]
+  src/workspace.ts → src/store.ts
 
 ## Import Cycles
 - None detected.
 
-## Communities (15 total, 4 thin omitted)
+## Communities (19 total, 6 thin omitted)
 
 ### Community 0 - "index.ts"
-Cohesion: 0.15
-Nodes (21): appendToSection(), ensureSessionHeading(), getSection(), replaceSection(), SectionName, sectionRange(), SECTIONS, stampUpdated() (+13 more)
+Cohesion: 0.14
+Nodes (24): appendToSection(), ensureSessionHeading(), getSection(), replaceSection(), SectionName, sectionRange(), SECTIONS, stampUpdated() (+16 more)
 
 ### Community 1 - "package.json"
-Cohesion: 0.09
-Nodes (21): bin, corpus-connect, corpus-disconnect, corpus-mcp-v2, corpus-setup, corpus-status, description, engines (+13 more)
-
-### Community 2 - "store.ts"
-Cohesion: 0.12
-Nodes (9): before, connected, results, target, createStore(), DocumentStore, resolveProject(), resolveWorkspace() (+1 more)
+Cohesion: 0.06
+Nodes (30): @modelcontextprotocol/sdk, bin, corpus-connect, corpus-disconnect, corpus-hook, corpus-ls, corpus-mcp-v2, corpus-setup (+22 more)
 
 ### Community 3 - "status.ts"
-Cohesion: 0.17
-Nodes (16): results, target, wired, clients, graph, ids, localDir, project (+8 more)
+Cohesion: 0.18
+Nodes (17): clients, graph, ids, localDir, project, target, createStore(), isWorkspaceId() (+9 more)
 
 ### Community 4 - "clients.ts"
-Cohesion: 0.20
-Nodes (15): ClientDef, CLIENTS, ClientState, jsonPath(), PatchResult, patchWorkspace(), readAllClients(), readClient() (+7 more)
+Cohesion: 0.13
+Nodes (24): ClientDef, CLIENTS, ClientState, jsonPath(), PatchResult, patchWorkspace(), readAllClients(), readClient() (+16 more)
 
 ### Community 5 - "compilerOptions"
 Cohesion: 0.12
 Nodes (15): src/scripts/**, src/**/*.ts, compilerOptions, declaration, esModuleInterop, module, moduleResolution, outDir (+7 more)
 
 ### Community 6 - "dependencies"
-Cohesion: 0.29
-Nodes (7): @modelcontextprotocol/sdk, dependencies, @modelcontextprotocol/sdk, @supabase/supabase-js, zod, @supabase/supabase-js, zod
+Cohesion: 0.31
+Nodes (9): args, Client, firedAlready(), hasGraph(), pretool(), readStdin(), resolveProject(), sessionStart() (+1 more)
 
 ### Community 7 - "devDependencies"
 Cohesion: 0.29
 Nodes (7): devDependencies, tsx, @types/node, typescript, tsx, @types/node, typescript
 
 ### Community 8 - "Corpus v2 — MCP server"
-Cohesion: 0.29
-Nodes (6): Corpus v2 — MCP server, Dev, Setup (per project, one time), Storage modes, Tools, Try the handoff (no keys, no network)
+Cohesion: 0.25
+Nodes (7): Commands (global, from `npm link`), Corpus v2 — MCP server, Dev, Setup, Storage modes, Tools, Try the handoff (no keys, no network)
 
 ### Community 9 - "smoke.ts"
-Cohesion: 0.29
-Nodes (4): client, dir, h, transport
+Cohesion: 0.18
+Nodes (8): client, dc, dcDir, dcTransport, dir, h, initText, transport
 
 ### Community 11 - "corpus"
 Cohesion: 0.40
 Nodes (4): CORPUS_AGENT, CORPUS_PROJECT, corpus-mcp-v2, corpus
 
+### Community 15 - "ls.ts"
+Cohesion: 0.19
+Nodes (11): all, hereIds, known, online, target, unlisted, FILE, KnownWorkspace (+3 more)
+
+### Community 17 - "backup-tmp.mjs"
+Cohesion: 0.50
+Nodes (3): db, dump, env
+
+### Community 18 - "hookwire.ts"
+Cohesion: 0.48
+Nodes (6): HookGroup, installEvents(), installHooks(), mergeEvent(), readJson(), writeJson()
+
 ## Knowledge Gaps
-- **80 isolated node(s):** `corpus-mcp-v2`, `CORPUS_PROJECT`, `CORPUS_AGENT`, `name`, `version` (+75 more)
+- **102 isolated node(s):** `corpus-mcp-v2`, `CORPUS_PROJECT`, `CORPUS_AGENT`, `env`, `db` (+97 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **4 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **6 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `LocalStore` connect `LocalStore` to `store.ts`?**
+- **Why does `wireRepo()` connect `clients.ts` to `index.ts`, `hookwire.ts`?**
+  _High betweenness centrality (0.062) - this node is a cross-community bridge._
+- **Why does `DisconnectedStore` connect `DisconnectedStore` to `LocalStore`, `status.ts`?**
   _High betweenness centrality (0.036) - this node is a cross-community bridge._
-- **Why does `DocumentStore` connect `store.ts` to `LocalStore`?**
-  _High betweenness centrality (0.026) - this node is a cross-community bridge._
+- **Why does `LocalStore` connect `LocalStore` to `status.ts`?**
+  _High betweenness centrality (0.033) - this node is a cross-community bridge._
 - **What connects `corpus-mcp-v2`, `CORPUS_PROJECT`, `CORPUS_AGENT` to the rest of the system?**
-  _80 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _102 weakly-connected nodes found - possible documentation gaps or missing edges._
+- **Should `index.ts` be split into smaller, more focused modules?**
+  _Cohesion score 0.135632183908046 - nodes in this community are weakly interconnected._
 - **Should `package.json` be split into smaller, more focused modules?**
-  _Cohesion score 0.09090909090909091 - nodes in this community are weakly interconnected._
-- **Should `store.ts` be split into smaller, more focused modules?**
-  _Cohesion score 0.11578947368421053 - nodes in this community are weakly interconnected._
-- **Should `compilerOptions` be split into smaller, more focused modules?**
-  _Cohesion score 0.125 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.06451612903225806 - nodes in this community are weakly interconnected._
+- **Should `clients.ts` be split into smaller, more focused modules?**
+  _Cohesion score 0.13054187192118227 - nodes in this community are weakly interconnected._

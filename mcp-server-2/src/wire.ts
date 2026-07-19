@@ -48,6 +48,7 @@ ${END}`;
 function installBlock(target: string, file: string): void {
   const p = path.join(target, file);
   if (!fs.existsSync(p)) {
+    fs.mkdirSync(path.dirname(p), { recursive: true });
     fs.writeFileSync(p, block + "\n", "utf8");
     console.log(`✓ ${file} — created with Corpus instructions`);
     return;
@@ -78,13 +79,20 @@ export async function wireRepo(target: string, project: string, workspaceId: str
     console.log(`✓ ${def.file} — registered "corpus" (${def.label})`);
   }
 
-  // All three, unconditionally: CLAUDE.md covers Claude Code, GEMINI.md covers Gemini
-  // CLI (which reads neither of the others), and AGENTS.md is the cross-tool convention
-  // (Cursor, Codex, Copilot, Zed…). Registering the server without installing
-  // instructions is the worst case: tools present, nothing advocating for them.
+  // All of these, unconditionally: CLAUDE.md covers Claude Code, GEMINI.md covers Gemini
+  // CLI (which reads neither of the others), AGENTS.md is the cross-tool convention
+  // (Cursor, Codex, Copilot, Zed…), and .agents/rules/ covers Antigravity, which has no
+  // hook system — the rules file is its only surface. Registering the server without
+  // installing instructions is the worst case: tools present, nothing advocating for them.
   installBlock(target, "CLAUDE.md");
   installBlock(target, "GEMINI.md");
   installBlock(target, "AGENTS.md");
+  installBlock(target, path.join(".agents", "rules", "corpus.md"));
+
+  // Hooks: instructions advocate at session start; these advocate at the moment of
+  // decision (pre-grep/read) and inject the memory brief at session open.
+  const { installHooks } = await import("./hookwire.js");
+  installHooks(target);
 
   const { buildGraph } = await import("./graphify.js");
   const g = buildGraph(target);

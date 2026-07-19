@@ -13,5 +13,9 @@
   "11": "corpus",
   "12": "AGENTS.md",
   "13": "CLAUDE.md",
-  "14": "GEMINI.md"
+  "14": "GEMINI.md",
+  "15": "ls.ts",
+  "16": "DisconnectedStore",
+  "17": "backup-tmp.mjs",
+  "18": "hookwire.ts"
 }

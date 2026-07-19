@@ -112,6 +112,33 @@ export function readAllClients(target: string): ClientState[] {
  */
 export const SERVER_COMMAND = "corpus-mcp-v2";
 
+/**
+ * How a client must SPAWN that command — platform-dependent, and the difference is the
+ * whole ballgame on Windows.
+ *
+ * MCP clients spawn servers directly (no shell). `npm link` installs three files per
+ * bin: an extensionless sh shim, a `.cmd`, and a `.ps1`. Without a shell, Windows can
+ * execute none of them by the bare name:
+ *
+ *   spawn("corpus-mcp-v2")      -> ENOENT  (Windows only execs .exe/.cmd/.bat)
+ *   spawn("corpus-mcp-v2.cmd")  -> EINVAL  (Node >=20.12/22 refuses to spawn .cmd
+ *                                           without a shell — the CVE-2024-27980 fix)
+ *   spawn("cmd", ["/c", ...])   -> works
+ *
+ * The failure is silent from the user's side: the server never starts, its tools never
+ * attach, and the model looks like it is "ignoring" Corpus when in fact Corpus was
+ * never there. That symptom cost a full debugging session, hence this comment.
+ *
+ * NOTE for mixed-OS teams: this bakes the host platform into a committed config, so a
+ * Windows-written entry will not start on macOS/Linux and vice versa. Each dev should
+ * run `corpus-setup` once on their own machine — it rewrites this entry in place.
+ */
+export function serverSpawn(): { command: string; args: string[] } {
+  return process.platform === "win32"
+    ? { command: "cmd", args: ["/c", SERVER_COMMAND] }
+    : { command: SERVER_COMMAND, args: [] };
+}
+
 /** Full registration — used by corpus-setup. Merges; never clobbers unrelated keys. */
 export function registerClient(
   target: string,
@@ -126,7 +153,8 @@ export function registerClient(
   if (def.format === "json") {
     const config = readJson(p) ?? {};
     config.mcpServers ??= {};
-    config.mcpServers["corpus"] = { command: SERVER_COMMAND, args: [], env };
+    const spawn = serverSpawn();
+    config.mcpServers["corpus"] = { command: spawn.command, args: spawn.args, env };
     writeJson(p, config);
     return;
   }
@@ -138,10 +166,11 @@ export function registerClient(
   const envLines = Object.entries(env)
     .map(([k, v]) => `${k} = ${JSON.stringify(v)}`)
     .join("\n");
+  const spawn = serverSpawn();
   const block = `${TOML_BEGIN}
 [mcp_servers.corpus]
-command = ${JSON.stringify(SERVER_COMMAND)}
-args = []
+command = ${JSON.stringify(spawn.command)}
+args = [${spawn.args.map((a) => JSON.stringify(a)).join(", ")}]
 
 [mcp_servers.corpus.env]
 ${envLines}
