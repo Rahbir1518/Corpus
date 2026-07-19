@@ -7,8 +7,9 @@
         "corpus-mcp-v2"
       ],
       "env": {
-        "CORPUS_PROJECT": "Corpus",
-        "CORPUS_AGENT": "claude-code"
+        "CORPUS_PROJECT": "corpus-dev",
+        "CORPUS_AGENT": "claude-code",
+        "CORPUS_WORKSPACE": "983e572f-a3d7-4293-9eb4-615dcf87b6c5"
       }
     }
   }

@@ -1,12 +1,12 @@
 {
   ".mcp.json": {
-    "mtime": 1784425667.9066489,
-    "ast_hash": "40c42895387a3ca563fc4bb79b31b33a",
+    "mtime": 1784432860.90771,
+    "ast_hash": "913449b88ac760d75be6bc74ff43f064",
     "semantic_hash": ""
   },
   "frontend/app/(dashboard)/dashboard/page.tsx": {
-    "mtime": 1784425667.9146092,
-    "ast_hash": "891433a71f1f88ebe2dd5f822e8ab2ca",
+    "mtime": 1784430885.735983,
+    "ast_hash": "f0bf058bcb072e99fba8779cc49bcc82",
     "semantic_hash": ""
   },
   "frontend/app/api/graph/route.ts": {
@@ -15,7 +15,7 @@
     "semantic_hash": ""
   },
   "frontend/app/components/landing-page.tsx": {
-    "mtime": 1784425667.9176102,
+    "mtime": 1784430351.18271,
     "ast_hash": "ba0e9d97c4ba240e6243802522991e98",
     "semantic_hash": ""
   },
@@ -45,7 +45,7 @@
     "semantic_hash": ""
   },
   "frontend/app/workflow/page.tsx": {
-    "mtime": 1784425667.9236033,
+    "mtime": 1784430351.1837099,
     "ast_hash": "b0e2c28dc7c75fbbf1a3883b6aef060f",
     "semantic_hash": ""
   },
@@ -60,7 +60,7 @@
     "semantic_hash": ""
   },
   "frontend/lib/auth0.ts": {
-    "mtime": 1784425667.926607,
+    "mtime": 1784430351.1847095,
     "ast_hash": "f8d9be524cd8fa23b67651d24f783474",
     "semantic_hash": ""
   },
@@ -90,7 +90,7 @@
     "semantic_hash": ""
   },
   "frontend/package.json": {
-    "mtime": 1784425667.9326022,
+    "mtime": 1784430351.186714,
     "ast_hash": "9c1ae11bb8ba6ac1e35bb272fdb25e89",
     "semantic_hash": ""
   },
@@ -155,7 +155,7 @@
     "semantic_hash": ""
   },
   "supabase/schema.sql": {
-    "mtime": 1784425668.0541315,
+    "mtime": 1784430351.2077334,
     "ast_hash": "a522ecbe6c012936c4a6a723b6ccd0d5",
     "semantic_hash": ""
   },
@@ -220,8 +220,8 @@
     "semantic_hash": ""
   },
   ".gemini/settings.json": {
-    "mtime": 1784425667.9056027,
-    "ast_hash": "a84d32c80e8168e513e8b221cdc29b05",
+    "mtime": 1784432860.90771,
+    "ast_hash": "9953d7247124d0f27028e54aa959bed7",
     "semantic_hash": ""
   },
   "frontend/app/auth/login-error/page.tsx": {
@@ -407,6 +407,46 @@
   "random-folder/test.txt": {
     "mtime": 1784425668.052131,
     "ast_hash": "fc608d066a5313245209e34d9d25068d",
+    "semantic_hash": ""
+  },
+  "frontend/app/(dashboard)/dashboard/CorpusGraph.tsx": {
+    "mtime": 1784432536.2306633,
+    "ast_hash": "b32759ab6ebdefcad169e77bb6df7efb",
+    "semantic_hash": ""
+  },
+  "frontend/app/(dashboard)/dashboard/DashboardClient.tsx": {
+    "mtime": 1784432656.4688592,
+    "ast_hash": "dd9f67e3c167176eedcdd23182ba75bf",
+    "semantic_hash": ""
+  },
+  "frontend/app/api/documents/route.ts": {
+    "mtime": 1784430351.18271,
+    "ast_hash": "22cf1274cd6a899604ae022d915e100b",
+    "semantic_hash": ""
+  },
+  "frontend/app/api/workspaces/route.ts": {
+    "mtime": 1784432513.9138982,
+    "ast_hash": "d2a60f7a8b60700350785540ec5c2a22",
+    "semantic_hash": ""
+  },
+  "frontend/app/components/Starfield.tsx": {
+    "mtime": 1784430854.1505327,
+    "ast_hash": "540775e33b055c40a4abe2960155d14d",
+    "semantic_hash": ""
+  },
+  "frontend/lib/usage.ts": {
+    "mtime": 1784431929.3679042,
+    "ast_hash": "de933eaeb660c1fa8a97823e21ab4879",
+    "semantic_hash": ""
+  },
+  "frontend/lib/workspaces.ts": {
+    "mtime": 1784432511.3590736,
+    "ast_hash": "2bab77ed169f84e12036c9161a663413",
+    "semantic_hash": ""
+  },
+  "frontend/public/assets/corpus_logo.png": {
+    "mtime": 1784430854.1525335,
+    "ast_hash": "dd2c8357ac58743d76e5ff6132c63f7c",
     "semantic_hash": ""
   }
 }

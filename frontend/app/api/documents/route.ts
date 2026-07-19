@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth0 } from "@/lib/auth0";
 import { getSupabase } from "@/lib/supabase";
+import { updateDocument } from "@/lib/documents";
 
 // PUT /api/documents { workspace_id, name, content } → save a markdown document.
 export async function PUT(req: NextRequest) {
@@ -30,15 +31,31 @@ export async function PUT(req: NextRequest) {
     return NextResponse.json({ ok: true, demo: true, updated_at: new Date().toISOString() });
   }
 
-  const updated_at = new Date().toISOString();
-  const { error } = await sb
-    .from("documents")
-    .update({ content, updated_at })
-    .eq("workspace_id", workspace_id)
-    .eq("name", name);
+  // The document is addressed by workspace id OR by the workspace's slug depending on
+  // which schema the DB is on (lib/documents.ts), so the slug has to be resolved first.
+  const { data: ws, error: wErr } = await sb
+    .from("workspaces")
+    .select("id,slug")
+    .eq("id", workspace_id)
+    .maybeSingle();
+  if (wErr) {
+    return NextResponse.json({ error: wErr.message }, { status: 500 });
+  }
+  if (!ws) {
+    return NextResponse.json({ error: `unknown workspace ${workspace_id}` }, { status: 404 });
+  }
 
-  if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  const updated_at = new Date().toISOString();
+  try {
+    const rows = await updateDocument(sb, { id: String(ws.id), slug: ws.slug }, name, content, updated_at);
+    if (rows === 0) {
+      return NextResponse.json(
+        { error: `no document named "${name}" in this workspace` },
+        { status: 404 },
+      );
+    }
+  } catch (e) {
+    return NextResponse.json({ error: (e as Error).message }, { status: 500 });
   }
   return NextResponse.json({ ok: true, updated_at });
 }

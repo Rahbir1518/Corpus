@@ -154,6 +154,7 @@ class SupabaseStore implements DocumentStore {
   private workspaceId: string;
   private project: string;
   private keying: "id" | "slug" | null = null;
+  private slugKey: string | null = null;
 
   constructor(url: string, key: string, workspaceId: string, project: string) {
     this.db = createClient(url, key);
@@ -169,7 +170,42 @@ class SupabaseStore implements DocumentStore {
       // Genuine failure (network, auth, missing table) — don't cache a guess.
       throw new Error(`documents probe failed: ${error.message}`);
     }
-    this.keying = error ? "slug" : "id"; // 42703 = column does not exist
+
+    if (error) {
+      this.keying = "slug"; // 42703 = column does not exist
+    } else {
+      // The column EXISTS — but that alone does not mean it keys anything, and assuming
+      // it does cost a full session: the live DB was found with `alter table documents
+      // add column workspace_id uuid` run on its own, OUTSIDE the migration transaction,
+      // so every row had workspace_id NULL while `project` still held every real key. An
+      // exists-only probe answers "id" there, matches zero rows, and corpus_load reports
+      // "no memory yet — this is session one" against a database full of memory.
+      //
+      // So require the column to be POPULATED, not merely present. A partially backfilled
+      // table still answers "id" (mid-migration the new key is the real one); a wholly
+      // unbackfilled one is treated as the no-op it is. Mirrors frontend/lib/documents.ts
+      // documentsKeying() — the two must agree or the dashboard and the server read
+      // different halves of the same table.
+      const [{ data: keyedRows }, { data: anyRows }] = await Promise.all([
+        this.db.from("documents").select("name").not("workspace_id", "is", null).limit(1),
+        this.db.from("documents").select("name").limit(1),
+      ]);
+      const populated = (keyedRows?.length ?? 0) > 0;
+      const hasRows = (anyRows?.length ?? 0) > 0;
+
+      if (hasRows && !populated) {
+        console.error(
+          `[corpus-v2] documents.workspace_id exists but is NULL on every row — the ` +
+            `migration was only partly applied. Falling back to slug keying so the real ` +
+            `documents stay readable. Finish supabase/migrate-documents-to-workspace-id.sql ` +
+            `(or drop the unused column) to resolve this.`,
+        );
+        this.keying = "slug";
+      } else {
+        this.keying = "id";
+      }
+    }
+
     if (this.keying === "slug") {
       console.error(
         `[corpus-v2] documents is still keyed by project slug — repos with the same folder ` +
@@ -180,12 +216,40 @@ class SupabaseStore implements DocumentStore {
     return this.keying;
   }
 
+  /**
+   * Which `documents.project` value THIS workspace's rows live under, while the table is
+   * still slug-keyed. Resolved from `workspaces` by the connected id — never from
+   * `resolveProject()`, which is a display label the user can set to anything.
+   *
+   * Using the label as the key meant corpus-connect did not actually select a document:
+   * a repo connected to workspace 983e572f (slug "corpus-dev") whose CORPUS_PROJECT read
+   * "Corpus" wrote to a completely different row set, and changing the label silently
+   * moved the memory. The id is the identity; the slug is just how this schema spells it.
+   */
+  private async projectKey(): Promise<string> {
+    if (this.slugKey) return this.slugKey;
+    const { data, error } = await this.db
+      .from("workspaces")
+      .select("slug")
+      .eq("id", this.workspaceId)
+      .maybeSingle();
+    if (error) throw new Error(`workspace lookup failed: ${error.message}`);
+    if (!data) {
+      throw new Error(
+        `workspace ${this.workspaceId} does not exist — check corpus-status, reconnect ` +
+          `with corpus-connect <id>`,
+      );
+    }
+    this.slugKey = data.slug as string;
+    return this.slugKey;
+  }
+
   async getDocument(name: string): Promise<string | null> {
     const q = this.db.from("documents").select("content").eq("name", name);
     const { data, error } =
       (await this.keyed()) === "id"
         ? await q.eq("workspace_id", this.workspaceId).maybeSingle()
-        : await q.eq("project", this.project).maybeSingle();
+        : await q.eq("project", await this.projectKey()).maybeSingle();
     if (error) throw new Error(`documents fetch failed: ${error.message}`);
     return data?.content ?? null;
   }
@@ -208,19 +272,14 @@ class SupabaseStore implements DocumentStore {
       return;
     }
 
-    // Slug keying: satisfies documents.project's FK to workspaces.slug with zero setup
-    // step — the first write in a fresh project silently creates its workspace row.
-    // Best-effort: logged loudly, not thrown, so a workspaces hiccup never blocks the
-    // document write but a missing/misapplied schema stays diagnosable.
-    const { error: workspaceError } = await this.db
-      .from("workspaces")
-      .upsert({ slug: this.project, name: this.project }, { onConflict: "slug", ignoreDuplicates: true });
-    if (workspaceError) {
-      console.error(`[corpus-v2] workspaces upsert failed (is supabase/schema.sql applied?): ${workspaceError.message}`);
-    }
-
+    // Slug keying: projectKey() resolved this slug FROM an existing workspaces row, so
+    // documents.project's FK is already satisfied — no auto-create needed. The upsert
+    // that used to sit here keyed the new workspace on the folder label, which is how a
+    // scratch `cd tmp && claude` minted real workspace rows named `tmp`, `poo`, `repo`;
+    // 20 of them are still in this database. A write now lands only in a workspace
+    // somebody deliberately connected to, the same guarantee the id path gives.
     const { error } = await this.db.from("documents").upsert({
-      project: this.project,
+      project: await this.projectKey(),
       name,
       content,
       updated_at: new Date().toISOString(),
@@ -233,14 +292,21 @@ class SupabaseStore implements DocumentStore {
     const { data, error } =
       (await this.keyed()) === "id"
         ? await q.eq("workspace_id", this.workspaceId)
-        : await q.eq("project", this.project);
+        : await q.eq("project", await this.projectKey());
     if (error) throw new Error(`documents list failed: ${error.message}`);
     return (data ?? []).map((r) => r.name as string);
   }
 
   async getCorpusTokenTotal(): Promise<number | null> {
     try {
-      const { data, error } = await this.db.from("documents").select("content").eq("project", this.project);
+      // Must follow the SAME keying as every other read. Filtering on `project`
+      // unconditionally made the corpus_load baseline measure a different workspace's
+      // documents (or none) whenever the table was id-keyed.
+      const q = this.db.from("documents").select("content");
+      const { data, error } =
+        (await this.keyed()) === "id"
+          ? await q.eq("workspace_id", this.workspaceId)
+          : await q.eq("project", await this.projectKey());
       if (error) {
         console.error(`[corpus-v2] getCorpusTokenTotal failed: ${error.message}`);
         return null;

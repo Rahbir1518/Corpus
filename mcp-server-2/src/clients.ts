@@ -222,9 +222,23 @@ export function patchWorkspace(target: string, workspaceId: string | null): Patc
     const start = content.indexOf(TOML_BEGIN);
     const end = content.indexOf(TOML_END);
     let block = content.slice(start, end);
-    const line = new RegExp(`^\\s*${WORKSPACE_ENV}\\s*=\\s*"[^"]*"\\s*$\\n?`, "m");
-    block = block.replace(line, "");
-    if (workspaceId) block = block.trimEnd() + `\n${WORKSPACE_ENV} = ${JSON.stringify(workspaceId)}\n`;
+
+    // Rewrite the block LINE-WISE rather than with a regex over the whole thing.
+    //
+    // The regex this replaces (`^\s*KEY\s*=\s*"[^"]*"\s*$\n?`) was not CRLF-safe: `\s`
+    // matches `\r` AND `\n`, so the greedy `\s*$` ran past the end of its own line and
+    // swallowed neighbouring line breaks. On a CRLF config it ate the newline after
+    // `[mcp_servers.corpus.env]`, leaving `[mcp_servers.corpus.env]\rCORPUS_PROJECT` —
+    // a bare `\r` is not a line terminator in TOML, so Codex failed to parse the file
+    // and loaded no corpus server at all. Silent: the tools simply were not there.
+    const eol = block.includes("\r\n") ? "\r\n" : "\n";
+    const keep = block
+      .split(/\r?\n/)
+      .filter((l) => !new RegExp(`^\\s*${WORKSPACE_ENV}\\s*=`).test(l));
+    while (keep.length && keep[keep.length - 1].trim() === "") keep.pop();
+    if (workspaceId) keep.push(`${WORKSPACE_ENV} = ${JSON.stringify(workspaceId)}`);
+    block = keep.join(eol) + eol;
+
     fs.writeFileSync(p, content.slice(0, start) + block + content.slice(end), "utf8");
     return { def, wired: true, changed: true };
   });
