@@ -16,9 +16,17 @@ create table if not exists workspaces (
 );
 
 -- Dashboard access + connector state. A row = "this Auth0 user can see this workspace's
--- docs in the dashboard." `status` is toggled by corpus-connect/disconnect: 'connected'
--- means this user's local corpus_log/corpus_save calls are currently landing in this
--- workspace's shared documents.
+-- docs in the dashboard."
+--
+-- NOT YET WRITTEN BY ANYTHING — this table is currently always empty. The intent was for
+-- corpus-connect/disconnect to toggle `status`, but the CLI has no login (see the header
+-- of mcp-server-2/src/connect.ts: identity is the workspace id itself), so there is no
+-- Auth0 `sub` to record and no row is ever inserted. It stays defined because it is the
+-- right shape for when per-user tokens replace the service-role key.
+--
+-- Consequence for readers: do NOT treat "no row" as "no access", and do not derive
+-- connection state from `status`. The dashboard reads liveness from the write trail
+-- instead (usage_events + documents.updated_at) — see frontend/lib/activity.ts.
 create table if not exists workspace_members (
   workspace_id uuid not null references workspaces(id) on delete cascade,
   user_id text not null,           -- Auth0 `sub`
@@ -31,8 +39,12 @@ create table if not exists workspace_members (
 
 -- Markdown documents, keyed by workspace id so folder-name collisions are impossible:
 -- a write can only land in a workspace corpus-setup/connect deliberately created.
--- DBs created before this keying (documents keyed by project slug) migrate with
--- migrate-documents-to-workspace-id-v2.sql; store.ts detects either shape at runtime.
+--
+-- The migration to this keying HAS BEEN APPLIED to the live database: the legacy
+-- `project` text column is gone (selecting it returns 42703) and workspace_id is
+-- populated and NOT NULL on every row. DBs still on the old shape migrate with
+-- migrate-documents-to-workspace-id-v2.sql; store.ts detects either shape at runtime,
+-- but the frontend no longer carries dual-keying support (frontend/lib/documents.ts).
 create table if not exists documents (
   workspace_id uuid not null references workspaces(id) on delete cascade,
   name text not null,
@@ -96,6 +108,11 @@ create index if not exists usage_events_workspace_idx on usage_events (workspace
 -- slug merged unrelated workspaces that happened to share a folder name, and split a
 -- single workspace across the different folder names its members had checked out.
 -- `project` is carried through max() purely as a display label for the group.
+-- DRIFT: the LIVE database still has the older slug-grouped form of this view (no
+-- workspace_id column, grouped by `project`), because usage_events.workspace_id was
+-- never added there. Re-running this file fixes both. Consumers should select
+-- `project` — it is present in both forms, which is why frontend/lib/activity.ts
+-- keys activity by slug and keeps working either way.
 create or replace view usage_stats as
 select
   workspace_id,
