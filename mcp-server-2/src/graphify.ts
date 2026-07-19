@@ -83,6 +83,68 @@ export function buildGraph(root: string): GraphifyResult {
   return { ok: true, text: r.stdout.trim() };
 }
 
+/** Pull a `## Heading` block's bullet/numbered lines out of the report, up to the next `## `. */
+function extractBlock(report: string, heading: string, maxLines: number): string[] {
+  const lines = report.split("\n");
+  const start = lines.findIndex((l) => l.startsWith(heading));
+  if (start === -1) return [];
+  const body: string[] = [];
+  for (let i = start + 1; i < lines.length && body.length < maxLines; i++) {
+    if (lines[i].startsWith("## ")) break;
+    if (lines[i].trim()) body.push(lines[i].trim());
+  }
+  return body;
+}
+
+/**
+ * Bootstrap material for `corpus_init`: reads the report Graphify already writes
+ * (GRAPH_REPORT.md) and pulls out the core-abstractions and key-files lists.
+ * No raw graph.json parsing, no LLM — reuses graphify's own analysis verbatim.
+ */
+export function summarizeGraph(root: string): GraphifyResult {
+  const bin = resolveBin();
+  if (!bin) {
+    return {
+      ok: false,
+      text:
+        "Graphify is not installed, so corpus_init has nothing to seed Architecture notes " +
+        "from. To enable: `pip install graphifyy` (two ys).",
+    };
+  }
+  if (!graphExists(root) || !rebuiltThisSession) {
+    const built = buildGraph(root);
+    if (!built.ok && !graphExists(root)) return built;
+    rebuiltThisSession = true;
+  }
+
+  const reportPath = path.join(root, "graphify-out", "GRAPH_REPORT.md");
+  if (!fs.existsSync(reportPath)) {
+    return { ok: false, text: "Graphify built a graph but no GRAPH_REPORT.md was found to seed from." };
+  }
+  const report = fs.readFileSync(reportPath, "utf8");
+
+  const commitMatch = report.match(/Built from commit: `([^`]+)`/);
+  const countsMatch = report.match(/^- (\d+ nodes · \d+ edges.*)$/m);
+  const godNodes = extractBlock(report, "## God Nodes", 8);
+  const hubs = extractBlock(report, "## Community Hubs", 8);
+
+  if (!godNodes.length && !hubs.length) {
+    return { ok: false, text: "GRAPH_REPORT.md had no God Nodes or Community Hubs to seed from." };
+  }
+
+  const header = `_Seeded by \`corpus_init\` from the Graphify code graph${
+    commitMatch ? ` (commit \`${commitMatch[1]}\`` : " ("
+  }${countsMatch ? `, ${countsMatch[1]}` : ""}):_`;
+  const abstractions = godNodes.length
+    ? `\n\n**Core abstractions (most connected):**\n${godNodes.map((l) => `- ${l.replace(/^\d+\.\s*/, "")}`).join("\n")}`
+    : "";
+  const keyFiles = hubs.length
+    ? `\n\n**Key files:**\n${hubs.map((l) => `- ${l.replace(/^-\s*/, "")}`).join("\n")}`
+    : "";
+
+  return { ok: true, text: `${header}${abstractions}${keyFiles}` };
+}
+
 export function queryGraph(root: string, question: string, budget: number): GraphifyResult {
   const bin = resolveBin();
   if (!bin) {

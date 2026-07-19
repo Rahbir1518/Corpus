@@ -12,8 +12,11 @@ file, it hasn't been made.
 
 ## How it works
 
-Four MCP tools, usable from any MCP client:
+Five MCP tools, usable from any MCP client:
 
+- **`corpus_init`** — seed a fresh project's memory from the Graphify code graph (core
+  abstractions, key files) so it's useful on day one instead of blank until a session
+  fills it in. Call once, right after `corpus-setup`, on a repo Corpus hasn't touched yet.
 - **`corpus_load`** — fetch the project's memory (status, decisions + reasons, next steps)
   at session start or on "continue where we left off". Costs nothing until called — memory
   as tools, not prompt-stuffing.
