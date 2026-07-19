@@ -23,6 +23,7 @@
  */
 import path from "node:path";
 import { CLIENTS, readClient } from "./clients.js";
+import { bad, cmd, hint, ok, value, warn } from "./color.js";
 import { recordWorkspace } from "./registry.js";
 import { wireRepo } from "./wire.js";
 import { createWorkspace, supabaseConfigured } from "./workspace.js";
@@ -39,7 +40,7 @@ let workspaceId: string | null =
   CLIENTS.map((def) => readClient(target, def).workspaceId).find(Boolean) ?? null;
 
 if (workspaceId) {
-  console.log(`✓ Workspace — already connected (${workspaceId})`);
+  console.log(`${ok("✓")} Workspace — already connected (${value(workspaceId)})`);
   // Into the rolodex even on reuse: the id may predate corpus-ls, or have arrived via a
   // teammate's committed .mcp.json without ever passing through corpus-connect here.
   recordWorkspace({ id: workspaceId, origin: "connected", repo: target });
@@ -48,17 +49,21 @@ if (workspaceId) {
     const ws = await createWorkspace(project, project);
     workspaceId = ws.id;
     recordWorkspace({ id: ws.id, name: ws.name, slug: ws.slug, origin: "created", repo: target });
-    console.log(`✓ Workspace — created ${ws.id}`);
-    console.log(`  Share this id with teammates: corpus-connect ${ws.id}`);
+    console.log(`${ok("✓")} Workspace — created ${value(ws.id)}`);
+    console.log(`  ${hint("Share this id with teammates:")} ${cmd(`corpus-connect ${ws.id}`)}`);
   } catch (err) {
-    console.error(`– Workspace — could not create: ${err instanceof Error ? err.message : err}`);
     console.error(
-      `  Memory will be OFF until this repo joins a workspace — re-run corpus-setup,\n` +
-        `  or corpus-connect <id> if a teammate already has one.`,
+      `${bad("– Workspace — could not create:")} ${err instanceof Error ? err.message : err}`,
+    );
+    console.error(
+      hint(`  Memory will be OFF until this repo joins a workspace — re-run corpus-setup,\n`) +
+        hint(`  or corpus-connect <id> if a teammate already has one.`),
     );
   }
 } else {
-  console.log(`– Workspace — Supabase not configured; memory stays local (~/.corpus/${project})`);
+  console.log(
+    `${warn("–")} Workspace — ${hint(`Supabase not configured; memory stays local (~/.corpus/${project})`)}`,
+  );
 }
 
 // --- 2. Wiring (clients + instructions + hooks + graph) ----------------------
@@ -67,24 +72,24 @@ if (workspaceId) {
 await wireRepo(target, project, workspaceId);
 
 const memoryLine = workspaceId
-  ? `Memory lands in workspace ${workspaceId} — share the id for corpus-connect.`
+  ? `Memory lands in workspace ${value(workspaceId)} ${hint("— share the id for corpus-connect.")}`
   : supabaseConfigured()
-    ? `Memory is OFF until this repo joins a workspace (corpus-setup / corpus-connect <id>).`
-    : `Memory is stored locally in ~/.corpus/${project}/ (no keys, no network).
+    ? `${hint("Memory is")} ${bad("OFF")} ${hint("until this repo joins a workspace (corpus-setup / corpus-connect <id>).")}`
+    : hint(`Memory is stored locally in ~/.corpus/${project}/ (no keys, no network).
 To use a shared team workspace later, add SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY
-to mcp-server-2/.env.local and re-run corpus-setup.`;
+to mcp-server-2/.env.local and re-run corpus-setup.`);
 
 console.log(`
-Done. Start Claude Code, Gemini CLI, or Codex in this directory and approve the
-"corpus" MCP server. All three share one memory store, so a session in any of them
-picks up where the others left off.
+${ok("Done.")} ${hint("Start Claude Code, Gemini CLI, or Codex in this directory and approve the")}
+${hint(`"corpus" MCP server. All three share one memory store, so a session in any of them`)}
+${hint("picks up where the others left off.")}
 ${memoryLine}
 
-Scope: this wiring lives in THIS directory's config files (.mcp.json, .gemini/,
+${hint(`Scope: this wiring lives in THIS directory's config files (.mcp.json, .gemini/,
 .codex/) — agents read them from the directory a session is opened in, so sessions
 started elsewhere will not have Corpus. Run corpus-setup per project (commit the
 configs to share them with teammates), and corpus-ls to see every workspace this
 machine has access to.
 
 Note: Codex only reads .codex/config.toml in projects you have marked trusted; if it
-does not appear under /mcp, copy that block into ~/.codex/config.toml instead.`);
+does not appear under /mcp, copy that block into ~/.codex/config.toml instead.`)}`);

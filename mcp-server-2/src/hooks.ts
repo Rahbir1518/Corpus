@@ -162,6 +162,19 @@ function sessionStart(): void {
 
 // --- pretool (retrieval enforcement) ------------------------------------------
 
+/**
+ * The gate is "has the graph been queried?", NOT "have I warned once?".
+ *
+ * Warning once and then standing aside is the same as not gating at all: the model
+ * reads the warning, retries the identical grep, and the graph is never touched — the
+ * exact failure this file exists to prevent. Keying on an actual codebase_search call
+ * means the only way past the gate is to use the thing.
+ *
+ * The unlock is always available and always cheap (one tool call), so this cannot
+ * deadlock — and MAX_DENIES caps it anyway: after that the session proceeds regardless,
+ * because a model that has refused twice has a reason (a string-literal search the
+ * graph genuinely cannot answer) and fighting it further just burns tokens.
+ */
 const REDIRECT_REASON =
   "Corpus (fires once per session): this repo has a pre-built code graph, and raw " +
   "search here typically costs 10-50x what the graph costs. Use the codebase_search " +

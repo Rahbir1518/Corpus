@@ -16,6 +16,7 @@
  * Nothing here talks to the DB — disconnecting can never be blocked by being offline.
  */
 import { patchWorkspace, readAllClients } from "./clients.js";
+import { bad, cmd, hint, ok, value, warn } from "./color.js";
 
 const target = process.cwd();
 const before = readAllClients(target);
@@ -25,8 +26,8 @@ if (!connected.length) {
   const anyWired = before.some((c) => c.wired);
   console.log(
     anyWired
-      ? `Already disconnected — this repo is not in any workspace. Run corpus-connect <id> to join one, or corpus-setup to create one.`
-      : `This repo has no Corpus client entries — nothing to disconnect. Run corpus-setup to install.`,
+      ? `${warn("Already disconnected")} ${hint("— this repo is not in any workspace. Run")} ${cmd("corpus-connect <id>")} ${hint("to join one, or")} ${cmd("corpus-setup")} ${hint("to create one.")}`
+      : `${warn("This repo has no Corpus client entries")} ${hint("— nothing to disconnect. Run")} ${cmd("corpus-setup")} ${hint("to install.")}`,
   );
   process.exit(0);
 }
@@ -35,22 +36,23 @@ const previousId = connected[0].workspaceId!;
 const results = patchWorkspace(target, null);
 
 for (const r of results) {
-  if (!r.wired) console.log(`- ${r.def.file} — not set up, skipped (${r.def.label})`);
-  else console.log(`${r.changed ? "✓" : "="} ${r.def.file} — disconnected (${r.def.label})`);
+  if (!r.wired) console.log(hint(`- ${r.def.file} — not set up, skipped (${r.def.label})`));
+  else if (r.changed) console.log(`${ok("✓")} ${r.def.file} — disconnected ${hint(`(${r.def.label})`)}`);
+  else console.log(hint(`= ${r.def.file} — disconnected (${r.def.label})`));
 }
 
 // Say what "disconnected" means before the next session finds out via a refused tool
 // call: memory is off, the workspace still holds everything, and there are exactly two
 // ways forward.
 console.log(`
-Disconnected from workspace ${previousId}.
+Disconnected from workspace ${value(previousId)}.
 
-This repo is now out of every workspace, and memory is OFF — sessions here will
-not read or write any memory until you pick one:
+${hint("This repo is now out of every workspace, and memory is")} ${bad("OFF")} ${hint("— sessions here will")}
+${hint("not read or write any memory until you pick one:")}
 
-  corpus-connect ${previousId}
-      reconnect to the workspace you just left (memory intact — nothing was deleted)
-  corpus-setup
-      create a new, empty workspace
+  ${cmd(`corpus-connect ${previousId}`)}
+${hint("      reconnect to the workspace you just left (memory intact — nothing was deleted)")}
+  ${cmd("corpus-setup")}
+${hint("      create a new, empty workspace")}
 
-Restart any running session — clients read this config at startup.`);
+${hint("Restart any running session — clients read this config at startup.")}`);

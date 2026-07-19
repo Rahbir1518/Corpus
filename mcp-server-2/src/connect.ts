@@ -16,6 +16,7 @@
  */
 import path from "node:path";
 import { patchWorkspace, readAllClients } from "./clients.js";
+import { bad, cmd, heading, hint, ok, value, warn } from "./color.js";
 import { recordWorkspace } from "./registry.js";
 import { wireRepo } from "./wire.js";
 import { findWorkspace, isWorkspaceId, supabaseConfigured } from "./workspace.js";
@@ -24,20 +25,20 @@ const target = process.cwd();
 const id = process.argv[2];
 
 if (!id) {
-  console.error(`Usage: corpus-connect <workspace-id>
+  console.error(`${heading("Usage:")} ${cmd("corpus-connect <workspace-id>")}
 
-Connects this repo to an existing shared workspace. To create a new one, run
-corpus-setup — it registers the clients and creates the workspace in one step.
+${hint("Connects this repo to an existing shared workspace. To create a new one, run")}
+${cmd("corpus-setup")} ${hint("— it registers the clients and creates the workspace in one step.")}
 
-Run corpus-status to see which workspace this repo is on now.`);
+${hint("Run")} ${cmd("corpus-status")} ${hint("to see which workspace this repo is on now.")}`);
   process.exit(1);
 }
 
 if (!isWorkspaceId(id)) {
   console.error(
-    `"${id}" is not a workspace id — expected a uuid like\n` +
-      `  3f2a9c14-7b8e-4d51-9a02-1c6e5b7d8f90\n\n` +
-      `Run corpus-status to see this repo's current workspace.`,
+    `${bad(`"${id}" is not a workspace id`)} — expected a uuid like\n` +
+      `  ${value("3f2a9c14-7b8e-4d51-9a02-1c6e5b7d8f90")}\n\n` +
+      `${hint("Run")} ${cmd("corpus-status")} ${hint("to see this repo's current workspace.")}`,
   );
   process.exit(1);
 }
@@ -50,21 +51,21 @@ if (supabaseConfigured()) {
   const ws = await findWorkspace(id);
   if (!ws) {
     console.error(
-      `No workspace with id "${id}".\n\n` +
-        `Check the id with whoever shared it. corpus-connect never creates a workspace — ` +
-        `run corpus-setup if you meant to start a new one.`,
+      `${bad(`No workspace with id "${id}".`)}\n\n` +
+        hint(`Check the id with whoever shared it. corpus-connect never creates a workspace — `) +
+        hint(`run corpus-setup if you meant to start a new one.`),
     );
     process.exit(1);
   }
   verified = ws;
-  console.log(`Workspace: ${ws.name} (${ws.slug})`);
+  console.log(`Workspace: ${ok(ws.name)} ${hint(`(${ws.slug})`)}`);
 } else {
   // Not fatal: the id is still worth writing so the repo is configured for whenever
   // credentials do arrive. But say so plainly rather than implying it was verified.
   console.log(
-    `! Supabase is not configured here, so the id could not be verified.\n` +
-      `  Writing it anyway; the workspace is unreachable (memory stays off) until\n` +
-      `  SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are set.`,
+    warn(`! Supabase is not configured here, so the id could not be verified.`) +
+      hint(`\n  Writing it anyway; the workspace is unreachable (memory stays off) until\n`) +
+      hint(`  SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are set.`),
   );
 }
 
@@ -75,12 +76,12 @@ if (supabaseConfigured()) {
 // given.
 const anyWired = readAllClients(target).some((c) => c.wired);
 if (!anyWired) {
-  console.log(`\nThis repo has no Corpus wiring yet — running first-time setup for it:\n`);
+  console.log(hint(`\nThis repo has no Corpus wiring yet — running first-time setup for it:\n`));
   await wireRepo(target, path.basename(target), id);
   recordWorkspace({ id, name: verified?.name, slug: verified?.slug, origin: "connected", repo: target });
-  console.log(`\nConnected to workspace ${id}.
-Start Claude Code, Gemini CLI, or Codex in this directory and approve the "corpus"
-MCP server — memory in this repo now lands in the shared workspace.`);
+  console.log(`\n${ok("Connected")} to workspace ${value(id)}.
+${hint(`Start Claude Code, Gemini CLI, or Codex in this directory and approve the "corpus"`)}
+${hint("MCP server — memory in this repo now lands in the shared workspace.")}`);
   process.exit(0);
 }
 
@@ -93,10 +94,13 @@ recordWorkspace({ id, name: verified?.name, slug: verified?.slug, origin: "conne
 
 console.log("");
 for (const r of results) {
-  if (!r.wired) console.log(`- ${r.def.file} — not set up, skipped (${r.def.label})`);
-  else console.log(`${r.changed ? "✓" : "="} ${r.def.file} — connected (${r.def.label})`);
+  if (!r.wired) console.log(hint(`- ${r.def.file} — not set up, skipped (${r.def.label})`));
+  // "=" means already correct, "✓" means this run changed it — worth distinguishing by
+  // color too, so a re-run visibly does nothing rather than looking like fresh work.
+  else if (r.changed) console.log(`${ok("✓")} ${r.def.file} — connected ${hint(`(${r.def.label})`)}`);
+  else console.log(hint(`= ${r.def.file} — connected (${r.def.label})`));
 }
 
-console.log(`\nConnected to workspace ${id}.
-Memory from ${wired.map((r) => r.def.label).join(", ")} in this repo now lands in the
-shared workspace. Restart any running session — clients read this config at startup.`);
+console.log(`\n${ok("Connected")} to workspace ${value(id)}.
+${hint(`Memory from ${wired.map((r) => r.def.label).join(", ")} in this repo now lands in the`)}
+${hint("shared workspace. Restart any running session — clients read this config at startup.")}`);
