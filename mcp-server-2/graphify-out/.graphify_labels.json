@@ -6,7 +6,6 @@
   "4": "clients.ts",
   "5": "compilerOptions",
   "6": "dependencies",
-  "7": "devDependencies",
   "8": "Corpus v2 — MCP server",
   "9": "smoke.ts",
   "10": "LocalStore",
@@ -16,5 +15,6 @@
   "14": "GEMINI.md",
   "15": "ls.ts",
   "16": "DisconnectedStore",
-  "17": "backup-tmp.mjs"
+  "17": "backup-tmp.mjs",
+  "18": "hookwire.ts"
 }

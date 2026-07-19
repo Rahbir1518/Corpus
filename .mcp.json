@@ -1,11 +1,15 @@
 {
   "mcpServers": {
     "corpus": {
-      "command": "node",
-      "args": ["mcp-server-2/dist/index.js"],
+      "command": "cmd",
+      "args": [
+        "/c",
+        "corpus-mcp-v2"
+      ],
       "env": {
-        "CORPUS_PROJECT": "corpus-dev",
-        "CORPUS_AGENT": "claude-code"
+        "CORPUS_PROJECT": "Corpus",
+        "CORPUS_AGENT": "claude-code",
+        "CORPUS_WORKSPACE": "442881e1-5743-4871-b4d5-49af9ce0f926"
       }
     }
   }

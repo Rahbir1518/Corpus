@@ -1,0 +1,29 @@
+{
+  "mcpServers": {
+    "corpus": {
+      "command": "cmd",
+      "args": [
+        "/c",
+        "corpus-mcp-v2"
+      ],
+      "env": {
+        "CORPUS_PROJECT": "Corpus",
+        "CORPUS_AGENT": "gemini",
+        "CORPUS_WORKSPACE": "442881e1-5743-4871-b4d5-49af9ce0f926"
+      }
+    }
+  },
+  "hooks": {
+    "BeforeTool": [
+      {
+        "matcher": "search_file_content|glob|read_file|read_many_files",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "corpus-hook pretool --client gemini"
+          }
+        ]
+      }
+    ]
+  }
+}

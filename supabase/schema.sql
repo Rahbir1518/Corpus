@@ -3,12 +3,13 @@
 -- Supersedes documents.sql — same `documents` table, plus workspaces/membership/usage.
 
 -- One workspace per project (today). `id` is the opaque, shareable identifier used by
--- `corpus-connect <id>`. `slug` is the human key mcp-server-2 already computes locally
--- (resolveProject() = repo folder name, or $CORPUS_PROJECT) — store.ts keys documents
--- by this same string, so no change to how a project is identified there.
+-- `corpus-connect <id>` and the ONLY identity: documents are keyed by it. `slug`
+-- (resolveProject() = repo folder name, or $CORPUS_PROJECT) is a display label and
+-- deliberately NOT unique — two unrelated teams may both work in a folder called `api`,
+-- and each must get its own workspace rather than a collision or a failed setup.
 create table if not exists workspaces (
   id uuid primary key default gen_random_uuid(),
-  slug text unique not null,
+  slug text not null,
   name text not null,
   owner_user_id text,              -- Auth0 `sub`; null until claimed from the dashboard
   created_at timestamptz not null default now()
@@ -28,15 +29,16 @@ create table if not exists workspace_members (
   primary key (workspace_id, user_id)
 );
 
--- Markdown documents (unchanged shape/keys from documents.sql). FK added: every write
--- auto-creates its workspace row (see store.ts's SupabaseStore.putDocument), so this
--- never blocks the zero-config local-first path.
+-- Markdown documents, keyed by workspace id so folder-name collisions are impossible:
+-- a write can only land in a workspace corpus-setup/connect deliberately created.
+-- DBs created before this keying (documents keyed by project slug) migrate with
+-- migrate-documents-to-workspace-id.sql; store.ts detects either shape at runtime.
 create table if not exists documents (
-  project text not null references workspaces(slug),
+  workspace_id uuid not null references workspaces(id) on delete cascade,
   name text not null,
   content text not null,
   updated_at timestamptz not null default now(),
-  primary key (project, name)
+  primary key (workspace_id, name)
 );
 
 -- Append-only usage ledger: real numbers for the token-savings counter + a live
@@ -115,34 +117,21 @@ begin
   end if;
 end $$;
 
--- Project picker overview: one row per project that actually has documents, with
--- its document count and most recent activity. Powers the dashboard's "select a
--- project" screen. Documents-driven: a "project" = a distinct documents.project
--- value; the left join to workspaces just supplies a nicer display name when a
--- workspace row exists. Empty workspaces (0 docs) intentionally do NOT show.
+-- Project picker overview: one row per workspace with its document count and most
+-- recent activity. Powers the dashboard's "select a project" screen. Keyed by
+-- workspace id to match the workspace_id-keyed `documents` table; slug/name are for
+-- display only (slug is deliberately non-unique). Workspaces with 0 docs still show.
 create or replace view project_overview as
 select
-  d.project                   as slug,
-  coalesce(w.name, d.project) as name,
-  count(d.name)               as doc_count,
-  max(d.updated_at)           as last_updated
-from documents d
-left join workspaces w on w.slug = d.project
-group by d.project, coalesce(w.name, d.project);
+  w.id::text        as id,
+  w.slug            as slug,
+  w.name            as name,
+  count(d.name)     as doc_count,
+  max(d.updated_at) as last_updated
+from workspaces w
+left join documents d on d.workspace_id = w.id
+group by w.id, w.slug, w.name;
 
--- Categorization migration (safe to run on a live DB with existing documents).
--- 1) Ensure every distinct project a document already uses has a workspace row,
---    so the picker shows a proper name and the optional FK below can be added:
---      insert into workspaces (slug, name)
---        select distinct project, project from documents
---        on conflict (slug) do nothing;
--- 2) Optional integrity FK — documents.project must reference a real workspace.
---    mcp-server-2's SupabaseStore.putDocument already upserts the workspace before
---    each write, so new writes stay safe; run only AFTER step 1 backfills existing rows:
---      alter table documents add constraint documents_project_fkey
---        foreign key (project) references workspaces(slug);
--- 3) To consolidate existing docs under a single 'demo' project (only if no two
---    documents share the same `name`, else the (project,name) PK collides):
---      insert into workspaces (slug, name) values ('demo','Demo')
---        on conflict (slug) do nothing;
---      update documents set project = 'demo';
+-- Migration note: a DB whose `documents` is still keyed by project slug (the pre-id
+-- schema) migrates with migrate-documents-to-workspace-id.sql — a single transaction
+-- with backfill and abort-on-collision checks. Do NOT hand-roll it here.

@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "corpus": {
+      "command": "node",
+      "args": [
+        "/Users/nishchayranjan_1/Desktop/HackThe6ix/Corpus/mcp-server-2/dist/index.js"
+      ],
+      "env": {
+        "CORPUS_PROJECT": "random-folder",
+        "CORPUS_AGENT": "claude-code"
+      }
+    }
+  }
+}

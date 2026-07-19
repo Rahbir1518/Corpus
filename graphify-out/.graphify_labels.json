@@ -21,5 +21,20 @@
   "19": "eslint.config.mjs",
   "20": "next.config.ts",
   "21": "postcss.config.mjs",
-  "22": "graphify.ts"
+  "22": "graphify.ts",
+  "23": "install.sh script",
+  "24": "corpus",
+  "25": "install.ps1",
+  "26": "backup-tmp.mjs",
+  "27": "AGENTS.md",
+  "28": "corpus.md",
+  "29": "CLAUDE.md",
+  "30": "GEMINI.md",
+  "31": "AGENTS.md",
+  "32": "CLAUDE.md",
+  "33": "GEMINI.md",
+  "34": "AGENTS.md",
+  "35": "CLAUDE.md",
+  "36": "GEMINI.md",
+  "37": "page.tsx"
 }

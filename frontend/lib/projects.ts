@@ -4,8 +4,12 @@ import { getSupabase } from "@/lib/supabase";
 // the server-side service-role client (getSupabase()), which bypasses RLS. When
 // Supabase is not configured yet, every helper returns an empty result so the UI
 // renders graceful empty states instead of crashing (mirrors lib/graph.ts).
+//
+// Documents are keyed by workspace_id (uuid) — see supabase/schema.sql — so a
+// "project" is a workspace and is addressed by its id, not its (non-unique) slug.
 
 export interface Project {
+  id: string;
   slug: string;
   name: string;
   doc_count: number;
@@ -27,7 +31,7 @@ export async function listProjects(): Promise<Project[]> {
 
   const { data, error } = await sb
     .from("project_overview")
-    .select("slug,name,doc_count,last_updated")
+    .select("id,slug,name,doc_count,last_updated")
     .order("last_updated", { ascending: false, nullsFirst: false });
 
   if (!error && data) return data as Project[];
@@ -35,34 +39,42 @@ export async function listProjects(): Promise<Project[]> {
   // Fallback: view missing — list workspaces directly with zeroed metadata.
   const { data: ws, error: wErr } = await sb
     .from("workspaces")
-    .select("slug,name")
+    .select("id,slug,name")
     .order("name", { ascending: true });
 
   if (wErr || !ws) return [];
-  return ws.map((w) => ({ slug: w.slug, name: w.name, doc_count: 0, last_updated: null }));
+  return ws.map((w) => ({
+    id: String(w.id),
+    slug: w.slug,
+    name: w.name,
+    doc_count: 0,
+    last_updated: null,
+  }));
 }
 
-// True when a workspace with this slug exists — used to 404/redirect unknown slugs.
-export async function projectExists(slug: string): Promise<boolean> {
+// The workspace (project) with this id, or null — used to resolve the page header
+// and to 404/redirect unknown ids.
+export async function getProject(id: string): Promise<{ id: string; name: string } | null> {
   const sb = getSupabase();
-  if (!sb) return false;
+  if (!sb) return null;
   const { data, error } = await sb
     .from("workspaces")
-    .select("slug")
-    .eq("slug", slug)
+    .select("id,name")
+    .eq("id", id)
     .maybeSingle();
-  return !error && !!data;
+  if (error || !data) return null;
+  return { id: String(data.id), name: data.name };
 }
 
-// Every document under a project, including content, newest first. Content is
-// included so the reader can open a doc with no extra round trip.
-export async function listDocuments(project: string): Promise<DocumentSummary[]> {
+// Every document under a project (workspace), including content, newest first.
+// Content is included so the reader can open a doc with no extra round trip.
+export async function listDocuments(workspaceId: string): Promise<DocumentSummary[]> {
   const sb = getSupabase();
   if (!sb) return [];
   const { data, error } = await sb
     .from("documents")
     .select("name,content,updated_at")
-    .eq("project", project)
+    .eq("workspace_id", workspaceId)
     .order("updated_at", { ascending: false });
   if (error || !data) return [];
   return data as DocumentSummary[];

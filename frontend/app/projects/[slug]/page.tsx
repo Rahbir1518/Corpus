@@ -2,7 +2,7 @@ import { auth0 } from "@/lib/auth0";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import { listDocuments, projectExists } from "@/lib/projects";
+import { listDocuments, getProject } from "@/lib/projects";
 import ProjectDocuments from "./ProjectDocuments";
 
 export default async function ProjectPage({
@@ -13,12 +13,14 @@ export default async function ProjectPage({
   const session = await auth0.getSession();
   if (!session?.user) redirect("/auth/login");
 
+  // The [slug] route param is the workspace id (documents are keyed by workspace_id).
   const { slug: raw } = await params;
-  const slug = decodeURIComponent(raw);
+  const id = decodeURIComponent(raw);
 
-  if (!(await projectExists(slug))) redirect("/projects");
+  const project = await getProject(id);
+  if (!project) redirect("/projects");
 
-  const documents = await listDocuments(slug);
+  const documents = await listDocuments(id);
 
   return (
     <div className="dashboard-container">
@@ -34,7 +36,7 @@ export default async function ProjectPage({
             />
           </Link>
           <div>
-            <h1 className="dashboard-title">{slug}</h1>
+            <h1 className="dashboard-title">{project.name}</h1>
             <p className="dashboard-subtitle">
               {documents.length} {documents.length === 1 ? "document" : "documents"}
             </p>

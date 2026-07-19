@@ -37,7 +37,7 @@ Three claims, in pitch order:
 │  corpus_load        fetch relevant doc(s) from the DB          │
 │  corpus_log         append one decision/change (incremental)   │
 │  corpus_save        schema-forced state dump → merge into docs │
-│  corpus_code_query  pass-through to bundled Graphify           │
+│  codebase_search  pass-through to bundled Graphify           │
 └────────────────────────────────────────────────────────────────┘
                  fetch / upsert (markdown documents)
                       ▼
@@ -51,8 +51,10 @@ Three claims, in pitch order:
 **Storage backends (same tool interface, pluggable store):**
 - **Team mode (canonical):** Supabase. Documents are markdown pages keyed by project.
   Teammates' sessions fetch the same brain in real time — no commits, no repo files.
-- **Offline fallback (zero config):** documents live in `~/.corpus/<project>/` — the user's
-  home dir, NEVER the repo. Same format, same merge logic; syncs up when configured.
+- **Local mode (zero config):** documents live in `~/.corpus/<project>/` — the user's
+  home dir, NEVER the repo. Same format, same merge logic. Used only when nothing shared
+  was ever configured; a repo pointed at a workspace it can't reach gets memory OFF
+  instead (never a silent local fork — see design rule 4).
 - The target repo is read-only to Corpus. No generated files, no commit noise. Export to
   a repo file/Gitbook is an explicit user action, not a side effect.
 
@@ -68,17 +70,59 @@ Three claims, in pitch order:
 ## Sharing & access
 
 A **workspace** = one project (1:1 today). `workspaces.id` (uuid) is the opaque,
-shareable identifier used by `corpus-connect <id>` (separate CLI feature, in progress);
-`workspaces.slug` is the human key `mcp-server-2` already resolves locally
-(`resolveProject()` — repo folder name, or `$CORPUS_PROJECT`) and keys `documents` by.
+shareable identifier: it is what `corpus-setup` prints, what teammates paste into
+`corpus-connect <id>`, and — as `$CORPUS_WORKSPACE` in the client configs — the
+connect/disconnect switch the server reads (present ⇒ shared mode, absent with
+credentials ⇒ memory OFF; see design rule 4).
+
+**`documents` is keyed by `(workspace_id, name)`** — the uuid alone is identity, so two
+repos with the same folder name can never touch each other's rows. `workspaces.slug`
+(`resolveProject()`: repo folder name, or `$CORPUS_PROJECT`) is a display label,
+deliberately not unique.
+
+**The server detects the keying at runtime** (store.ts probes for the
+`documents.workspace_id` column once per process) because a previous re-keying shipped
+code before the DB had the column and broke every tool call. Against a pre-migration DB
+(documents keyed by `project` slug) it keeps working with the old queries and warns —
+loudly, on stderr and in `corpus-status` — that folder-name collisions remain possible
+until `supabase/migrate-documents-to-workspace-id.sql` is run (SQL editor, once, single
+transaction with abort-on-collision checks; restart sessions after). schema.sql creates
+the id-keyed shape directly for fresh DBs.
+
+### The connect verbs
+
+| Command | Does |
+|---|---|
+| `corpus-setup` | First-run wiring. **Creates** a workspace, registers all three clients, installs instruction blocks, builds the graph. Re-running reuses an existing id. |
+| `corpus-connect <id>` | **Joins** a workspace someone else created. Writes `$CORPUS_WORKSPACE` to every wired client. |
+| `corpus-disconnect` | **Detach**, not uninstall. Removes that one env key from every client, taking the repo out of ALL workspaces — memory is then OFF (no reads, no writes, no local fork) until the user runs `corpus-connect <id>` to rejoin or `corpus-setup` to create a new one. Never deletes shared documents or membership. |
+| `corpus-status` | Read-only diagnostic: wiring, workspace, store reachability, local memory, graph. |
+| `corpus-ls` | Read-only list of every workspace this machine has access to — created (`corpus-setup`) or shared with you (`corpus-connect`) — verified against the DB when reachable, with the current directory's workspace marked. |
+
+`corpus-ls` reads a machine-local rolodex, `~/.corpus/workspaces.json`, which setup and
+connect append to (registry.ts). Access is bearer — the id is the credential — so "what
+do I have access to" can only be answered from the ids this machine has held; there is
+no CLI login to ask the DB. The rolodex is a contact book, not an ACL: entries persist
+through disconnect (remembering the id is what makes reconnecting possible), and the DB
+remains the truth about which workspaces still exist.
+
+All of them act on every client symmetrically (`clients.ts`). Asymmetry is the bug that
+matters: a repo that disconnects Claude Code but not Gemini keeps writing to a workspace
+the user believes they left.
 
 Two access concerns that must not be conflated:
 - **Repo/code access** — cloning, pushing — is git/GitHub, entirely outside Corpus.
-- **Memory access** — who can read/write a workspace's docs — is what
-  `workspace_members` gates: dashboard view/edit via Auth0 (`user_id` = Auth0 `sub`),
-  and, via `status` ('connected' | 'disconnected'), which local sessions'
-  `corpus_log`/`corpus_save` calls are currently landing in the shared workspace
-  (toggled by `corpus-connect`/disconnect).
+- **Memory access** — who can read/write a workspace's docs. Today this is **bearer
+  access: the workspace id is the credential**, and there is no CLI login.
+  `workspace_members` gates *dashboard* view/edit via Auth0 (`user_id` = Auth0 `sub`)
+  and is written only by the dashboard.
+
+> **Known gap.** The server connects with `SUPABASE_SERVICE_ROLE_KEY`, which bypasses
+> RLS, so membership is not consulted on the write path. Recording `user_id` from the
+> CLI would produce attribution, not enforcement. Real per-user access control requires
+> moving the server off the service-role key onto per-user tokens + RLS policies; that
+> is the change that unlocks invites, roles and revocation. Until then, anyone holding a
+> workspace id has full read/write to it, with no expiry and no revocation.
 
 `usage_events` is an append-only, best-effort telemetry ledger (no FK — must never
 block a tool call) written by every tool call. It backs the dashboard's real
@@ -92,14 +136,18 @@ keyword-recall simulation.
    lifecycle hooks is a roadmap slide, not a dependency.
 2. **The DB stores markdown documents; the repo stays clean.** The documentation database
    is the canonical store. Corpus never writes into the target repo. Sharing = same
-   workspace in the DB; Auth0 gates dashboard access and workspace writes. Offline
-   fallback = `~/.corpus/<project>/`, same documents, same format.
+   workspace in the DB; Auth0 gates dashboard access and workspace writes. Zero-config
+   local mode = `~/.corpus/<project>/`, same documents, same format — used only when
+   nothing shared was ever configured.
 3. **The server never calls an LLM.** The calling model writes summaries; the server
    validates, renders, and persists them. Zero API keys to run. (This is also the honest
    answer to "where does the intelligence live?" — in the schema + tool descriptions.)
-4. **Degrade gracefully.** No documents yet for a project → return "no memory yet", don't
-   error. No Supabase configured → offline fallback store. No graphify installed → say so
-   and tell the model to fall back to normal exploration.
+4. **Degrade gracefully — but never fork the memory.** No documents yet for a project →
+   return "no memory yet", don't error. No graphify installed → say so and tell the model
+   to fall back to normal exploration. But a repo that points at a workspace it cannot
+   reach (disconnected, malformed id, missing credentials) gets memory OFF with the fix
+   spelled out (`corpus-connect <id>` / `corpus-setup`) — never a silent local fallback,
+   which would create a second, diverging version of the memory.
 
 ## Tool contracts
 
@@ -135,7 +183,7 @@ keyword-recall simulation.
   from becoming a contradictory pile.
 - Validation: reject saves with empty `nextSteps` or `inProgress` items with no file refs.
 
-### corpus_code_query
+### codebase_search
 - **When:** instead of grep/read exploration — "what calls X", "how does auth connect to db".
 - **In:** `question` (natural language), `budget?` (max response tokens, default 2000).
 - **Out:** Graphify's answer (structure: nodes, source locations, connections — not raw code).
@@ -225,8 +273,10 @@ cost exists to measure — no invented savings percentage, ever:
    cross-LLM handoff working end to end.
 2. **Phase 2 (tracks):** dashboard project browser → documentation pages (view/edit,
    Realtime) + token counter; Auth0 on the dashboard and workspace writes; topical pages.
-3. **Roadmap (pitch only):** auto-save via harness lifecycle hooks; corpus_init that
-   bootstraps docs for an existing repo from the Graphify graph; pgvector relevance
+3. **Built:** `corpus_init` — seeds the state doc's Architecture notes from the Graphify
+   graph's God Nodes / Community Hubs (`mcp-server-2/src/graphify.ts` `summarizeGraph`),
+   so a fresh repo's memory is useful before any session has run, not blank until one has.
+4. **Roadmap (pitch only):** auto-save via harness lifecycle hooks; pgvector relevance
    matching for corpus_load queries (v1 server already has this).
 
 ## Demo script (deterministic — every step user-triggered)

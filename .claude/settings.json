@@ -1,0 +1,55 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "corpus-hook session-start --client claude"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Grep|Glob|Read",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "corpus-hook pretool --client claude"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit|NotebookEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "corpus-hook mark-dirty --client claude"
+          }
+        ]
+      },
+      {
+        "matcher": "mcp__corpus__corpus_log|mcp__corpus__corpus_save",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "corpus-hook mark-logged --client claude"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "corpus-hook check-logged --client claude"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -65,7 +65,7 @@ export default async function ProjectsPage() {
         ) : (
           <div className="project-grid">
             {projects.map((p) => (
-              <Link key={p.slug} href={`/projects/${encodeURIComponent(p.slug)}`} className="project-card">
+              <Link key={p.id} href={`/projects/${encodeURIComponent(p.id)}`} className="project-card">
                 <div className="project-card-top">
                   <span className="project-card-avatar">{p.name.charAt(0).toUpperCase()}</span>
                   <span className="project-card-count">
