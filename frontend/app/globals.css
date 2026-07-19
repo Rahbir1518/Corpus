@@ -169,6 +169,23 @@ body {
   transform: none;
 }
 
+/* Corpus bonsai brand logo — stands on its own, gently enlarges on hover */
+.brand-link {
+  display: inline-flex;
+  align-items: center;
+}
+
+.brand-logo {
+  object-fit: contain;
+  display: block;
+  transition: transform 0.2s ease;
+}
+
+.brand-link:hover .brand-logo,
+.brand-logo:hover {
+  transform: scale(1.12);
+}
+
 /* Modal entrance (dashboard document / workspace modals) */
 @keyframes modal-fade {
   from { opacity: 0; }

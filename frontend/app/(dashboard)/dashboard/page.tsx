@@ -1,6 +1,7 @@
 import { auth0 } from "@/lib/auth0";
 import { redirect } from "next/navigation";
 import { getWorkspacesForUser } from "@/lib/workspaces";
+import { getUsageSummary } from "@/lib/usage";
 import DashboardClient from "./DashboardClient";
 
 export default async function Dashboard() {
@@ -12,6 +13,9 @@ export default async function Dashboard() {
 
   const user = session.user;
   const workspaces = await getWorkspacesForUser(String(user.sub));
+  // usage_events is keyed by project slug (no FK — see schema.sql), so the
+  // ledger aggregates over the slugs of the workspaces shown in the graph.
+  const usage = await getUsageSummary(workspaces.map((w) => w.slug));
 
   return (
     <DashboardClient
@@ -21,6 +25,7 @@ export default async function Dashboard() {
         picture: user.picture ? String(user.picture) : undefined,
       }}
       workspaces={workspaces}
+      usage={usage}
     />
   );
 }

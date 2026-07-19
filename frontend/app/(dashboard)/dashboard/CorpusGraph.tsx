@@ -56,12 +56,14 @@ interface CGNode {
   color: string;
   wsId?: string;
   docName?: string;
+  status?: "connected" | "disconnected"; // workspace hubs only, from workspace_members
 }
 
 // Only the extra payload — source/target stay the library's own union, since
 // the simulation mutates them from ids into node objects at runtime.
 interface CGLink {
   kind: "trunk" | "leaf";
+  dashed?: boolean; // trunk to a disconnected workspace
 }
 
 type FGNode = NodeObject<CGNode>;
@@ -91,8 +93,20 @@ export default function CorpusGraph({ workspaces, rootLabel, highlight, searchAc
 
     workspaces.forEach((ws, i) => {
       const color = clusterColor(i);
-      nodes.push({ id: ws.id, kind: "workspace", label: ws.name, color, wsId: ws.id });
-      links.push({ source: ROOT_ID, target: ws.id, kind: "trunk" });
+      nodes.push({
+        id: ws.id,
+        kind: "workspace",
+        label: ws.name,
+        color,
+        wsId: ws.id,
+        status: ws.membership?.status,
+      });
+      links.push({
+        source: ROOT_ID,
+        target: ws.id,
+        kind: "trunk",
+        dashed: ws.membership?.status === "disconnected",
+      });
 
       for (const doc of ws.documents) {
         const id = docNodeId(ws.id, doc.name);
@@ -136,8 +150,10 @@ export default function CorpusGraph({ workspaces, rootLabel, highlight, searchAc
             if (searchActive && (dimmed(linkEndId(l.source)) || dimmed(linkEndId(l.target)))) {
               return "rgba(255,255,255,0.04)";
             }
+            if (l.dashed) return "rgba(255,255,255,0.10)";
             return l.kind === "trunk" ? "rgba(255,255,255,0.22)" : "rgba(255,255,255,0.12)";
           }}
+          linkLineDash={(l: FGLink) => (l.dashed ? [4, 3] : null)}
           linkWidth={(l: FGLink) => (l.kind === "trunk" ? 1.2 : 0.6)}
           nodeRelSize={5}
           onNodeClick={(node: FGNode) => {
@@ -176,6 +192,17 @@ export default function CorpusGraph({ workspaces, rootLabel, highlight, searchAc
               ctx.stroke();
             }
             ctx.globalAlpha = 1;
+
+            // Live connect state from corpus-connect/disconnect, as a small
+            // status dot on the hub — green means logs are landing here.
+            if (node.kind === "workspace" && node.status) {
+              ctx.beginPath();
+              ctx.arc(x + r * 0.95, y - r * 0.95, 2.4, 0, 2 * Math.PI);
+              ctx.fillStyle = node.status === "connected" ? "#22c55e" : "#71717a";
+              ctx.globalAlpha = low ? 0.2 : 1;
+              ctx.fill();
+              ctx.globalAlpha = 1;
+            }
 
             const showLabel =
               node.kind !== "doc" || hot || node.id === hovered || scale > 1.6;

@@ -40,6 +40,5 @@
   "38": "corpus",
   "39": "AGENTS.md",
   "40": "CLAUDE.md",
-  "41": "migrate-documents-to-workspace-id.sql",
-  "42": "DashboardClient.tsx"
+  "41": "migrate-documents-to-workspace-id.sql"
 }

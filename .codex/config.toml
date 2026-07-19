@@ -6,5 +6,4 @@ args = ["/c", "corpus-mcp-v2"]
 [mcp_servers.corpus.env]
 CORPUS_PROJECT = "Corpus"
 CORPUS_AGENT = "codex"
-CORPUS_WORKSPACE = "442881e1-5743-4871-b4d5-49af9ce0f926"
 # corpus:end
