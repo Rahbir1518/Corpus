@@ -69,10 +69,6 @@ export async function getProject(id: string): Promise<{ id: string; name: string
 
 // Every document under a project (workspace), including content, newest first.
 // Content is included so the reader can open a doc with no extra round trip.
-//
-// Goes through fetchDocuments() because the live DB may still key documents by slug
-// rather than workspace_id — selecting workspace_id directly returned 42703 here and
-// the `return []` below turned that into a silent "this project has no documents".
 export async function listDocuments(workspaceId: string): Promise<DocumentSummary[]> {
   const sb = getSupabase();
   if (!sb) return [];

@@ -5,7 +5,8 @@ import Link from "next/link";
 import Image from "next/image";
 import Starfield from "@/app/components/Starfield";
 import { getBrowserSupabase } from "@/lib/supabaseBrowser";
-import type { WorkspaceDoc, WorkspaceMembership, WorkspaceWithDocs } from "@/lib/workspaces";
+import type { WorkspaceDoc, WorkspaceWithDocs } from "@/lib/workspaces";
+import { isActive, type WorkspaceActivity } from "@/lib/activity";
 import type { BreakdownRow, UsageSummary } from "@/lib/usage";
 import CorpusGraph, { clusterColor, docNodeId, GraphSelection, ROOT_ID } from "./CorpusGraph";
 
@@ -99,8 +100,7 @@ export default function DashboardClient({ user, workspaces: initialWorkspaces, u
   const hour = new Date().getHours();
   const greeting = hour < 12 ? "Good morning" : hour < 18 ? "Good afternoon" : "Good evening";
   const docCount = workspaces.reduce((n, w) => n + w.documents.length, 0);
-  const hasMemberships = workspaces.some((w) => w.membership);
-  const connectedCount = workspaces.filter((w) => w.membership?.status === "connected").length;
+  const activeCount = workspaces.filter((w) => isActive(w.activity)).length;
 
   // Keyword search: any term hitting a workspace name/slug or a document
   // name/content lights that node up; a matched doc keeps its hub lit so the
@@ -209,7 +209,7 @@ export default function DashboardClient({ user, workspaces: initialWorkspaces, u
           <p className="text-muted-foreground mt-6 text-base sm:text-lg animate-fade-rise-delay">
             {workspaces.length} workspace{workspaces.length === 1 ? "" : "s"} · {docCount} document
             {docCount === 1 ? "" : "s"} remembered
-            {hasMemberships ? ` · ${connectedCount} connected` : ""}. Click a node to open it.
+            {activeCount > 0 ? ` · ${activeCount} active today` : ""}. Click a node to open it.
           </p>
         </header>
 
@@ -438,10 +438,11 @@ function ConnectionsView({
   return (
     <div className="flex-1 min-h-0 overflow-y-auto p-4 sm:p-6">
       <p className="text-xs text-muted-foreground mb-4 max-w-2xl leading-relaxed">
-        Workspaces this account has access to — the dashboard mirror of{" "}
-        <code className="font-mono text-foreground">corpus-ls</code>. A green dot means{" "}
-        <code className="font-mono text-foreground">corpus-connect</code> is currently pointing
-        your sessions at that workspace.
+        Every workspace in this Corpus — the dashboard mirror of{" "}
+        <code className="font-mono text-foreground">corpus-ls</code>. A green dot means memory was
+        written there in the last 24 hours; run{" "}
+        <code className="font-mono text-foreground">corpus-connect</code> with an id below to point
+        this repo&rsquo;s sessions at that workspace.
       </p>
 
       {list.length === 0 ? (
@@ -483,7 +484,7 @@ function ConnectionRow({
           <span className="font-mono text-xs text-muted-foreground">{ws.slug}</span>
         </button>
         <span className="ml-auto">
-          <StatusBadge membership={ws.membership} />
+          <StatusBadge activity={ws.activity} />
         </span>
       </div>
 
@@ -507,26 +508,39 @@ function ConnectionRow({
   );
 }
 
-function StatusBadge({ membership }: { membership: WorkspaceMembership | null }) {
-  if (!membership) {
-    return <span className="text-[11px] font-mono text-muted-foreground">not joined here</span>;
+// "3 minutes ago" / "2 days ago" — coarse on purpose; the exact timestamp is not
+// what anyone is reading this badge for.
+function ago(iso: string): string {
+  const mins = Math.max(0, Math.round((Date.now() - new Date(iso).getTime()) / 60000));
+  if (mins < 1) return "just now";
+  if (mins < 60) return `${mins}m ago`;
+  const hours = Math.round(mins / 60);
+  if (hours < 24) return `${hours}h ago`;
+  const days = Math.round(hours / 24);
+  return days < 30 ? `${days}d ago` : `${Math.round(days / 30)}mo ago`;
+}
+
+function StatusBadge({ activity }: { activity: WorkspaceActivity }) {
+  const events = activity.events;
+  const count = `${events} event${events === 1 ? "" : "s"}`;
+
+  if (!activity.lastActiveAt) {
+    return <span className="text-[11px] font-mono text-muted-foreground">no activity yet</span>;
   }
-  const since = new Date(membership.joined_at).toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-  });
-  if (membership.status === "connected") {
+
+  if (isActive(activity)) {
     return (
       <span className="inline-flex items-center gap-2 text-[11px] font-mono text-[#22c55e]">
         <span className="w-2 h-2 rounded-full bg-[#22c55e] shadow-[0_0_8px_#22c55e] animate-pulse" />
-        connected · since {since}
+        active · {count} · {ago(activity.lastActiveAt)}
       </span>
     );
   }
+
   return (
     <span className="inline-flex items-center gap-2 text-[11px] font-mono text-muted-foreground">
       <span className="w-2 h-2 rounded-full bg-white/25" />
-      disconnected · since {since}
+      idle · {count} · {ago(activity.lastActiveAt)}
     </span>
   );
 }
@@ -708,7 +722,7 @@ function WorkspaceModal({
           </h2>
           <p className="text-sm text-muted-foreground mt-1 font-mono">{ws.slug}</p>
           <div className="mt-2">
-            <StatusBadge membership={ws.membership} />
+            <StatusBadge activity={ws.activity} />
           </div>
         </div>
         <CloseButton onClose={onClose} />

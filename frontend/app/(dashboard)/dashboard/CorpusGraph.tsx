@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import type ForceGraph2DGeneric from "react-force-graph-2d";
 import type { ForceGraphMethods, LinkObject, NodeObject } from "react-force-graph-2d";
 import type { WorkspaceWithDocs } from "@/lib/workspaces";
+import { isActive } from "@/lib/activity";
 
 // react-force-graph touches window on import — must be client-only. dynamic()
 // collapses the component's generics to {}, so cast back to the library's
@@ -56,14 +57,17 @@ interface CGNode {
   color: string;
   wsId?: string;
   docName?: string;
-  status?: "connected" | "disconnected"; // workspace hubs only, from workspace_members
+  // Workspace hubs only. Derived from the write trail (usage_events +
+  // documents.updated_at) rather than workspace_members, which nothing populates —
+  // see lib/activity.ts.
+  active?: boolean;
 }
 
 // Only the extra payload — source/target stay the library's own union, since
 // the simulation mutates them from ids into node objects at runtime.
 interface CGLink {
   kind: "trunk" | "leaf";
-  dashed?: boolean; // trunk to a disconnected workspace
+  dashed?: boolean; // trunk to a workspace with no recent writes
 }
 
 type FGNode = NodeObject<CGNode>;
@@ -93,19 +97,22 @@ export default function CorpusGraph({ workspaces, rootLabel, highlight, searchAc
 
     workspaces.forEach((ws, i) => {
       const color = clusterColor(i);
+      const active = isActive(ws.activity);
       nodes.push({
         id: ws.id,
         kind: "workspace",
         label: ws.name,
         color,
         wsId: ws.id,
-        status: ws.membership?.status,
+        active,
       });
       links.push({
         source: ROOT_ID,
         target: ws.id,
         kind: "trunk",
-        dashed: ws.membership?.status === "disconnected",
+        // Dashed trunk = nothing has been written there recently, so the cluster
+        // reads as dormant rather than live.
+        dashed: !active,
       });
 
       for (const doc of ws.documents) {
@@ -193,12 +200,12 @@ export default function CorpusGraph({ workspaces, rootLabel, highlight, searchAc
             }
             ctx.globalAlpha = 1;
 
-            // Live connect state from corpus-connect/disconnect, as a small
-            // status dot on the hub — green means logs are landing here.
-            if (node.kind === "workspace" && node.status) {
+            // Small activity dot on the hub — green means memory was written to this
+            // workspace in the last 24h, i.e. sessions are actually landing there.
+            if (node.kind === "workspace") {
               ctx.beginPath();
               ctx.arc(x + r * 0.95, y - r * 0.95, 2.4, 0, 2 * Math.PI);
-              ctx.fillStyle = node.status === "connected" ? "#22c55e" : "#71717a";
+              ctx.fillStyle = node.active ? "#22c55e" : "#71717a";
               ctx.globalAlpha = low ? 0.2 : 1;
               ctx.fill();
               ctx.globalAlpha = 1;

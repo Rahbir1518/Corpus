@@ -102,14 +102,333 @@
       "norm_label": "corpus_workspace"
     },
     {
+      "label": "CorpusGraph.tsx",
+      "file_type": "code",
+      "source_file": "frontend/app/(dashboard)/dashboard/CorpusGraph.tsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "frontend_app_dashboard_dashboard_corpusgraph",
+      "community": 25,
+      "community_name": "install.ps1",
+      "norm_label": "corpusgraph.tsx"
+    },
+    {
+      "label": "ForceGraph2D",
+      "file_type": "code",
+      "source_file": "frontend/app/(dashboard)/dashboard/CorpusGraph.tsx",
+      "source_location": "L12",
+      "_origin": "ast",
+      "id": "frontend_app_dashboard_dashboard_corpusgraph_forcegraph2d",
+      "community": 25,
+      "community_name": "install.ps1",
+      "norm_label": "forcegraph2d"
+    },
+    {
+      "label": "CLUSTER_COLORS",
+      "file_type": "code",
+      "source_file": "frontend/app/(dashboard)/dashboard/CorpusGraph.tsx",
+      "source_location": "L20",
+      "_origin": "ast",
+      "id": "frontend_app_dashboard_dashboard_corpusgraph_cluster_colors",
+      "community": 25,
+      "community_name": "install.ps1",
+      "norm_label": "cluster_colors"
+    },
+    {
+      "label": "clusterColor()",
+      "file_type": "code",
+      "source_file": "frontend/app/(dashboard)/dashboard/CorpusGraph.tsx",
+      "source_location": "L31",
+      "_origin": "ast",
+      "id": "frontend_app_dashboard_dashboard_corpusgraph_clustercolor",
+      "community": 25,
+      "community_name": "install.ps1",
+      "norm_label": "clustercolor()"
+    },
+    {
+      "label": "docNodeId()",
+      "file_type": "code",
+      "source_file": "frontend/app/(dashboard)/dashboard/CorpusGraph.tsx",
+      "source_location": "L35",
+      "_origin": "ast",
+      "id": "frontend_app_dashboard_dashboard_corpusgraph_docnodeid",
+      "community": 25,
+      "community_name": "install.ps1",
+      "norm_label": "docnodeid()"
+    },
+    {
+      "label": "GraphSelection",
+      "file_type": "code",
+      "source_file": "frontend/app/(dashboard)/dashboard/CorpusGraph.tsx",
+      "source_location": "L39",
+      "_origin": "ast",
+      "id": "frontend_app_dashboard_dashboard_corpusgraph_graphselection",
+      "community": 25,
+      "community_name": "install.ps1",
+      "norm_label": "graphselection"
+    },
+    {
+      "label": "Props",
+      "file_type": "code",
+      "source_file": "frontend/app/(dashboard)/dashboard/CorpusGraph.tsx",
+      "source_location": "L44",
+      "_origin": "ast",
+      "id": "frontend_app_dashboard_dashboard_corpusgraph_props",
+      "community": 25,
+      "community_name": "install.ps1",
+      "norm_label": "props"
+    },
+    {
+      "label": "CGNode",
+      "file_type": "code",
+      "source_file": "frontend/app/(dashboard)/dashboard/CorpusGraph.tsx",
+      "source_location": "L52",
+      "_origin": "ast",
+      "id": "frontend_app_dashboard_dashboard_corpusgraph_cgnode",
+      "community": 25,
+      "community_name": "install.ps1",
+      "norm_label": "cgnode"
+    },
+    {
+      "label": "CGLink",
+      "file_type": "code",
+      "source_file": "frontend/app/(dashboard)/dashboard/CorpusGraph.tsx",
+      "source_location": "L64",
+      "_origin": "ast",
+      "id": "frontend_app_dashboard_dashboard_corpusgraph_cglink",
+      "community": 25,
+      "community_name": "install.ps1",
+      "norm_label": "cglink"
+    },
+    {
+      "label": "FGNode",
+      "file_type": "code",
+      "source_file": "frontend/app/(dashboard)/dashboard/CorpusGraph.tsx",
+      "source_location": "L69",
+      "_origin": "ast",
+      "id": "frontend_app_dashboard_dashboard_corpusgraph_fgnode",
+      "community": 25,
+      "community_name": "install.ps1",
+      "norm_label": "fgnode"
+    },
+    {
+      "label": "FGLink",
+      "file_type": "code",
+      "source_file": "frontend/app/(dashboard)/dashboard/CorpusGraph.tsx",
+      "source_location": "L70",
+      "_origin": "ast",
+      "id": "frontend_app_dashboard_dashboard_corpusgraph_fglink",
+      "community": 25,
+      "community_name": "install.ps1",
+      "norm_label": "fglink"
+    },
+    {
+      "label": "CorpusGraph()",
+      "file_type": "code",
+      "source_file": "frontend/app/(dashboard)/dashboard/CorpusGraph.tsx",
+      "source_location": "L72",
+      "_origin": "ast",
+      "id": "frontend_app_dashboard_dashboard_corpusgraph_corpusgraph",
+      "community": 25,
+      "community_name": "install.ps1",
+      "norm_label": "corpusgraph()"
+    },
+    {
+      "label": "truncate()",
+      "file_type": "code",
+      "source_file": "frontend/app/(dashboard)/dashboard/CorpusGraph.tsx",
+      "source_location": "L231",
+      "_origin": "ast",
+      "id": "frontend_app_dashboard_dashboard_corpusgraph_truncate",
+      "community": 25,
+      "community_name": "install.ps1",
+      "norm_label": "truncate()"
+    },
+    {
+      "label": "DashboardClient.tsx",
+      "file_type": "code",
+      "source_file": "frontend/app/(dashboard)/dashboard/DashboardClient.tsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "frontend_app_dashboard_dashboard_dashboardclient",
+      "community": 25,
+      "community_name": "install.ps1",
+      "norm_label": "dashboardclient.tsx"
+    },
+    {
+      "label": "DashboardUser",
+      "file_type": "code",
+      "source_file": "frontend/app/(dashboard)/dashboard/DashboardClient.tsx",
+      "source_location": "L17",
+      "_origin": "ast",
+      "id": "frontend_app_dashboard_dashboard_dashboardclient_dashboarduser",
+      "community": 25,
+      "community_name": "install.ps1",
+      "norm_label": "dashboarduser"
+    },
+    {
+      "label": "Props",
+      "file_type": "code",
+      "source_file": "frontend/app/(dashboard)/dashboard/DashboardClient.tsx",
+      "source_location": "L23",
+      "_origin": "ast",
+      "id": "frontend_app_dashboard_dashboard_dashboardclient_props",
+      "community": 25,
+      "community_name": "install.ps1",
+      "norm_label": "props"
+    },
+    {
+      "label": "connectMailto()",
+      "file_type": "code",
+      "source_file": "frontend/app/(dashboard)/dashboard/DashboardClient.tsx",
+      "source_location": "L29",
+      "_origin": "ast",
+      "id": "frontend_app_dashboard_dashboard_dashboardclient_connectmailto",
+      "community": 25,
+      "community_name": "install.ps1",
+      "norm_label": "connectmailto()"
+    },
+    {
+      "label": "DashboardClient()",
+      "file_type": "code",
+      "source_file": "frontend/app/(dashboard)/dashboard/DashboardClient.tsx",
+      "source_location": "L43",
+      "_origin": "ast",
+      "id": "frontend_app_dashboard_dashboard_dashboardclient_dashboardclient",
+      "community": 25,
+      "community_name": "install.ps1",
+      "norm_label": "dashboardclient()"
+    },
+    {
+      "label": "fmtTokens()",
+      "file_type": "code",
+      "source_file": "frontend/app/(dashboard)/dashboard/DashboardClient.tsx",
+      "source_location": "L380",
+      "_origin": "ast",
+      "id": "frontend_app_dashboard_dashboard_dashboardclient_fmttokens",
+      "community": 25,
+      "community_name": "install.ps1",
+      "norm_label": "fmttokens()"
+    },
+    {
+      "label": "TokenLedger()",
+      "file_type": "code",
+      "source_file": "frontend/app/(dashboard)/dashboard/DashboardClient.tsx",
+      "source_location": "L386",
+      "_origin": "ast",
+      "id": "frontend_app_dashboard_dashboard_dashboardclient_tokenledger",
+      "community": 25,
+      "community_name": "install.ps1",
+      "norm_label": "tokenledger()"
+    },
+    {
+      "label": "ConnectionsView()",
+      "file_type": "code",
+      "source_file": "frontend/app/(dashboard)/dashboard/DashboardClient.tsx",
+      "source_location": "L424",
+      "_origin": "ast",
+      "id": "frontend_app_dashboard_dashboard_dashboardclient_connectionsview",
+      "community": 25,
+      "community_name": "install.ps1",
+      "norm_label": "connectionsview()"
+    },
+    {
+      "label": "ConnectionRow()",
+      "file_type": "code",
+      "source_file": "frontend/app/(dashboard)/dashboard/DashboardClient.tsx",
+      "source_location": "L465",
+      "_origin": "ast",
+      "id": "frontend_app_dashboard_dashboard_dashboardclient_connectionrow",
+      "community": 25,
+      "community_name": "install.ps1",
+      "norm_label": "connectionrow()"
+    },
+    {
+      "label": "StatusBadge()",
+      "file_type": "code",
+      "source_file": "frontend/app/(dashboard)/dashboard/DashboardClient.tsx",
+      "source_location": "L510",
+      "_origin": "ast",
+      "id": "frontend_app_dashboard_dashboard_dashboardclient_statusbadge",
+      "community": 25,
+      "community_name": "install.ps1",
+      "norm_label": "statusbadge()"
+    },
+    {
+      "label": "CopyButton()",
+      "file_type": "code",
+      "source_file": "frontend/app/(dashboard)/dashboard/DashboardClient.tsx",
+      "source_location": "L534",
+      "_origin": "ast",
+      "id": "frontend_app_dashboard_dashboard_dashboardclient_copybutton",
+      "community": 25,
+      "community_name": "install.ps1",
+      "norm_label": "copybutton()"
+    },
+    {
+      "label": "ConnectIdChip()",
+      "file_type": "code",
+      "source_file": "frontend/app/(dashboard)/dashboard/DashboardClient.tsx",
+      "source_location": "L559",
+      "_origin": "ast",
+      "id": "frontend_app_dashboard_dashboard_dashboardclient_connectidchip",
+      "community": 25,
+      "community_name": "install.ps1",
+      "norm_label": "connectidchip()"
+    },
+    {
+      "label": "DocumentModal()",
+      "file_type": "code",
+      "source_file": "frontend/app/(dashboard)/dashboard/DashboardClient.tsx",
+      "source_location": "L595",
+      "_origin": "ast",
+      "id": "frontend_app_dashboard_dashboard_dashboardclient_documentmodal",
+      "community": 25,
+      "community_name": "install.ps1",
+      "norm_label": "documentmodal()"
+    },
+    {
+      "label": "WorkspaceModal()",
+      "file_type": "code",
+      "source_file": "frontend/app/(dashboard)/dashboard/DashboardClient.tsx",
+      "source_location": "L690",
+      "_origin": "ast",
+      "id": "frontend_app_dashboard_dashboard_dashboardclient_workspacemodal",
+      "community": 25,
+      "community_name": "install.ps1",
+      "norm_label": "workspacemodal()"
+    },
+    {
+      "label": "ModalShell()",
+      "file_type": "code",
+      "source_file": "frontend/app/(dashboard)/dashboard/DashboardClient.tsx",
+      "source_location": "L757",
+      "_origin": "ast",
+      "id": "frontend_app_dashboard_dashboard_dashboardclient_modalshell",
+      "community": 25,
+      "community_name": "install.ps1",
+      "norm_label": "modalshell()"
+    },
+    {
+      "label": "CloseButton()",
+      "file_type": "code",
+      "source_file": "frontend/app/(dashboard)/dashboard/DashboardClient.tsx",
+      "source_location": "L770",
+      "_origin": "ast",
+      "id": "frontend_app_dashboard_dashboard_dashboardclient_closebutton",
+      "community": 25,
+      "community_name": "install.ps1",
+      "norm_label": "closebutton()"
+    },
+    {
       "label": "page.tsx",
       "file_type": "code",
       "source_file": "frontend/app/(dashboard)/dashboard/page.tsx",
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_app_dashboard_dashboard_page",
-      "community": 6,
-      "community_name": "landing-page.tsx",
+      "community": 25,
+      "community_name": "install.ps1",
       "norm_label": "page.tsx"
     },
     {
@@ -119,9 +438,31 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "frontend_app_dashboard_dashboard_page_dashboard",
+      "community": 25,
+      "community_name": "install.ps1",
+      "norm_label": "dashboard()"
+    },
+    {
+      "label": "route.ts",
+      "file_type": "code",
+      "source_file": "frontend/app/api/documents/route.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "frontend_app_api_documents_route",
       "community": 6,
       "community_name": "landing-page.tsx",
-      "norm_label": "dashboard()"
+      "norm_label": "route.ts"
+    },
+    {
+      "label": "PUT()",
+      "file_type": "code",
+      "source_file": "frontend/app/api/documents/route.ts",
+      "source_location": "L7",
+      "_origin": "ast",
+      "id": "frontend_app_api_documents_route_put",
+      "community": 6,
+      "community_name": "landing-page.tsx",
+      "norm_label": "put()"
     },
     {
       "label": "route.ts",
@@ -143,6 +484,28 @@
       "id": "frontend_app_api_graph_route_get",
       "community": 3,
       "community_name": "graph.ts",
+      "norm_label": "get()"
+    },
+    {
+      "label": "route.ts",
+      "file_type": "code",
+      "source_file": "frontend/app/api/workspaces/route.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "frontend_app_api_workspaces_route",
+      "community": 25,
+      "community_name": "install.ps1",
+      "norm_label": "route.ts"
+    },
+    {
+      "label": "GET()",
+      "file_type": "code",
+      "source_file": "frontend/app/api/workspaces/route.ts",
+      "source_location": "L8",
+      "_origin": "ast",
+      "id": "frontend_app_api_workspaces_route_get",
+      "community": 25,
+      "community_name": "install.ps1",
       "norm_label": "get()"
     },
     {
@@ -168,14 +531,58 @@
       "norm_label": "loginerrorpage()"
     },
     {
+      "label": "LandingGraph.tsx",
+      "file_type": "code",
+      "source_file": "frontend/app/components/LandingGraph.tsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "frontend_app_components_landinggraph",
+      "community": 25,
+      "community_name": "install.ps1",
+      "norm_label": "landinggraph.tsx"
+    },
+    {
+      "label": "doc()",
+      "file_type": "code",
+      "source_file": "frontend/app/components/LandingGraph.tsx",
+      "source_location": "L11",
+      "_origin": "ast",
+      "id": "frontend_app_components_landinggraph_doc",
+      "community": 33,
+      "community_name": "GEMINI.md",
+      "norm_label": "doc()"
+    },
+    {
+      "label": "DEMO",
+      "file_type": "code",
+      "source_file": "frontend/app/components/LandingGraph.tsx",
+      "source_location": "L13",
+      "_origin": "ast",
+      "id": "frontend_app_components_landinggraph_demo",
+      "community": 25,
+      "community_name": "install.ps1",
+      "norm_label": "demo"
+    },
+    {
+      "label": "LandingGraph()",
+      "file_type": "code",
+      "source_file": "frontend/app/components/LandingGraph.tsx",
+      "source_location": "L30",
+      "_origin": "ast",
+      "id": "frontend_app_components_landinggraph_landinggraph",
+      "community": 25,
+      "community_name": "install.ps1",
+      "norm_label": "landinggraph()"
+    },
+    {
       "label": "Starfield.tsx",
       "file_type": "code",
       "source_file": "frontend/app/components/Starfield.tsx",
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_app_components_starfield",
-      "community": 6,
-      "community_name": "landing-page.tsx",
+      "community": 25,
+      "community_name": "install.ps1",
       "norm_label": "starfield.tsx"
     },
     {
@@ -185,8 +592,8 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "frontend_app_components_starfield_star",
-      "community": 6,
-      "community_name": "landing-page.tsx",
+      "community": 25,
+      "community_name": "install.ps1",
       "norm_label": "star"
     },
     {
@@ -196,8 +603,8 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "frontend_app_components_starfield_shooter",
-      "community": 6,
-      "community_name": "landing-page.tsx",
+      "community": 25,
+      "community_name": "install.ps1",
       "norm_label": "shooter"
     },
     {
@@ -207,8 +614,8 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "frontend_app_components_starfield_starfield",
-      "community": 6,
-      "community_name": "landing-page.tsx",
+      "community": 25,
+      "community_name": "install.ps1",
       "norm_label": "starfield()"
     },
     {
@@ -218,74 +625,74 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_app_components_landing_page",
-      "community": 6,
-      "community_name": "landing-page.tsx",
+      "community": 25,
+      "community_name": "install.ps1",
       "norm_label": "landing-page.tsx"
     },
     {
       "label": "Reveal()",
       "file_type": "code",
       "source_file": "frontend/app/components/landing-page.tsx",
-      "source_location": "L7",
+      "source_location": "L9",
       "_origin": "ast",
       "id": "frontend_app_components_landing_page_reveal",
-      "community": 6,
-      "community_name": "landing-page.tsx",
+      "community": 25,
+      "community_name": "install.ps1",
       "norm_label": "reveal()"
     },
     {
       "label": "Line",
       "file_type": "code",
       "source_file": "frontend/app/components/landing-page.tsx",
-      "source_location": "L54",
+      "source_location": "L56",
       "_origin": "ast",
       "id": "frontend_app_components_landing_page_line",
-      "community": 6,
-      "community_name": "landing-page.tsx",
+      "community": 25,
+      "community_name": "install.ps1",
       "norm_label": "line"
     },
     {
       "label": "SCRIPT",
       "file_type": "code",
       "source_file": "frontend/app/components/landing-page.tsx",
-      "source_location": "L60",
+      "source_location": "L62",
       "_origin": "ast",
       "id": "frontend_app_components_landing_page_script",
-      "community": 6,
-      "community_name": "landing-page.tsx",
+      "community": 25,
+      "community_name": "install.ps1",
       "norm_label": "script"
     },
     {
       "label": "CorpusTerminal()",
       "file_type": "code",
       "source_file": "frontend/app/components/landing-page.tsx",
-      "source_location": "L77",
+      "source_location": "L79",
       "_origin": "ast",
       "id": "frontend_app_components_landing_page_corpusterminal",
-      "community": 6,
-      "community_name": "landing-page.tsx",
+      "community": 25,
+      "community_name": "install.ps1",
       "norm_label": "corpusterminal()"
     },
     {
       "label": "TerminalLine()",
       "file_type": "code",
       "source_file": "frontend/app/components/landing-page.tsx",
-      "source_location": "L144",
+      "source_location": "L146",
       "_origin": "ast",
       "id": "frontend_app_components_landing_page_terminalline",
-      "community": 6,
-      "community_name": "landing-page.tsx",
+      "community": 25,
+      "community_name": "install.ps1",
       "norm_label": "terminalline()"
     },
     {
       "label": "LandingPage()",
       "file_type": "code",
       "source_file": "frontend/app/components/landing-page.tsx",
-      "source_location": "L183",
+      "source_location": "L185",
       "_origin": "ast",
       "id": "frontend_app_components_landing_page_landingpage",
-      "community": 6,
-      "community_name": "landing-page.tsx",
+      "community": 25,
+      "community_name": "install.ps1",
       "norm_label": "landingpage()"
     },
     {
@@ -372,8 +779,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_app_projects_slug_bonsaitree",
-      "community": 6,
-      "community_name": "landing-page.tsx",
+      "community": 33,
+      "community_name": "GEMINI.md",
       "norm_label": "bonsaitree.tsx"
     },
     {
@@ -383,8 +790,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "frontend_app_projects_slug_bonsaitree_doc",
-      "community": 6,
-      "community_name": "landing-page.tsx",
+      "community": 33,
+      "community_name": "GEMINI.md",
       "norm_label": "doc"
     },
     {
@@ -394,8 +801,8 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "frontend_app_projects_slug_bonsaitree_props",
-      "community": 6,
-      "community_name": "landing-page.tsx",
+      "community": 33,
+      "community_name": "GEMINI.md",
       "norm_label": "props"
     },
     {
@@ -405,8 +812,8 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "frontend_app_projects_slug_bonsaitree_pt",
-      "community": 6,
-      "community_name": "landing-page.tsx",
+      "community": 33,
+      "community_name": "GEMINI.md",
       "norm_label": "pt"
     },
     {
@@ -416,8 +823,8 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "frontend_app_projects_slug_bonsaitree_truncate",
-      "community": 6,
-      "community_name": "landing-page.tsx",
+      "community": 33,
+      "community_name": "GEMINI.md",
       "norm_label": "truncate()"
     },
     {
@@ -427,8 +834,8 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "frontend_app_projects_slug_bonsaitree_samplecubic",
-      "community": 6,
-      "community_name": "landing-page.tsx",
+      "community": 33,
+      "community_name": "GEMINI.md",
       "norm_label": "samplecubic()"
     },
     {
@@ -438,8 +845,8 @@
       "source_location": "L43",
       "_origin": "ast",
       "id": "frontend_app_projects_slug_bonsaitree_ribbon",
-      "community": 6,
-      "community_name": "landing-page.tsx",
+      "community": 33,
+      "community_name": "GEMINI.md",
       "norm_label": "ribbon()"
     },
     {
@@ -449,8 +856,8 @@
       "source_location": "L68",
       "_origin": "ast",
       "id": "frontend_app_projects_slug_bonsaitree_bonsaitree",
-      "community": 6,
-      "community_name": "landing-page.tsx",
+      "community": 33,
+      "community_name": "GEMINI.md",
       "norm_label": "bonsaitree()"
     },
     {
@@ -718,6 +1125,83 @@
       "norm_label": "auth0"
     },
     {
+      "label": "documents.ts",
+      "file_type": "code",
+      "source_file": "frontend/lib/documents.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "frontend_lib_documents",
+      "community": 6,
+      "community_name": "landing-page.tsx",
+      "norm_label": "documents.ts"
+    },
+    {
+      "label": "DocumentKeying",
+      "file_type": "code",
+      "source_file": "frontend/lib/documents.ts",
+      "source_location": "L17",
+      "_origin": "ast",
+      "id": "frontend_lib_documents_documentkeying",
+      "community": 6,
+      "community_name": "landing-page.tsx",
+      "norm_label": "documentkeying"
+    },
+    {
+      "label": "WorkspaceRef",
+      "file_type": "code",
+      "source_file": "frontend/lib/documents.ts",
+      "source_location": "L19",
+      "_origin": "ast",
+      "id": "frontend_lib_documents_workspaceref",
+      "community": 6,
+      "community_name": "landing-page.tsx",
+      "norm_label": "workspaceref"
+    },
+    {
+      "label": "DocumentRow",
+      "file_type": "code",
+      "source_file": "frontend/lib/documents.ts",
+      "source_location": "L24",
+      "_origin": "ast",
+      "id": "frontend_lib_documents_documentrow",
+      "community": 6,
+      "community_name": "landing-page.tsx",
+      "norm_label": "documentrow"
+    },
+    {
+      "label": "documentsKeying()",
+      "file_type": "code",
+      "source_file": "frontend/lib/documents.ts",
+      "source_location": "L35",
+      "_origin": "ast",
+      "id": "frontend_lib_documents_documentskeying",
+      "community": 6,
+      "community_name": "landing-page.tsx",
+      "norm_label": "documentskeying()"
+    },
+    {
+      "label": "fetchDocuments()",
+      "file_type": "code",
+      "source_file": "frontend/lib/documents.ts",
+      "source_location": "L83",
+      "_origin": "ast",
+      "id": "frontend_lib_documents_fetchdocuments",
+      "community": 6,
+      "community_name": "landing-page.tsx",
+      "norm_label": "fetchdocuments()"
+    },
+    {
+      "label": "updateDocument()",
+      "file_type": "code",
+      "source_file": "frontend/lib/documents.ts",
+      "source_location": "L127",
+      "_origin": "ast",
+      "id": "frontend_lib_documents_updatedocument",
+      "community": 6,
+      "community_name": "landing-page.tsx",
+      "norm_label": "updatedocument()"
+    },
+    {
       "label": "graph.ts",
       "file_type": "code",
       "source_file": "frontend/lib/graph.ts",
@@ -831,7 +1315,7 @@
       "label": "Project",
       "file_type": "code",
       "source_file": "frontend/lib/projects.ts",
-      "source_location": "L11",
+      "source_location": "L12",
       "_origin": "ast",
       "id": "frontend_lib_projects_project",
       "community": 6,
@@ -842,7 +1326,7 @@
       "label": "DocumentSummary",
       "file_type": "code",
       "source_file": "frontend/lib/projects.ts",
-      "source_location": "L19",
+      "source_location": "L20",
       "_origin": "ast",
       "id": "frontend_lib_projects_documentsummary",
       "community": 6,
@@ -853,7 +1337,7 @@
       "label": "listProjects()",
       "file_type": "code",
       "source_file": "frontend/lib/projects.ts",
-      "source_location": "L28",
+      "source_location": "L29",
       "_origin": "ast",
       "id": "frontend_lib_projects_listprojects",
       "community": 6,
@@ -864,7 +1348,7 @@
       "label": "getProject()",
       "file_type": "code",
       "source_file": "frontend/lib/projects.ts",
-      "source_location": "L57",
+      "source_location": "L58",
       "_origin": "ast",
       "id": "frontend_lib_projects_getproject",
       "community": 6,
@@ -875,7 +1359,7 @@
       "label": "listDocuments()",
       "file_type": "code",
       "source_file": "frontend/lib/projects.ts",
-      "source_location": "L71",
+      "source_location": "L76",
       "_origin": "ast",
       "id": "frontend_lib_projects_listdocuments",
       "community": 6,
@@ -960,6 +1444,94 @@
       "norm_label": "relativetime()"
     },
     {
+      "label": "usage.ts",
+      "file_type": "code",
+      "source_file": "frontend/lib/usage.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "frontend_lib_usage",
+      "community": 25,
+      "community_name": "install.ps1",
+      "norm_label": "usage.ts"
+    },
+    {
+      "label": "UsageStatsRow",
+      "file_type": "code",
+      "source_file": "frontend/lib/usage.ts",
+      "source_location": "L4",
+      "_origin": "ast",
+      "id": "frontend_lib_usage_usagestatsrow",
+      "community": 25,
+      "community_name": "install.ps1",
+      "norm_label": "usagestatsrow"
+    },
+    {
+      "label": "BreakdownRow",
+      "file_type": "code",
+      "source_file": "frontend/lib/usage.ts",
+      "source_location": "L12",
+      "_origin": "ast",
+      "id": "frontend_lib_usage_breakdownrow",
+      "community": 25,
+      "community_name": "install.ps1",
+      "norm_label": "breakdownrow"
+    },
+    {
+      "label": "UsageSummary",
+      "file_type": "code",
+      "source_file": "frontend/lib/usage.ts",
+      "source_location": "L18",
+      "_origin": "ast",
+      "id": "frontend_lib_usage_usagesummary",
+      "community": 25,
+      "community_name": "install.ps1",
+      "norm_label": "usagesummary"
+    },
+    {
+      "label": "TOOL_LABELS",
+      "file_type": "code",
+      "source_file": "frontend/lib/usage.ts",
+      "source_location": "L24",
+      "_origin": "ast",
+      "id": "frontend_lib_usage_tool_labels",
+      "community": 25,
+      "community_name": "install.ps1",
+      "norm_label": "tool_labels"
+    },
+    {
+      "label": "getUsageSummary()",
+      "file_type": "code",
+      "source_file": "frontend/lib/usage.ts",
+      "source_location": "L31",
+      "_origin": "ast",
+      "id": "frontend_lib_usage_getusagesummary",
+      "community": 25,
+      "community_name": "install.ps1",
+      "norm_label": "getusagesummary()"
+    },
+    {
+      "label": "summarize()",
+      "file_type": "code",
+      "source_file": "frontend/lib/usage.ts",
+      "source_location": "L44",
+      "_origin": "ast",
+      "id": "frontend_lib_usage_summarize",
+      "community": 25,
+      "community_name": "install.ps1",
+      "norm_label": "summarize()"
+    },
+    {
+      "label": "demoSummary()",
+      "file_type": "code",
+      "source_file": "frontend/lib/usage.ts",
+      "source_location": "L68",
+      "_origin": "ast",
+      "id": "frontend_lib_usage_demosummary",
+      "community": 25,
+      "community_name": "install.ps1",
+      "norm_label": "demosummary()"
+    },
+    {
       "label": "useRealtimeCorpus.ts",
       "file_type": "code",
       "source_file": "frontend/lib/useRealtimeCorpus.ts",
@@ -1004,6 +1576,72 @@
       "norm_label": "userealtimecorpus()"
     },
     {
+      "label": "workspaces.ts",
+      "file_type": "code",
+      "source_file": "frontend/lib/workspaces.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "frontend_lib_workspaces",
+      "community": 25,
+      "community_name": "install.ps1",
+      "norm_label": "workspaces.ts"
+    },
+    {
+      "label": "WorkspaceDoc",
+      "file_type": "code",
+      "source_file": "frontend/lib/workspaces.ts",
+      "source_location": "L4",
+      "_origin": "ast",
+      "id": "frontend_lib_workspaces_workspacedoc",
+      "community": 25,
+      "community_name": "install.ps1",
+      "norm_label": "workspacedoc"
+    },
+    {
+      "label": "WorkspaceMembership",
+      "file_type": "code",
+      "source_file": "frontend/lib/workspaces.ts",
+      "source_location": "L12",
+      "_origin": "ast",
+      "id": "frontend_lib_workspaces_workspacemembership",
+      "community": 25,
+      "community_name": "install.ps1",
+      "norm_label": "workspacemembership"
+    },
+    {
+      "label": "WorkspaceWithDocs",
+      "file_type": "code",
+      "source_file": "frontend/lib/workspaces.ts",
+      "source_location": "L19",
+      "_origin": "ast",
+      "id": "frontend_lib_workspaces_workspacewithdocs",
+      "community": 25,
+      "community_name": "install.ps1",
+      "norm_label": "workspacewithdocs"
+    },
+    {
+      "label": "getWorkspacesForUser()",
+      "file_type": "code",
+      "source_file": "frontend/lib/workspaces.ts",
+      "source_location": "L40",
+      "_origin": "ast",
+      "id": "frontend_lib_workspaces_getworkspacesforuser",
+      "community": 25,
+      "community_name": "install.ps1",
+      "norm_label": "getworkspacesforuser()"
+    },
+    {
+      "label": "demoWorkspaces()",
+      "file_type": "code",
+      "source_file": "frontend/lib/workspaces.ts",
+      "source_location": "L99",
+      "_origin": "ast",
+      "id": "frontend_lib_workspaces_demoworkspaces",
+      "community": 25,
+      "community_name": "install.ps1",
+      "norm_label": "demoworkspaces()"
+    },
+    {
       "label": "next.config.ts",
       "file_type": "code",
       "source_file": "frontend/next.config.ts",
@@ -1032,8 +1670,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_package",
-      "community": 1,
-      "community_name": "dependencies",
+      "community": 4,
+      "community_name": "devDependencies",
       "norm_label": "package.json"
     },
     {
@@ -1043,8 +1681,8 @@
       "source_location": "L2",
       "_origin": "ast",
       "id": "frontend_package_name",
-      "community": 1,
-      "community_name": "dependencies",
+      "community": 4,
+      "community_name": "devDependencies",
       "norm_label": "name"
     },
     {
@@ -1054,8 +1692,8 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "frontend_package_version",
-      "community": 1,
-      "community_name": "dependencies",
+      "community": 4,
+      "community_name": "devDependencies",
       "norm_label": "version"
     },
     {
@@ -1065,8 +1703,8 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "frontend_package_private",
-      "community": 1,
-      "community_name": "dependencies",
+      "community": 4,
+      "community_name": "devDependencies",
       "norm_label": "private"
     },
     {
@@ -1076,8 +1714,8 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "frontend_package_scripts",
-      "community": 1,
-      "community_name": "dependencies",
+      "community": 4,
+      "community_name": "devDependencies",
       "norm_label": "scripts"
     },
     {
@@ -1087,8 +1725,8 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "frontend_package_scripts_dev",
-      "community": 1,
-      "community_name": "dependencies",
+      "community": 4,
+      "community_name": "devDependencies",
       "norm_label": "dev"
     },
     {
@@ -1098,8 +1736,8 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "frontend_package_scripts_build",
-      "community": 1,
-      "community_name": "dependencies",
+      "community": 4,
+      "community_name": "devDependencies",
       "norm_label": "build"
     },
     {
@@ -1109,8 +1747,8 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "frontend_package_scripts_start",
-      "community": 1,
-      "community_name": "dependencies",
+      "community": 4,
+      "community_name": "devDependencies",
       "norm_label": "start"
     },
     {
@@ -1120,8 +1758,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "frontend_package_scripts_lint",
-      "community": 1,
-      "community_name": "dependencies",
+      "community": 4,
+      "community_name": "devDependencies",
       "norm_label": "lint"
     },
     {
@@ -1603,7 +2241,7 @@
       "source_file": "frontend/tsconfig.json",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_frontend_tsconfig_json",
+      "id": "frontend_tsconfig",
       "community": 5,
       "community_name": "compilerOptions",
       "norm_label": "tsconfig.json"
@@ -1614,7 +2252,7 @@
       "source_file": "frontend/tsconfig.json",
       "source_location": "L2",
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_frontend_tsconfig_compileroptions",
+      "id": "frontend_tsconfig_compileroptions",
       "community": 5,
       "community_name": "compilerOptions",
       "norm_label": "compileroptions"
@@ -1625,7 +2263,7 @@
       "source_file": "frontend/tsconfig.json",
       "source_location": "L3",
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_frontend_tsconfig_compileroptions_target",
+      "id": "frontend_tsconfig_compileroptions_target",
       "community": 5,
       "community_name": "compilerOptions",
       "norm_label": "target"
@@ -1636,7 +2274,7 @@
       "source_file": "frontend/tsconfig.json",
       "source_location": "L4",
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_frontend_tsconfig_compileroptions_lib",
+      "id": "frontend_tsconfig_compileroptions_lib",
       "community": 5,
       "community_name": "compilerOptions",
       "norm_label": "lib"
@@ -1680,7 +2318,7 @@
       "source_file": "frontend/tsconfig.json",
       "source_location": "L5",
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_frontend_tsconfig_compileroptions_allowjs",
+      "id": "frontend_tsconfig_compileroptions_allowjs",
       "community": 5,
       "community_name": "compilerOptions",
       "norm_label": "allowjs"
@@ -1691,7 +2329,7 @@
       "source_file": "frontend/tsconfig.json",
       "source_location": "L6",
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_frontend_tsconfig_compileroptions_skiplibcheck",
+      "id": "frontend_tsconfig_compileroptions_skiplibcheck",
       "community": 5,
       "community_name": "compilerOptions",
       "norm_label": "skiplibcheck"
@@ -1702,7 +2340,7 @@
       "source_file": "frontend/tsconfig.json",
       "source_location": "L7",
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_frontend_tsconfig_compileroptions_strict",
+      "id": "frontend_tsconfig_compileroptions_strict",
       "community": 5,
       "community_name": "compilerOptions",
       "norm_label": "strict"
@@ -1713,7 +2351,7 @@
       "source_file": "frontend/tsconfig.json",
       "source_location": "L8",
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_frontend_tsconfig_compileroptions_noemit",
+      "id": "frontend_tsconfig_compileroptions_noemit",
       "community": 5,
       "community_name": "compilerOptions",
       "norm_label": "noemit"
@@ -1724,7 +2362,7 @@
       "source_file": "frontend/tsconfig.json",
       "source_location": "L9",
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_frontend_tsconfig_compileroptions_esmoduleinterop",
+      "id": "frontend_tsconfig_compileroptions_esmoduleinterop",
       "community": 5,
       "community_name": "compilerOptions",
       "norm_label": "esmoduleinterop"
@@ -1735,7 +2373,7 @@
       "source_file": "frontend/tsconfig.json",
       "source_location": "L10",
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_frontend_tsconfig_compileroptions_module",
+      "id": "frontend_tsconfig_compileroptions_module",
       "community": 5,
       "community_name": "compilerOptions",
       "norm_label": "module"
@@ -1746,7 +2384,7 @@
       "source_file": "frontend/tsconfig.json",
       "source_location": "L11",
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_frontend_tsconfig_compileroptions_moduleresolution",
+      "id": "frontend_tsconfig_compileroptions_moduleresolution",
       "community": 5,
       "community_name": "compilerOptions",
       "norm_label": "moduleresolution"
@@ -1757,7 +2395,7 @@
       "source_file": "frontend/tsconfig.json",
       "source_location": "L12",
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_frontend_tsconfig_compileroptions_resolvejsonmodule",
+      "id": "frontend_tsconfig_compileroptions_resolvejsonmodule",
       "community": 5,
       "community_name": "compilerOptions",
       "norm_label": "resolvejsonmodule"
@@ -1768,7 +2406,7 @@
       "source_file": "frontend/tsconfig.json",
       "source_location": "L13",
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_frontend_tsconfig_compileroptions_isolatedmodules",
+      "id": "frontend_tsconfig_compileroptions_isolatedmodules",
       "community": 5,
       "community_name": "compilerOptions",
       "norm_label": "isolatedmodules"
@@ -1779,7 +2417,7 @@
       "source_file": "frontend/tsconfig.json",
       "source_location": "L14",
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_frontend_tsconfig_compileroptions_jsx",
+      "id": "frontend_tsconfig_compileroptions_jsx",
       "community": 5,
       "community_name": "compilerOptions",
       "norm_label": "jsx"
@@ -1790,7 +2428,7 @@
       "source_file": "frontend/tsconfig.json",
       "source_location": "L15",
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_frontend_tsconfig_compileroptions_incremental",
+      "id": "frontend_tsconfig_compileroptions_incremental",
       "community": 5,
       "community_name": "compilerOptions",
       "norm_label": "incremental"
@@ -1801,7 +2439,7 @@
       "source_file": "frontend/tsconfig.json",
       "source_location": "L16",
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_frontend_tsconfig_compileroptions_plugins",
+      "id": "frontend_tsconfig_compileroptions_plugins",
       "community": 5,
       "community_name": "compilerOptions",
       "norm_label": "plugins"
@@ -1812,7 +2450,7 @@
       "source_file": "frontend/tsconfig.json",
       "source_location": "L21",
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_frontend_tsconfig_compileroptions_paths",
+      "id": "frontend_tsconfig_compileroptions_paths",
       "community": 5,
       "community_name": "compilerOptions",
       "norm_label": "paths"
@@ -1823,7 +2461,7 @@
       "source_file": "frontend/tsconfig.json",
       "source_location": "L25",
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_frontend_tsconfig_include",
+      "id": "frontend_tsconfig_include",
       "community": 5,
       "community_name": "compilerOptions",
       "norm_label": "include"
@@ -1900,7 +2538,7 @@
       "source_file": "frontend/tsconfig.json",
       "source_location": "L33",
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_frontend_tsconfig_exclude",
+      "id": "frontend_tsconfig_exclude",
       "community": 5,
       "community_name": "compilerOptions",
       "norm_label": "exclude"
@@ -1922,9 +2560,9 @@
       "source_file": "install.ps1",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_install_ps1",
-      "community": 33,
-      "community_name": "GEMINI.md",
+      "id": "install_ps1_install",
+      "community": 48,
+      "community_name": "install.ps1",
       "norm_label": "install.ps1"
     },
     {
@@ -1933,9 +2571,9 @@
       "source_file": "install.ps1",
       "source_location": "L15",
       "_origin": "ast",
-      "id": "install_ps1_c_users_myu_downloads_personal_corpus_install_step",
-      "community": 33,
-      "community_name": "GEMINI.md",
+      "id": "install_ps1_install_step",
+      "community": 48,
+      "community_name": "install.ps1",
       "norm_label": "step()"
     },
     {
@@ -1944,9 +2582,9 @@
       "source_file": "install.ps1",
       "source_location": "L16",
       "_origin": "ast",
-      "id": "install_ps1_c_users_myu_downloads_personal_corpus_install_warn",
-      "community": 33,
-      "community_name": "GEMINI.md",
+      "id": "install_ps1_install_warn",
+      "community": 48,
+      "community_name": "install.ps1",
       "norm_label": "warn()"
     },
     {
@@ -1955,9 +2593,9 @@
       "source_file": "install.ps1",
       "source_location": "L17",
       "_origin": "ast",
-      "id": "install_ps1_c_users_myu_downloads_personal_corpus_install_fail",
-      "community": 33,
-      "community_name": "GEMINI.md",
+      "id": "install_ps1_install_fail",
+      "community": 48,
+      "community_name": "install.ps1",
       "norm_label": "fail()"
     },
     {
@@ -1970,9 +2608,9 @@
         "kind": "file"
       },
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_install_sh",
-      "community": 25,
-      "community_name": "install.ps1",
+      "id": "install_sh_install",
+      "community": 38,
+      "community_name": "AGENTS.md",
       "norm_label": "install.sh"
     },
     {
@@ -1985,9 +2623,9 @@
         "kind": "bash_entrypoint"
       },
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_install_sh__entry",
-      "community": 25,
-      "community_name": "install.ps1",
+      "id": "install_sh__entry",
+      "community": 38,
+      "community_name": "AGENTS.md",
       "norm_label": "install.sh script"
     },
     {
@@ -2000,9 +2638,9 @@
         "kind": "bash_function"
       },
       "_origin": "ast",
-      "id": "install_sh_c_users_myu_downloads_personal_corpus_install_step",
-      "community": 25,
-      "community_name": "install.ps1",
+      "id": "install_sh_install_step",
+      "community": 38,
+      "community_name": "AGENTS.md",
       "norm_label": "step()"
     },
     {
@@ -2015,9 +2653,9 @@
         "kind": "bash_function"
       },
       "_origin": "ast",
-      "id": "install_sh_c_users_myu_downloads_personal_corpus_install_warn",
-      "community": 25,
-      "community_name": "install.ps1",
+      "id": "install_sh_install_warn",
+      "community": 38,
+      "community_name": "AGENTS.md",
       "norm_label": "warn()"
     },
     {
@@ -2030,9 +2668,9 @@
         "kind": "bash_function"
       },
       "_origin": "ast",
-      "id": "install_sh_c_users_myu_downloads_personal_corpus_install_fail",
-      "community": 25,
-      "community_name": "install.ps1",
+      "id": "install_sh_install_fail",
+      "community": 38,
+      "community_name": "AGENTS.md",
       "norm_label": "fail()"
     },
     {
@@ -2044,7 +2682,7 @@
         "mcp_kind": "mcp_config_file"
       },
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_mcp_server_2_mcp_json",
+      "id": "mcp_server_2_mcp",
       "community": 24,
       "community_name": "corpus",
       "norm_label": ".mcp.json"
@@ -2058,7 +2696,7 @@
         "mcp_kind": "mcp_server"
       },
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_mcp_server_2_mcp_mcp_server_corpus",
+      "id": "mcp_server_2_mcp_mcp_server_corpus",
       "community": 24,
       "community_name": "corpus",
       "norm_label": "corpus"
@@ -2640,8 +3278,8 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "mcp_server_2_src_clients_clients",
-      "community": 43,
-      "community_name": "clients.ts",
+      "community": 34,
+      "community_name": "AGENTS.md",
       "norm_label": "clients"
     },
     {
@@ -4224,8 +4862,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "mcp_server_2_src_setup",
-      "community": 11,
-      "community_name": "Workspace.tsx",
+      "community": 34,
+      "community_name": "AGENTS.md",
       "norm_label": "setup.ts"
     },
     {
@@ -4235,8 +4873,8 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "mcp_server_2_src_setup_target",
-      "community": 11,
-      "community_name": "Workspace.tsx",
+      "community": 34,
+      "community_name": "AGENTS.md",
       "norm_label": "target"
     },
     {
@@ -4246,8 +4884,8 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "mcp_server_2_src_setup_project",
-      "community": 11,
-      "community_name": "Workspace.tsx",
+      "community": 34,
+      "community_name": "AGENTS.md",
       "norm_label": "project"
     },
     {
@@ -4444,8 +5082,8 @@
       "source_location": "L103",
       "_origin": "ast",
       "id": "mcp_server_2_src_store_isworkspaceid",
-      "community": 2,
-      "community_name": "index.ts",
+      "community": 11,
+      "community_name": "Workspace.tsx",
       "norm_label": "isworkspaceid()"
     },
     {
@@ -4532,8 +5170,8 @@
       "source_location": "L147",
       "_origin": "ast",
       "id": "mcp_server_2_src_store_localstore_getcorpustokentotal",
-      "community": 7,
-      "community_name": "LocalStore",
+      "community": 2,
+      "community_name": "index.ts",
       "norm_label": ".getcorpustokentotal()"
     },
     {
@@ -4617,7 +5255,7 @@
       "label": ".getDocument()",
       "file_type": "code",
       "source_file": "mcp-server-2/src/store.ts",
-      "source_location": "L263",
+      "source_location": "L298",
       "_origin": "ast",
       "id": "mcp_server_2_src_store_supabasestore_getdocument",
       "community": 18,
@@ -4628,7 +5266,7 @@
       "label": ".putDocument()",
       "file_type": "code",
       "source_file": "mcp-server-2/src/store.ts",
-      "source_location": "L273",
+      "source_location": "L308",
       "_origin": "ast",
       "id": "mcp_server_2_src_store_supabasestore_putdocument",
       "community": 18,
@@ -4639,7 +5277,7 @@
       "label": ".listDocuments()",
       "file_type": "code",
       "source_file": "mcp-server-2/src/store.ts",
-      "source_location": "L306",
+      "source_location": "L345",
       "_origin": "ast",
       "id": "mcp_server_2_src_store_supabasestore_listdocuments",
       "community": 18,
@@ -4650,7 +5288,7 @@
       "label": ".getCorpusTokenTotal()",
       "file_type": "code",
       "source_file": "mcp-server-2/src/store.ts",
-      "source_location": "L316",
+      "source_location": "L355",
       "_origin": "ast",
       "id": "mcp_server_2_src_store_supabasestore_getcorpustokentotal",
       "community": 18,
@@ -4661,7 +5299,7 @@
       "label": ".logUsage()",
       "file_type": "code",
       "source_file": "mcp-server-2/src/store.ts",
-      "source_location": "L338",
+      "source_location": "L377",
       "_origin": "ast",
       "id": "mcp_server_2_src_store_supabasestore_logusage",
       "community": 18,
@@ -4672,7 +5310,7 @@
       "label": "DisconnectedStore",
       "file_type": "code",
       "source_file": "mcp-server-2/src/store.ts",
-      "source_location": "L391",
+      "source_location": "L430",
       "_origin": "ast",
       "id": "mcp_server_2_src_store_disconnectedstore",
       "community": 7,
@@ -4683,7 +5321,7 @@
       "label": ".constructor()",
       "file_type": "code",
       "source_file": "mcp-server-2/src/store.ts",
-      "source_location": "L396",
+      "source_location": "L435",
       "_origin": "ast",
       "id": "mcp_server_2_src_store_disconnectedstore_constructor",
       "community": 7,
@@ -4694,7 +5332,7 @@
       "label": ".label()",
       "file_type": "code",
       "source_file": "mcp-server-2/src/store.ts",
-      "source_location": "L404",
+      "source_location": "L443",
       "_origin": "ast",
       "id": "mcp_server_2_src_store_disconnectedstore_label",
       "community": 7,
@@ -4705,7 +5343,7 @@
       "label": ".fail()",
       "file_type": "code",
       "source_file": "mcp-server-2/src/store.ts",
-      "source_location": "L408",
+      "source_location": "L447",
       "_origin": "ast",
       "id": "mcp_server_2_src_store_disconnectedstore_fail",
       "community": 7,
@@ -4716,7 +5354,7 @@
       "label": ".getDocument()",
       "file_type": "code",
       "source_file": "mcp-server-2/src/store.ts",
-      "source_location": "L414",
+      "source_location": "L453",
       "_origin": "ast",
       "id": "mcp_server_2_src_store_disconnectedstore_getdocument",
       "community": 7,
@@ -4727,7 +5365,7 @@
       "label": ".putDocument()",
       "file_type": "code",
       "source_file": "mcp-server-2/src/store.ts",
-      "source_location": "L417",
+      "source_location": "L456",
       "_origin": "ast",
       "id": "mcp_server_2_src_store_disconnectedstore_putdocument",
       "community": 7,
@@ -4738,7 +5376,7 @@
       "label": ".listDocuments()",
       "file_type": "code",
       "source_file": "mcp-server-2/src/store.ts",
-      "source_location": "L420",
+      "source_location": "L459",
       "_origin": "ast",
       "id": "mcp_server_2_src_store_disconnectedstore_listdocuments",
       "community": 7,
@@ -4749,7 +5387,7 @@
       "label": ".getCorpusTokenTotal()",
       "file_type": "code",
       "source_file": "mcp-server-2/src/store.ts",
-      "source_location": "L423",
+      "source_location": "L462",
       "_origin": "ast",
       "id": "mcp_server_2_src_store_disconnectedstore_getcorpustokentotal",
       "community": 7,
@@ -4760,7 +5398,7 @@
       "label": ".logUsage()",
       "file_type": "code",
       "source_file": "mcp-server-2/src/store.ts",
-      "source_location": "L426",
+      "source_location": "L465",
       "_origin": "ast",
       "id": "mcp_server_2_src_store_disconnectedstore_logusage",
       "community": 7,
@@ -4771,7 +5409,7 @@
       "label": "createStore()",
       "file_type": "code",
       "source_file": "mcp-server-2/src/store.ts",
-      "source_location": "L429",
+      "source_location": "L468",
       "_origin": "ast",
       "id": "mcp_server_2_src_store_createstore",
       "community": 2,
@@ -5005,8 +5643,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "mcp_server_2_src_wire",
-      "community": 43,
-      "community_name": "clients.ts",
+      "community": 34,
+      "community_name": "AGENTS.md",
       "norm_label": "wire.ts"
     },
     {
@@ -5016,8 +5654,8 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "mcp_server_2_src_wire_instruction_files",
-      "community": 43,
-      "community_name": "clients.ts",
+      "community": 34,
+      "community_name": "AGENTS.md",
       "norm_label": "instruction_files"
     },
     {
@@ -5027,8 +5665,8 @@
       "source_location": "L61",
       "_origin": "ast",
       "id": "mcp_server_2_src_wire_installblock",
-      "community": 43,
-      "community_name": "clients.ts",
+      "community": 34,
+      "community_name": "AGENTS.md",
       "norm_label": "installblock()"
     },
     {
@@ -5038,8 +5676,8 @@
       "source_location": "L86",
       "_origin": "ast",
       "id": "mcp_server_2_src_wire_wirerepo",
-      "community": 43,
-      "community_name": "clients.ts",
+      "community": 34,
+      "community_name": "AGENTS.md",
       "norm_label": "wirerepo()"
     },
     {
@@ -5082,8 +5720,8 @@
       "source_location": "L28",
       "_origin": "ast",
       "id": "mcp_server_2_src_workspace_supabaseconfigured",
-      "community": 11,
-      "community_name": "Workspace.tsx",
+      "community": 34,
+      "community_name": "AGENTS.md",
       "norm_label": "supabaseconfigured()"
     },
     {
@@ -5136,7 +5774,7 @@
       "source_file": "mcp-server-2/tsconfig.json",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_mcp_server_2_tsconfig_json",
+      "id": "mcp_server_2_tsconfig",
       "community": 8,
       "community_name": "compilerOptions",
       "norm_label": "tsconfig.json"
@@ -5147,7 +5785,7 @@
       "source_file": "mcp-server-2/tsconfig.json",
       "source_location": "L2",
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_mcp_server_2_tsconfig_compileroptions",
+      "id": "mcp_server_2_tsconfig_compileroptions",
       "community": 8,
       "community_name": "compilerOptions",
       "norm_label": "compileroptions"
@@ -5158,7 +5796,7 @@
       "source_file": "mcp-server-2/tsconfig.json",
       "source_location": "L3",
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_mcp_server_2_tsconfig_compileroptions_target",
+      "id": "mcp_server_2_tsconfig_compileroptions_target",
       "community": 8,
       "community_name": "compilerOptions",
       "norm_label": "target"
@@ -5169,7 +5807,7 @@
       "source_file": "mcp-server-2/tsconfig.json",
       "source_location": "L4",
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_mcp_server_2_tsconfig_compileroptions_module",
+      "id": "mcp_server_2_tsconfig_compileroptions_module",
       "community": 8,
       "community_name": "compilerOptions",
       "norm_label": "module"
@@ -5180,7 +5818,7 @@
       "source_file": "mcp-server-2/tsconfig.json",
       "source_location": "L5",
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_mcp_server_2_tsconfig_compileroptions_moduleresolution",
+      "id": "mcp_server_2_tsconfig_compileroptions_moduleresolution",
       "community": 8,
       "community_name": "compilerOptions",
       "norm_label": "moduleresolution"
@@ -5191,7 +5829,7 @@
       "source_file": "mcp-server-2/tsconfig.json",
       "source_location": "L6",
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_mcp_server_2_tsconfig_compileroptions_outdir",
+      "id": "mcp_server_2_tsconfig_compileroptions_outdir",
       "community": 8,
       "community_name": "compilerOptions",
       "norm_label": "outdir"
@@ -5202,7 +5840,7 @@
       "source_file": "mcp-server-2/tsconfig.json",
       "source_location": "L7",
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_mcp_server_2_tsconfig_compileroptions_rootdir",
+      "id": "mcp_server_2_tsconfig_compileroptions_rootdir",
       "community": 8,
       "community_name": "compilerOptions",
       "norm_label": "rootdir"
@@ -5213,7 +5851,7 @@
       "source_file": "mcp-server-2/tsconfig.json",
       "source_location": "L8",
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_mcp_server_2_tsconfig_compileroptions_strict",
+      "id": "mcp_server_2_tsconfig_compileroptions_strict",
       "community": 8,
       "community_name": "compilerOptions",
       "norm_label": "strict"
@@ -5224,7 +5862,7 @@
       "source_file": "mcp-server-2/tsconfig.json",
       "source_location": "L9",
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_mcp_server_2_tsconfig_compileroptions_esmoduleinterop",
+      "id": "mcp_server_2_tsconfig_compileroptions_esmoduleinterop",
       "community": 8,
       "community_name": "compilerOptions",
       "norm_label": "esmoduleinterop"
@@ -5235,7 +5873,7 @@
       "source_file": "mcp-server-2/tsconfig.json",
       "source_location": "L10",
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_mcp_server_2_tsconfig_compileroptions_skiplibcheck",
+      "id": "mcp_server_2_tsconfig_compileroptions_skiplibcheck",
       "community": 8,
       "community_name": "compilerOptions",
       "norm_label": "skiplibcheck"
@@ -5246,7 +5884,7 @@
       "source_file": "mcp-server-2/tsconfig.json",
       "source_location": "L11",
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_mcp_server_2_tsconfig_compileroptions_declaration",
+      "id": "mcp_server_2_tsconfig_compileroptions_declaration",
       "community": 8,
       "community_name": "compilerOptions",
       "norm_label": "declaration"
@@ -5257,7 +5895,7 @@
       "source_file": "mcp-server-2/tsconfig.json",
       "source_location": "L12",
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_mcp_server_2_tsconfig_compileroptions_sourcemap",
+      "id": "mcp_server_2_tsconfig_compileroptions_sourcemap",
       "community": 8,
       "community_name": "compilerOptions",
       "norm_label": "sourcemap"
@@ -5268,7 +5906,7 @@
       "source_file": "mcp-server-2/tsconfig.json",
       "source_location": "L14",
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_mcp_server_2_tsconfig_include",
+      "id": "mcp_server_2_tsconfig_include",
       "community": 8,
       "community_name": "compilerOptions",
       "norm_label": "include"
@@ -5290,7 +5928,7 @@
       "source_file": "mcp-server-2/tsconfig.json",
       "source_location": "L15",
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_mcp_server_2_tsconfig_exclude",
+      "id": "mcp_server_2_tsconfig_exclude",
       "community": 8,
       "community_name": "compilerOptions",
       "norm_label": "exclude"
@@ -5385,7 +6023,7 @@
         "mcp_kind": "mcp_config_file"
       },
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_test4_mcp_json",
+      "id": "test4_mcp",
       "community": 22,
       "community_name": "graphify.ts",
       "norm_label": ".mcp.json"
@@ -5399,7 +6037,7 @@
         "mcp_kind": "mcp_server"
       },
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_test4_mcp_mcp_server_corpus",
+      "id": "test4_mcp_mcp_server_corpus",
       "community": 22,
       "community_name": "graphify.ts",
       "norm_label": "corpus"
@@ -5533,8 +6171,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "architecture",
-      "community": 9,
-      "community_name": "Corpus v2 \u2014 MCP server",
+      "community": 39,
+      "community_name": "CLAUDE.md",
       "norm_label": "architecture.md"
     },
     {
@@ -5610,8 +6248,8 @@
       "source_location": "L168",
       "_origin": "ast",
       "id": "architecture_tool_contracts",
-      "community": 10,
-      "community_name": "Corpus \u2014 Architecture (source of truth)",
+      "community": 36,
+      "community_name": "GEMINI.md",
       "norm_label": "tool contracts"
     },
     {
@@ -5621,8 +6259,8 @@
       "source_location": "L170",
       "_origin": "ast",
       "id": "architecture_corpus_load",
-      "community": 10,
-      "community_name": "Corpus \u2014 Architecture (source of truth)",
+      "community": 36,
+      "community_name": "GEMINI.md",
       "norm_label": "corpus_load"
     },
     {
@@ -5632,8 +6270,8 @@
       "source_location": "L180",
       "_origin": "ast",
       "id": "architecture_corpus_log",
-      "community": 10,
-      "community_name": "Corpus \u2014 Architecture (source of truth)",
+      "community": 36,
+      "community_name": "GEMINI.md",
       "norm_label": "corpus_log"
     },
     {
@@ -5643,8 +6281,8 @@
       "source_location": "L187",
       "_origin": "ast",
       "id": "architecture_corpus_save",
-      "community": 10,
-      "community_name": "Corpus \u2014 Architecture (source of truth)",
+      "community": 36,
+      "community_name": "GEMINI.md",
       "norm_label": "corpus_save"
     },
     {
@@ -5654,8 +6292,8 @@
       "source_location": "L202",
       "_origin": "ast",
       "id": "architecture_codebase_search",
-      "community": 10,
-      "community_name": "Corpus \u2014 Architecture (source of truth)",
+      "community": 36,
+      "community_name": "GEMINI.md",
       "norm_label": "codebase_search"
     },
     {
@@ -5786,8 +6424,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "readme",
-      "community": 9,
-      "community_name": "Corpus v2 \u2014 MCP server",
+      "community": 39,
+      "community_name": "CLAUDE.md",
       "norm_label": "readme.md"
     },
     {
@@ -5797,8 +6435,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "readme_corpus",
-      "community": 9,
-      "community_name": "Corpus v2 \u2014 MCP server",
+      "community": 32,
+      "community_name": "CLAUDE.md",
       "norm_label": "corpus"
     },
     {
@@ -5808,8 +6446,8 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "readme_what_it_provides",
-      "community": 9,
-      "community_name": "Corpus v2 \u2014 MCP server",
+      "community": 32,
+      "community_name": "CLAUDE.md",
       "norm_label": "what it provides"
     },
     {
@@ -5819,8 +6457,8 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "readme_install",
-      "community": 9,
-      "community_name": "Corpus v2 \u2014 MCP server",
+      "community": 32,
+      "community_name": "CLAUDE.md",
       "norm_label": "install"
     },
     {
@@ -5830,8 +6468,8 @@
       "source_location": "L59",
       "_origin": "ast",
       "id": "readme_use",
-      "community": 9,
-      "community_name": "Corpus v2 \u2014 MCP server",
+      "community": 32,
+      "community_name": "CLAUDE.md",
       "norm_label": "use"
     },
     {
@@ -5841,8 +6479,8 @@
       "source_location": "L83",
       "_origin": "ast",
       "id": "readme_optional_features",
-      "community": 9,
-      "community_name": "Corpus v2 \u2014 MCP server",
+      "community": 32,
+      "community_name": "CLAUDE.md",
       "norm_label": "optional features"
     },
     {
@@ -5852,8 +6490,8 @@
       "source_location": "L85",
       "_origin": "ast",
       "id": "readme_structural_code_search",
-      "community": 9,
-      "community_name": "Corpus v2 \u2014 MCP server",
+      "community": 32,
+      "community_name": "CLAUDE.md",
       "norm_label": "structural code search"
     },
     {
@@ -5863,8 +6501,8 @@
       "source_location": "L95",
       "_origin": "ast",
       "id": "readme_shared_team_memory",
-      "community": 9,
-      "community_name": "Corpus v2 \u2014 MCP server",
+      "community": 32,
+      "community_name": "CLAUDE.md",
       "norm_label": "shared team memory"
     },
     {
@@ -5874,8 +6512,8 @@
       "source_location": "L106",
       "_origin": "ast",
       "id": "readme_dashboard",
-      "community": 9,
-      "community_name": "Corpus v2 \u2014 MCP server",
+      "community": 32,
+      "community_name": "CLAUDE.md",
       "norm_label": "dashboard"
     },
     {
@@ -5885,8 +6523,8 @@
       "source_location": "L119",
       "_origin": "ast",
       "id": "readme_verify_development_builds",
-      "community": 9,
-      "community_name": "Corpus v2 \u2014 MCP server",
+      "community": 32,
+      "community_name": "CLAUDE.md",
       "norm_label": "verify development builds"
     },
     {
@@ -5896,8 +6534,8 @@
       "source_location": "L131",
       "_origin": "ast",
       "id": "readme_repository_layout",
-      "community": 9,
-      "community_name": "Corpus v2 \u2014 MCP server",
+      "community": 32,
+      "community_name": "CLAUDE.md",
       "norm_label": "repository layout"
     },
     {
@@ -5907,8 +6545,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "requirements",
-      "community": 9,
-      "community_name": "Corpus v2 \u2014 MCP server",
+      "community": 39,
+      "community_name": "CLAUDE.md",
       "norm_label": "requirements.md"
     },
     {
@@ -6044,14 +6682,58 @@
       "norm_label": "troubleshooting"
     },
     {
+      "label": "technology-use-graph.md",
+      "file_type": "document",
+      "source_file": "docs/technology-use-graph.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "docs_technology_use_graph",
+      "community": 40,
+      "community_name": "GEMINI.md",
+      "norm_label": "technology-use-graph.md"
+    },
+    {
+      "label": "Corpus technology use graph",
+      "file_type": "document",
+      "source_file": "docs/technology-use-graph.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "docs_technology_use_graph_corpus_technology_use_graph",
+      "community": 40,
+      "community_name": "GEMINI.md",
+      "norm_label": "corpus technology use graph"
+    },
+    {
+      "label": "Trust boundaries",
+      "file_type": "document",
+      "source_file": "docs/technology-use-graph.md",
+      "source_location": "L94",
+      "_origin": "ast",
+      "id": "docs_technology_use_graph_trust_boundaries",
+      "community": 40,
+      "community_name": "GEMINI.md",
+      "norm_label": "trust boundaries"
+    },
+    {
+      "label": "Primary technology inventory",
+      "file_type": "document",
+      "source_file": "docs/technology-use-graph.md",
+      "source_location": "L103",
+      "_origin": "ast",
+      "id": "docs_technology_use_graph_primary_technology_inventory",
+      "community": 40,
+      "community_name": "GEMINI.md",
+      "norm_label": "primary technology inventory"
+    },
+    {
       "label": "README.md",
       "file_type": "document",
       "source_file": "frontend/README.md",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_frontend_readme_md",
-      "community": 32,
-      "community_name": "CLAUDE.md",
+      "id": "frontend_readme",
+      "community": 47,
+      "community_name": "README.md",
       "norm_label": "readme.md"
     },
     {
@@ -6060,9 +6742,9 @@
       "source_file": "frontend/README.md",
       "source_location": "L3",
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_frontend_readme_getting_started",
-      "community": 32,
-      "community_name": "CLAUDE.md",
+      "id": "frontend_readme_getting_started",
+      "community": 47,
+      "community_name": "README.md",
       "norm_label": "getting started"
     },
     {
@@ -6071,9 +6753,9 @@
       "source_file": "frontend/README.md",
       "source_location": "L23",
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_frontend_readme_learn_more",
-      "community": 32,
-      "community_name": "CLAUDE.md",
+      "id": "frontend_readme_learn_more",
+      "community": 47,
+      "community_name": "README.md",
       "norm_label": "learn more"
     },
     {
@@ -6082,9 +6764,9 @@
       "source_file": "frontend/README.md",
       "source_location": "L32",
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_frontend_readme_deploy_on_vercel",
-      "community": 32,
-      "community_name": "CLAUDE.md",
+      "id": "frontend_readme_deploy_on_vercel",
+      "community": 47,
+      "community_name": "README.md",
       "norm_label": "deploy on vercel"
     },
     {
@@ -6093,8 +6775,8 @@
       "source_file": "mcp-server-2/AGENTS.md",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_mcp_server_2_agents_md",
-      "community": 34,
+      "id": "mcp_server_2_agents",
+      "community": 49,
       "community_name": "AGENTS.md",
       "norm_label": "agents.md"
     },
@@ -6104,8 +6786,8 @@
       "source_file": "mcp-server-2/AGENTS.md",
       "source_location": "L2",
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_mcp_server_2_agents_corpus_memory",
-      "community": 34,
+      "id": "mcp_server_2_agents_corpus_memory",
+      "community": 49,
       "community_name": "AGENTS.md",
       "norm_label": "corpus memory"
     },
@@ -6115,8 +6797,8 @@
       "source_file": "mcp-server-2/AGENTS.md",
       "source_location": "L12",
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_mcp_server_2_agents_exploring_code_use_codebase_search_first",
-      "community": 34,
+      "id": "mcp_server_2_agents_exploring_code_use_codebase_search_first",
+      "community": 49,
       "community_name": "AGENTS.md",
       "norm_label": "exploring code: use `codebase_search` first"
     },
@@ -6126,8 +6808,8 @@
       "source_file": "mcp-server-2/CLAUDE.md",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_mcp_server_2_claude_md",
-      "community": 35,
+      "id": "mcp_server_2_claude",
+      "community": 50,
       "community_name": "CLAUDE.md",
       "norm_label": "claude.md"
     },
@@ -6137,8 +6819,8 @@
       "source_file": "mcp-server-2/CLAUDE.md",
       "source_location": "L2",
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_mcp_server_2_claude_corpus_memory",
-      "community": 35,
+      "id": "mcp_server_2_claude_corpus_memory",
+      "community": 50,
       "community_name": "CLAUDE.md",
       "norm_label": "corpus memory"
     },
@@ -6148,8 +6830,8 @@
       "source_file": "mcp-server-2/CLAUDE.md",
       "source_location": "L12",
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_mcp_server_2_claude_exploring_code_use_codebase_search_first",
-      "community": 35,
+      "id": "mcp_server_2_claude_exploring_code_use_codebase_search_first",
+      "community": 50,
       "community_name": "CLAUDE.md",
       "norm_label": "exploring code: use `codebase_search` first"
     },
@@ -6159,8 +6841,8 @@
       "source_file": "mcp-server-2/GEMINI.md",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_mcp_server_2_gemini_md",
-      "community": 36,
+      "id": "mcp_server_2_gemini",
+      "community": 51,
       "community_name": "GEMINI.md",
       "norm_label": "gemini.md"
     },
@@ -6170,8 +6852,8 @@
       "source_file": "mcp-server-2/GEMINI.md",
       "source_location": "L2",
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_mcp_server_2_gemini_corpus_memory",
-      "community": 36,
+      "id": "mcp_server_2_gemini_corpus_memory",
+      "community": 51,
       "community_name": "GEMINI.md",
       "norm_label": "corpus memory"
     },
@@ -6181,8 +6863,8 @@
       "source_file": "mcp-server-2/GEMINI.md",
       "source_location": "L12",
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_mcp_server_2_gemini_exploring_code_use_codebase_search_first",
-      "community": 36,
+      "id": "mcp_server_2_gemini_exploring_code_use_codebase_search_first",
+      "community": 51,
       "community_name": "GEMINI.md",
       "norm_label": "exploring code: use `codebase_search` first"
     },
@@ -6193,8 +6875,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "mcp_server_2_readme",
-      "community": 9,
-      "community_name": "Corpus v2 \u2014 MCP server",
+      "community": 39,
+      "community_name": "CLAUDE.md",
       "norm_label": "readme.md"
     },
     {
@@ -6204,8 +6886,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "mcp_server_2_readme_corpus_v2_mcp_server",
-      "community": 9,
-      "community_name": "Corpus v2 \u2014 MCP server",
+      "community": 35,
+      "community_name": "CLAUDE.md",
       "norm_label": "corpus v2 \u2014 mcp server"
     },
     {
@@ -6215,8 +6897,8 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "mcp_server_2_readme_setup",
-      "community": 9,
-      "community_name": "Corpus v2 \u2014 MCP server",
+      "community": 35,
+      "community_name": "CLAUDE.md",
       "norm_label": "setup"
     },
     {
@@ -6226,8 +6908,8 @@
       "source_location": "L74",
       "_origin": "ast",
       "id": "mcp_server_2_readme_commands_global_from_npm_link",
-      "community": 9,
-      "community_name": "Corpus v2 \u2014 MCP server",
+      "community": 35,
+      "community_name": "CLAUDE.md",
       "norm_label": "commands (global, from `npm link`)"
     },
     {
@@ -6237,8 +6919,8 @@
       "source_location": "L85",
       "_origin": "ast",
       "id": "mcp_server_2_readme_hooks_installed_by_corpus_setup",
-      "community": 9,
-      "community_name": "Corpus v2 \u2014 MCP server",
+      "community": 35,
+      "community_name": "CLAUDE.md",
       "norm_label": "hooks (installed by `corpus-setup`)"
     },
     {
@@ -6248,8 +6930,8 @@
       "source_location": "L120",
       "_origin": "ast",
       "id": "mcp_server_2_readme_tools",
-      "community": 9,
-      "community_name": "Corpus v2 \u2014 MCP server",
+      "community": 35,
+      "community_name": "CLAUDE.md",
       "norm_label": "tools"
     },
     {
@@ -6259,8 +6941,8 @@
       "source_location": "L129",
       "_origin": "ast",
       "id": "mcp_server_2_readme_storage_modes",
-      "community": 9,
-      "community_name": "Corpus v2 \u2014 MCP server",
+      "community": 35,
+      "community_name": "CLAUDE.md",
       "norm_label": "storage modes"
     },
     {
@@ -6270,8 +6952,8 @@
       "source_location": "L153",
       "_origin": "ast",
       "id": "mcp_server_2_readme_try_the_handoff_no_keys_no_network",
-      "community": 9,
-      "community_name": "Corpus v2 \u2014 MCP server",
+      "community": 35,
+      "community_name": "CLAUDE.md",
       "norm_label": "try the handoff (no keys, no network)"
     },
     {
@@ -6281,8 +6963,8 @@
       "source_location": "L159",
       "_origin": "ast",
       "id": "mcp_server_2_readme_dev",
-      "community": 9,
-      "community_name": "Corpus v2 \u2014 MCP server",
+      "community": 35,
+      "community_name": "CLAUDE.md",
       "norm_label": "dev"
     },
     {
@@ -6357,8 +7039,8 @@
       "source_file": "test4/AGENTS.md",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_test4_agents_md",
-      "community": 38,
+      "id": "test4_agents",
+      "community": 52,
       "community_name": "AGENTS.md",
       "norm_label": "agents.md"
     },
@@ -6368,8 +7050,8 @@
       "source_file": "test4/AGENTS.md",
       "source_location": "L2",
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_test4_agents_corpus_memory",
-      "community": 38,
+      "id": "test4_agents_corpus_memory",
+      "community": 52,
       "community_name": "AGENTS.md",
       "norm_label": "corpus memory"
     },
@@ -6379,8 +7061,8 @@
       "source_file": "test4/AGENTS.md",
       "source_location": "L12",
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_test4_agents_exploring_code_use_codebase_search_first",
-      "community": 38,
+      "id": "test4_agents_exploring_code_use_codebase_search_first",
+      "community": 52,
       "community_name": "AGENTS.md",
       "norm_label": "exploring code: use `codebase_search` first"
     },
@@ -6390,8 +7072,8 @@
       "source_file": "test4/CLAUDE.md",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_test4_claude_md",
-      "community": 39,
+      "id": "test4_claude",
+      "community": 53,
       "community_name": "CLAUDE.md",
       "norm_label": "claude.md"
     },
@@ -6401,8 +7083,8 @@
       "source_file": "test4/CLAUDE.md",
       "source_location": "L2",
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_test4_claude_corpus_memory",
-      "community": 39,
+      "id": "test4_claude_corpus_memory",
+      "community": 53,
       "community_name": "CLAUDE.md",
       "norm_label": "corpus memory"
     },
@@ -6412,8 +7094,8 @@
       "source_file": "test4/CLAUDE.md",
       "source_location": "L12",
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_test4_claude_exploring_code_use_codebase_search_first",
-      "community": 39,
+      "id": "test4_claude_exploring_code_use_codebase_search_first",
+      "community": 53,
       "community_name": "CLAUDE.md",
       "norm_label": "exploring code: use `codebase_search` first"
     },
@@ -6423,8 +7105,8 @@
       "source_file": "test4/GEMINI.md",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_test4_gemini_md",
-      "community": 40,
+      "id": "test4_gemini",
+      "community": 54,
       "community_name": "GEMINI.md",
       "norm_label": "gemini.md"
     },
@@ -6434,8 +7116,8 @@
       "source_file": "test4/GEMINI.md",
       "source_location": "L2",
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_test4_gemini_corpus_memory",
-      "community": 40,
+      "id": "test4_gemini_corpus_memory",
+      "community": 54,
       "community_name": "GEMINI.md",
       "norm_label": "corpus memory"
     },
@@ -6445,8 +7127,8 @@
       "source_file": "test4/GEMINI.md",
       "source_location": "L12",
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_test4_gemini_exploring_code_use_codebase_search_first",
-      "community": 40,
+      "id": "test4_gemini_exploring_code_use_codebase_search_first",
+      "community": 54,
       "community_name": "GEMINI.md",
       "norm_label": "exploring code: use `codebase_search` first"
     },
@@ -6535,11 +7217,335 @@
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
-      "source_file": "frontend/app/(dashboard)/dashboard/page.tsx",
-      "source_location": "L5",
+      "source_file": "frontend/app/components/LandingGraph.tsx",
+      "source_location": "L3",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "frontend_app_dashboard_dashboard_page",
+      "source": "frontend_app_components_landinggraph",
+      "target": "frontend_app_dashboard_dashboard_corpusgraph",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/app/(dashboard)/dashboard/CorpusGraph.tsx",
+      "source_location": "L64",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_dashboard_dashboard_corpusgraph",
+      "target": "frontend_app_dashboard_dashboard_corpusgraph_cglink",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/app/(dashboard)/dashboard/CorpusGraph.tsx",
+      "source_location": "L52",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_dashboard_dashboard_corpusgraph",
+      "target": "frontend_app_dashboard_dashboard_corpusgraph_cgnode",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/app/(dashboard)/dashboard/CorpusGraph.tsx",
+      "source_location": "L20",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_dashboard_dashboard_corpusgraph",
+      "target": "frontend_app_dashboard_dashboard_corpusgraph_cluster_colors",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/app/(dashboard)/dashboard/CorpusGraph.tsx",
+      "source_location": "L31",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_dashboard_dashboard_corpusgraph",
+      "target": "frontend_app_dashboard_dashboard_corpusgraph_clustercolor",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/app/(dashboard)/dashboard/CorpusGraph.tsx",
+      "source_location": "L72",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_dashboard_dashboard_corpusgraph",
+      "target": "frontend_app_dashboard_dashboard_corpusgraph_corpusgraph",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/app/(dashboard)/dashboard/CorpusGraph.tsx",
+      "source_location": "L35",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_dashboard_dashboard_corpusgraph",
+      "target": "frontend_app_dashboard_dashboard_corpusgraph_docnodeid",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/app/(dashboard)/dashboard/CorpusGraph.tsx",
+      "source_location": "L70",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_dashboard_dashboard_corpusgraph",
+      "target": "frontend_app_dashboard_dashboard_corpusgraph_fglink",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/app/(dashboard)/dashboard/CorpusGraph.tsx",
+      "source_location": "L69",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_dashboard_dashboard_corpusgraph",
+      "target": "frontend_app_dashboard_dashboard_corpusgraph_fgnode",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/app/(dashboard)/dashboard/CorpusGraph.tsx",
+      "source_location": "L12",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_dashboard_dashboard_corpusgraph",
+      "target": "frontend_app_dashboard_dashboard_corpusgraph_forcegraph2d",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/app/(dashboard)/dashboard/CorpusGraph.tsx",
+      "source_location": "L39",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_dashboard_dashboard_corpusgraph",
+      "target": "frontend_app_dashboard_dashboard_corpusgraph_graphselection",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/app/(dashboard)/dashboard/CorpusGraph.tsx",
+      "source_location": "L44",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_dashboard_dashboard_corpusgraph",
+      "target": "frontend_app_dashboard_dashboard_corpusgraph_props",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/app/(dashboard)/dashboard/CorpusGraph.tsx",
+      "source_location": "L231",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_dashboard_dashboard_corpusgraph",
+      "target": "frontend_app_dashboard_dashboard_corpusgraph_truncate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/app/(dashboard)/dashboard/CorpusGraph.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_dashboard_dashboard_corpusgraph",
+      "target": "frontend_lib_workspaces",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/app/(dashboard)/dashboard/CorpusGraph.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_dashboard_dashboard_corpusgraph",
+      "target": "frontend_lib_workspaces_workspacewithdocs",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/app/(dashboard)/dashboard/DashboardClient.tsx",
+      "source_location": "L10",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_dashboard_dashboard_dashboardclient",
+      "target": "frontend_app_dashboard_dashboard_corpusgraph",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/app/(dashboard)/dashboard/CorpusGraph.tsx",
+      "source_location": "L95",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_dashboard_dashboard_corpusgraph_corpusgraph",
+      "target": "frontend_app_dashboard_dashboard_corpusgraph_clustercolor",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/app/(dashboard)/dashboard/DashboardClient.tsx",
+      "source_location": "L10",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_dashboard_dashboard_dashboardclient",
+      "target": "frontend_app_dashboard_dashboard_corpusgraph_clustercolor",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "frontend/app/(dashboard)/dashboard/DashboardClient.tsx",
+      "source_location": "L455",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_dashboard_dashboard_dashboardclient_connectionsview",
+      "target": "frontend_app_dashboard_dashboard_corpusgraph_clustercolor"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "frontend/app/(dashboard)/dashboard/DashboardClient.tsx",
+      "source_location": "L273",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_dashboard_dashboard_dashboardclient_dashboardclient",
+      "target": "frontend_app_dashboard_dashboard_corpusgraph_clustercolor"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/app/(dashboard)/dashboard/CorpusGraph.tsx",
+      "source_location": "L112",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_dashboard_dashboard_corpusgraph_corpusgraph",
+      "target": "frontend_app_dashboard_dashboard_corpusgraph_docnodeid",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/app/(dashboard)/dashboard/DashboardClient.tsx",
+      "source_location": "L10",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_dashboard_dashboard_dashboardclient",
+      "target": "frontend_app_dashboard_dashboard_corpusgraph_docnodeid",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "frontend/app/(dashboard)/dashboard/DashboardClient.tsx",
+      "source_location": "L122",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_dashboard_dashboard_dashboardclient_dashboardclient",
+      "target": "frontend_app_dashboard_dashboard_corpusgraph_docnodeid"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/app/(dashboard)/dashboard/DashboardClient.tsx",
+      "source_location": "L10",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_dashboard_dashboard_dashboardclient",
+      "target": "frontend_app_dashboard_dashboard_corpusgraph_graphselection",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "context": "field",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/app/(dashboard)/dashboard/CorpusGraph.tsx",
+      "source_location": "L45",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_dashboard_dashboard_corpusgraph_props",
+      "target": "frontend_lib_workspaces_workspacewithdocs",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/app/components/LandingGraph.tsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_components_landinggraph",
+      "target": "frontend_app_dashboard_dashboard_corpusgraph_corpusgraph",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/app/(dashboard)/dashboard/CorpusGraph.tsx",
+      "source_location": "L216",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_dashboard_dashboard_corpusgraph_corpusgraph",
+      "target": "frontend_app_dashboard_dashboard_corpusgraph_truncate",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/app/(dashboard)/dashboard/DashboardClient.tsx",
+      "source_location": "L10",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_dashboard_dashboard_dashboardclient",
+      "target": "frontend_app_dashboard_dashboard_corpusgraph_corpusgraph",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/app/(dashboard)/dashboard/DashboardClient.tsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_dashboard_dashboard_dashboardclient",
       "target": "frontend_app_components_starfield",
       "confidence_score": 1.0
     },
@@ -6547,12 +7553,381 @@
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "frontend/app/(dashboard)/dashboard/DashboardClient.tsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_dashboard_dashboard_dashboardclient",
+      "target": "frontend_app_components_starfield_starfield",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/app/(dashboard)/dashboard/DashboardClient.tsx",
+      "source_location": "L770",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_dashboard_dashboard_dashboardclient",
+      "target": "frontend_app_dashboard_dashboard_dashboardclient_closebutton",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/app/(dashboard)/dashboard/DashboardClient.tsx",
+      "source_location": "L559",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_dashboard_dashboard_dashboardclient",
+      "target": "frontend_app_dashboard_dashboard_dashboardclient_connectidchip",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/app/(dashboard)/dashboard/DashboardClient.tsx",
+      "source_location": "L465",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_dashboard_dashboard_dashboardclient",
+      "target": "frontend_app_dashboard_dashboard_dashboardclient_connectionrow",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/app/(dashboard)/dashboard/DashboardClient.tsx",
+      "source_location": "L424",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_dashboard_dashboard_dashboardclient",
+      "target": "frontend_app_dashboard_dashboard_dashboardclient_connectionsview",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/app/(dashboard)/dashboard/DashboardClient.tsx",
+      "source_location": "L29",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_dashboard_dashboard_dashboardclient",
+      "target": "frontend_app_dashboard_dashboard_dashboardclient_connectmailto",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/app/(dashboard)/dashboard/DashboardClient.tsx",
+      "source_location": "L534",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_dashboard_dashboard_dashboardclient",
+      "target": "frontend_app_dashboard_dashboard_dashboardclient_copybutton",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/app/(dashboard)/dashboard/DashboardClient.tsx",
+      "source_location": "L43",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_dashboard_dashboard_dashboardclient",
+      "target": "frontend_app_dashboard_dashboard_dashboardclient_dashboardclient",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/app/(dashboard)/dashboard/DashboardClient.tsx",
+      "source_location": "L17",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_dashboard_dashboard_dashboardclient",
+      "target": "frontend_app_dashboard_dashboard_dashboardclient_dashboarduser",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/app/(dashboard)/dashboard/DashboardClient.tsx",
+      "source_location": "L595",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_dashboard_dashboard_dashboardclient",
+      "target": "frontend_app_dashboard_dashboard_dashboardclient_documentmodal",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/app/(dashboard)/dashboard/DashboardClient.tsx",
+      "source_location": "L380",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_dashboard_dashboard_dashboardclient",
+      "target": "frontend_app_dashboard_dashboard_dashboardclient_fmttokens",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/app/(dashboard)/dashboard/DashboardClient.tsx",
+      "source_location": "L757",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_dashboard_dashboard_dashboardclient",
+      "target": "frontend_app_dashboard_dashboard_dashboardclient_modalshell",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/app/(dashboard)/dashboard/DashboardClient.tsx",
+      "source_location": "L23",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_dashboard_dashboard_dashboardclient",
+      "target": "frontend_app_dashboard_dashboard_dashboardclient_props",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/app/(dashboard)/dashboard/DashboardClient.tsx",
+      "source_location": "L510",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_dashboard_dashboard_dashboardclient",
+      "target": "frontend_app_dashboard_dashboard_dashboardclient_statusbadge",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/app/(dashboard)/dashboard/DashboardClient.tsx",
+      "source_location": "L386",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_dashboard_dashboard_dashboardclient",
+      "target": "frontend_app_dashboard_dashboard_dashboardclient_tokenledger",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/app/(dashboard)/dashboard/DashboardClient.tsx",
+      "source_location": "L690",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_dashboard_dashboard_dashboardclient",
+      "target": "frontend_app_dashboard_dashboard_dashboardclient_workspacemodal",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/app/(dashboard)/dashboard/DashboardClient.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_dashboard_dashboard_dashboardclient",
+      "target": "frontend_lib_supabasebrowser",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/app/(dashboard)/dashboard/DashboardClient.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_dashboard_dashboard_dashboardclient",
+      "target": "frontend_lib_supabasebrowser_getbrowsersupabase",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/app/(dashboard)/dashboard/DashboardClient.tsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_dashboard_dashboard_dashboardclient",
+      "target": "frontend_lib_usage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/app/(dashboard)/dashboard/DashboardClient.tsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_dashboard_dashboard_dashboardclient",
+      "target": "frontend_lib_usage_breakdownrow",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/app/(dashboard)/dashboard/DashboardClient.tsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_dashboard_dashboard_dashboardclient",
+      "target": "frontend_lib_usage_usagesummary",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/app/(dashboard)/dashboard/DashboardClient.tsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_dashboard_dashboard_dashboardclient",
+      "target": "frontend_lib_workspaces",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/app/(dashboard)/dashboard/DashboardClient.tsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_dashboard_dashboard_dashboardclient",
+      "target": "frontend_lib_workspaces_workspacedoc",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/app/(dashboard)/dashboard/DashboardClient.tsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_dashboard_dashboard_dashboardclient",
+      "target": "frontend_lib_workspaces_workspacemembership",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/app/(dashboard)/dashboard/DashboardClient.tsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_dashboard_dashboard_dashboardclient",
+      "target": "frontend_lib_workspaces_workspacewithdocs",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "frontend/app/(dashboard)/dashboard/page.tsx",
       "source_location": "L5",
       "weight": 1.0,
       "_origin": "ast",
       "source": "frontend_app_dashboard_dashboard_page",
-      "target": "frontend_app_components_starfield_starfield",
+      "target": "frontend_app_dashboard_dashboard_dashboardclient",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "context": "field",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/app/(dashboard)/dashboard/DashboardClient.tsx",
+      "source_location": "L26",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_dashboard_dashboard_dashboardclient_props",
+      "target": "frontend_lib_usage_usagesummary",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "context": "field",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/app/(dashboard)/dashboard/DashboardClient.tsx",
+      "source_location": "L25",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_dashboard_dashboard_dashboardclient_props",
+      "target": "frontend_lib_workspaces_workspacewithdocs",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/app/(dashboard)/dashboard/DashboardClient.tsx",
+      "source_location": "L567",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_dashboard_dashboard_dashboardclient_connectidchip",
+      "target": "frontend_app_dashboard_dashboard_dashboardclient_connectmailto",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/app/(dashboard)/dashboard/DashboardClient.tsx",
+      "source_location": "L500",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_dashboard_dashboard_dashboardclient_connectionrow",
+      "target": "frontend_app_dashboard_dashboard_dashboardclient_connectmailto",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "frontend/app/(dashboard)/dashboard/DashboardClient.tsx",
+      "source_location": "L68",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_dashboard_dashboard_dashboardclient_dashboardclient",
+      "target": "frontend_lib_supabasebrowser_getbrowsersupabase"
+    },
+    {
+      "relation": "references",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "frontend/app/(dashboard)/dashboard/DashboardClient.tsx",
+      "source_location": "L76",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_dashboard_dashboard_dashboardclient_dashboardclient",
+      "target": "frontend_lib_usage_breakdownrow"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/app/(dashboard)/dashboard/DashboardClient.tsx",
+      "source_location": "L409",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_dashboard_dashboard_dashboardclient_tokenledger",
+      "target": "frontend_app_dashboard_dashboard_dashboardclient_fmttokens",
       "confidence_score": 1.0
     },
     {
@@ -6589,6 +7964,185 @@
       "source": "frontend_app_dashboard_dashboard_page",
       "target": "frontend_lib_auth0_auth0",
       "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/app/(dashboard)/dashboard/page.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_dashboard_dashboard_page",
+      "target": "frontend_lib_usage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/app/(dashboard)/dashboard/page.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_dashboard_dashboard_page",
+      "target": "frontend_lib_usage_getusagesummary",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/app/(dashboard)/dashboard/page.tsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_dashboard_dashboard_page",
+      "target": "frontend_lib_workspaces",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/app/(dashboard)/dashboard/page.tsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_dashboard_dashboard_page",
+      "target": "frontend_lib_workspaces_getworkspacesforuser",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "frontend/app/(dashboard)/dashboard/page.tsx",
+      "source_location": "L18",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_dashboard_dashboard_page_dashboard",
+      "target": "frontend_lib_usage_getusagesummary"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "frontend/app/(dashboard)/dashboard/page.tsx",
+      "source_location": "L15",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_dashboard_dashboard_page_dashboard",
+      "target": "frontend_lib_workspaces_getworkspacesforuser"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/app/api/documents/route.ts",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_api_documents_route",
+      "target": "frontend_app_api_documents_route_put",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/app/api/documents/route.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_api_documents_route",
+      "target": "frontend_lib_auth0",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/app/api/documents/route.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_api_documents_route",
+      "target": "frontend_lib_auth0_auth0",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/app/api/documents/route.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_api_documents_route",
+      "target": "frontend_lib_documents",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/app/api/documents/route.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_api_documents_route",
+      "target": "frontend_lib_documents_updatedocument",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/app/api/documents/route.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_api_documents_route",
+      "target": "frontend_lib_supabase",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/app/api/documents/route.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_api_documents_route",
+      "target": "frontend_lib_supabase_getsupabase",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "frontend/app/api/documents/route.ts",
+      "source_location": "L50",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_api_documents_route_put",
+      "target": "frontend_lib_documents_updatedocument"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "frontend/app/api/documents/route.ts",
+      "source_location": "L28",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_api_documents_route_put",
+      "target": "frontend_lib_supabase_getsupabase"
     },
     {
       "relation": "contains",
@@ -6640,12 +8194,188 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "frontend/app/api/workspaces/route.ts",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_api_workspaces_route",
+      "target": "frontend_app_api_workspaces_route_get",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/app/api/workspaces/route.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_api_workspaces_route",
+      "target": "frontend_lib_auth0",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/app/api/workspaces/route.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_api_workspaces_route",
+      "target": "frontend_lib_auth0_auth0",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/app/api/workspaces/route.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_api_workspaces_route",
+      "target": "frontend_lib_workspaces",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/app/api/workspaces/route.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_api_workspaces_route",
+      "target": "frontend_lib_workspaces_getworkspacesforuser",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "frontend/app/api/workspaces/route.ts",
+      "source_location": "L14",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_api_workspaces_route_get",
+      "target": "frontend_lib_workspaces_getworkspacesforuser"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "frontend/app/auth/login-error/page.tsx",
       "source_location": "L3",
       "weight": 1.0,
       "_origin": "ast",
       "source": "frontend_app_auth_login_error_page",
       "target": "frontend_app_auth_login_error_page_loginerrorpage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/app/components/landing-page.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_components_landing_page",
+      "target": "frontend_app_components_landinggraph",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/app/components/LandingGraph.tsx",
+      "source_location": "L13",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_components_landinggraph",
+      "target": "frontend_app_components_landinggraph_demo",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/app/components/LandingGraph.tsx",
+      "source_location": "L11",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_components_landinggraph",
+      "target": "frontend_app_components_landinggraph_doc",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/app/components/LandingGraph.tsx",
+      "source_location": "L30",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_components_landinggraph",
+      "target": "frontend_app_components_landinggraph_landinggraph",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/app/components/LandingGraph.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_components_landinggraph",
+      "target": "frontend_lib_workspaces",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/app/components/LandingGraph.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_components_landinggraph",
+      "target": "frontend_lib_workspaces_workspacewithdocs",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "indirect_call",
+      "context": "collection",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "frontend/app/projects/[slug]/BonsaiTree.tsx",
+      "source_location": "L119",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_projects_slug_bonsaitree_bonsaitree",
+      "target": "frontend_app_components_landinggraph_doc"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/app/components/landing-page.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_components_landing_page",
+      "target": "frontend_app_components_landinggraph_landinggraph",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/app/components/landing-page.tsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_components_landing_page",
+      "target": "frontend_app_components_starfield",
       "confidence_score": 1.0
     },
     {
@@ -6682,10 +8412,22 @@
       "confidence_score": 1.0
     },
     {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/app/components/landing-page.tsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_app_components_landing_page",
+      "target": "frontend_app_components_starfield_starfield",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/app/components/landing-page.tsx",
-      "source_location": "L77",
+      "source_location": "L79",
       "weight": 1.0,
       "_origin": "ast",
       "source": "frontend_app_components_landing_page",
@@ -6696,7 +8438,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/app/components/landing-page.tsx",
-      "source_location": "L183",
+      "source_location": "L185",
       "weight": 1.0,
       "_origin": "ast",
       "source": "frontend_app_components_landing_page",
@@ -6707,7 +8449,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/app/components/landing-page.tsx",
-      "source_location": "L54",
+      "source_location": "L56",
       "weight": 1.0,
       "_origin": "ast",
       "source": "frontend_app_components_landing_page",
@@ -6718,7 +8460,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/app/components/landing-page.tsx",
-      "source_location": "L7",
+      "source_location": "L9",
       "weight": 1.0,
       "_origin": "ast",
       "source": "frontend_app_components_landing_page",
@@ -6729,7 +8471,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/app/components/landing-page.tsx",
-      "source_location": "L60",
+      "source_location": "L62",
       "weight": 1.0,
       "_origin": "ast",
       "source": "frontend_app_components_landing_page",
@@ -6740,7 +8482,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/app/components/landing-page.tsx",
-      "source_location": "L144",
+      "source_location": "L146",
       "weight": 1.0,
       "_origin": "ast",
       "source": "frontend_app_components_landing_page",
@@ -7671,6 +9413,168 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "frontend/lib/documents.ts",
+      "source_location": "L17",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_lib_documents",
+      "target": "frontend_lib_documents_documentkeying",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/lib/documents.ts",
+      "source_location": "L24",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_lib_documents",
+      "target": "frontend_lib_documents_documentrow",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/lib/documents.ts",
+      "source_location": "L35",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_lib_documents",
+      "target": "frontend_lib_documents_documentskeying",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/lib/documents.ts",
+      "source_location": "L83",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_lib_documents",
+      "target": "frontend_lib_documents_fetchdocuments",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/lib/documents.ts",
+      "source_location": "L127",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_lib_documents",
+      "target": "frontend_lib_documents_updatedocument",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/lib/documents.ts",
+      "source_location": "L19",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_lib_documents",
+      "target": "frontend_lib_documents_workspaceref",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/lib/projects.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_lib_projects",
+      "target": "frontend_lib_documents",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/lib/workspaces.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_lib_workspaces",
+      "target": "frontend_lib_documents",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/lib/documents.ts",
+      "source_location": "L89",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_lib_documents_fetchdocuments",
+      "target": "frontend_lib_documents_documentskeying",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/lib/documents.ts",
+      "source_location": "L134",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_lib_documents_updatedocument",
+      "target": "frontend_lib_documents_documentskeying",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/lib/projects.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_lib_projects",
+      "target": "frontend_lib_documents_fetchdocuments",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "frontend/lib/projects.ts",
+      "source_location": "L87",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_lib_projects_listdocuments",
+      "target": "frontend_lib_documents_fetchdocuments"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/lib/workspaces.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_lib_workspaces",
+      "target": "frontend_lib_documents_fetchdocuments",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "frontend/lib/workspaces.ts",
+      "source_location": "L79",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_lib_workspaces_getworkspacesforuser",
+      "target": "frontend_lib_documents_fetchdocuments"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "frontend/lib/graph.ts",
       "source_location": "L38",
       "weight": 1.0,
@@ -7808,7 +9712,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/lib/projects.ts",
-      "source_location": "L19",
+      "source_location": "L20",
       "weight": 1.0,
       "_origin": "ast",
       "source": "frontend_lib_projects",
@@ -7819,7 +9723,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/lib/projects.ts",
-      "source_location": "L57",
+      "source_location": "L58",
       "weight": 1.0,
       "_origin": "ast",
       "source": "frontend_lib_projects",
@@ -7830,7 +9734,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/lib/projects.ts",
-      "source_location": "L71",
+      "source_location": "L76",
       "weight": 1.0,
       "_origin": "ast",
       "source": "frontend_lib_projects",
@@ -7841,7 +9745,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/lib/projects.ts",
-      "source_location": "L28",
+      "source_location": "L29",
       "weight": 1.0,
       "_origin": "ast",
       "source": "frontend_lib_projects",
@@ -7852,7 +9756,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "frontend/lib/projects.ts",
-      "source_location": "L11",
+      "source_location": "L12",
       "weight": 1.0,
       "_origin": "ast",
       "source": "frontend_lib_projects",
@@ -7889,7 +9793,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "frontend/lib/projects.ts",
-      "source_location": "L29",
+      "source_location": "L30",
       "weight": 1.0,
       "_origin": "ast",
       "source": "frontend_lib_projects_listprojects",
@@ -7901,7 +9805,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "frontend/lib/projects.ts",
-      "source_location": "L58",
+      "source_location": "L59",
       "weight": 1.0,
       "_origin": "ast",
       "source": "frontend_lib_projects_getproject",
@@ -7913,7 +9817,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "frontend/lib/projects.ts",
-      "source_location": "L72",
+      "source_location": "L77",
       "weight": 1.0,
       "_origin": "ast",
       "source": "frontend_lib_projects_listdocuments",
@@ -7940,6 +9844,78 @@
       "source": "frontend_lib_supabase",
       "target": "frontend_lib_supabase_supabasepublicconfig",
       "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/lib/usage.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_lib_usage",
+      "target": "frontend_lib_supabase",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/lib/workspaces.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_lib_workspaces",
+      "target": "frontend_lib_supabase",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/lib/usage.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_lib_usage",
+      "target": "frontend_lib_supabase_getsupabase",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "frontend/lib/usage.ts",
+      "source_location": "L32",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_lib_usage_getusagesummary",
+      "target": "frontend_lib_supabase_getsupabase"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/lib/workspaces.ts",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_lib_workspaces",
+      "target": "frontend_lib_supabase_getsupabase",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "frontend/lib/workspaces.ts",
+      "source_location": "L41",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_lib_workspaces_getworkspacesforuser",
+      "target": "frontend_lib_supabase_getsupabase"
     },
     {
       "relation": "contains",
@@ -8002,6 +9978,119 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "frontend/lib/usage.ts",
+      "source_location": "L12",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_lib_usage",
+      "target": "frontend_lib_usage_breakdownrow",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/lib/usage.ts",
+      "source_location": "L68",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_lib_usage",
+      "target": "frontend_lib_usage_demosummary",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/lib/usage.ts",
+      "source_location": "L31",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_lib_usage",
+      "target": "frontend_lib_usage_getusagesummary",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/lib/usage.ts",
+      "source_location": "L44",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_lib_usage",
+      "target": "frontend_lib_usage_summarize",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/lib/usage.ts",
+      "source_location": "L24",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_lib_usage",
+      "target": "frontend_lib_usage_tool_labels",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/lib/usage.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_lib_usage",
+      "target": "frontend_lib_usage_usagestatsrow",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/lib/usage.ts",
+      "source_location": "L18",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_lib_usage",
+      "target": "frontend_lib_usage_usagesummary",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/lib/usage.ts",
+      "source_location": "L33",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_lib_usage_getusagesummary",
+      "target": "frontend_lib_usage_demosummary",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/lib/usage.ts",
+      "source_location": "L41",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_lib_usage_getusagesummary",
+      "target": "frontend_lib_usage_summarize",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/lib/usage.ts",
+      "source_location": "L69",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_lib_usage_demosummary",
+      "target": "frontend_lib_usage_summarize",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "frontend/lib/useRealtimeCorpus.ts",
       "source_location": "L13",
       "weight": 1.0,
@@ -8030,6 +10119,73 @@
       "_origin": "ast",
       "source": "frontend_lib_userealtimecorpus",
       "target": "frontend_lib_userealtimecorpus_userealtimecorpus",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/lib/workspaces.ts",
+      "source_location": "L99",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_lib_workspaces",
+      "target": "frontend_lib_workspaces_demoworkspaces",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/lib/workspaces.ts",
+      "source_location": "L40",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_lib_workspaces",
+      "target": "frontend_lib_workspaces_getworkspacesforuser",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/lib/workspaces.ts",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_lib_workspaces",
+      "target": "frontend_lib_workspaces_workspacedoc",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/lib/workspaces.ts",
+      "source_location": "L12",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_lib_workspaces",
+      "target": "frontend_lib_workspaces_workspacemembership",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/lib/workspaces.ts",
+      "source_location": "L19",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_lib_workspaces",
+      "target": "frontend_lib_workspaces_workspacewithdocs",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "frontend/lib/workspaces.ts",
+      "source_location": "L42",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "frontend_lib_workspaces_getworkspacesforuser",
+      "target": "frontend_lib_workspaces_demoworkspaces",
       "confidence_score": 1.0
     },
     {
@@ -8607,8 +10763,8 @@
       "source_location": "L2",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_frontend_tsconfig_json",
-      "target": "c_users_myu_downloads_personal_corpus_frontend_tsconfig_compileroptions",
+      "source": "frontend_tsconfig",
+      "target": "frontend_tsconfig_compileroptions",
       "confidence_score": 1.0
     },
     {
@@ -8618,8 +10774,8 @@
       "source_location": "L33",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_frontend_tsconfig_json",
-      "target": "c_users_myu_downloads_personal_corpus_frontend_tsconfig_exclude",
+      "source": "frontend_tsconfig",
+      "target": "frontend_tsconfig_exclude",
       "confidence_score": 1.0
     },
     {
@@ -8629,8 +10785,8 @@
       "source_location": "L25",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_frontend_tsconfig_json",
-      "target": "c_users_myu_downloads_personal_corpus_frontend_tsconfig_include",
+      "source": "frontend_tsconfig",
+      "target": "frontend_tsconfig_include",
       "confidence_score": 1.0
     },
     {
@@ -8640,8 +10796,8 @@
       "source_location": "L5",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_frontend_tsconfig_compileroptions",
-      "target": "c_users_myu_downloads_personal_corpus_frontend_tsconfig_compileroptions_allowjs",
+      "source": "frontend_tsconfig_compileroptions",
+      "target": "frontend_tsconfig_compileroptions_allowjs",
       "confidence_score": 1.0
     },
     {
@@ -8651,8 +10807,8 @@
       "source_location": "L9",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_frontend_tsconfig_compileroptions",
-      "target": "c_users_myu_downloads_personal_corpus_frontend_tsconfig_compileroptions_esmoduleinterop",
+      "source": "frontend_tsconfig_compileroptions",
+      "target": "frontend_tsconfig_compileroptions_esmoduleinterop",
       "confidence_score": 1.0
     },
     {
@@ -8662,8 +10818,8 @@
       "source_location": "L15",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_frontend_tsconfig_compileroptions",
-      "target": "c_users_myu_downloads_personal_corpus_frontend_tsconfig_compileroptions_incremental",
+      "source": "frontend_tsconfig_compileroptions",
+      "target": "frontend_tsconfig_compileroptions_incremental",
       "confidence_score": 1.0
     },
     {
@@ -8673,8 +10829,8 @@
       "source_location": "L13",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_frontend_tsconfig_compileroptions",
-      "target": "c_users_myu_downloads_personal_corpus_frontend_tsconfig_compileroptions_isolatedmodules",
+      "source": "frontend_tsconfig_compileroptions",
+      "target": "frontend_tsconfig_compileroptions_isolatedmodules",
       "confidence_score": 1.0
     },
     {
@@ -8684,8 +10840,8 @@
       "source_location": "L14",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_frontend_tsconfig_compileroptions",
-      "target": "c_users_myu_downloads_personal_corpus_frontend_tsconfig_compileroptions_jsx",
+      "source": "frontend_tsconfig_compileroptions",
+      "target": "frontend_tsconfig_compileroptions_jsx",
       "confidence_score": 1.0
     },
     {
@@ -8695,8 +10851,8 @@
       "source_location": "L4",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_frontend_tsconfig_compileroptions",
-      "target": "c_users_myu_downloads_personal_corpus_frontend_tsconfig_compileroptions_lib",
+      "source": "frontend_tsconfig_compileroptions",
+      "target": "frontend_tsconfig_compileroptions_lib",
       "confidence_score": 1.0
     },
     {
@@ -8706,8 +10862,8 @@
       "source_location": "L10",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_frontend_tsconfig_compileroptions",
-      "target": "c_users_myu_downloads_personal_corpus_frontend_tsconfig_compileroptions_module",
+      "source": "frontend_tsconfig_compileroptions",
+      "target": "frontend_tsconfig_compileroptions_module",
       "confidence_score": 1.0
     },
     {
@@ -8717,8 +10873,8 @@
       "source_location": "L11",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_frontend_tsconfig_compileroptions",
-      "target": "c_users_myu_downloads_personal_corpus_frontend_tsconfig_compileroptions_moduleresolution",
+      "source": "frontend_tsconfig_compileroptions",
+      "target": "frontend_tsconfig_compileroptions_moduleresolution",
       "confidence_score": 1.0
     },
     {
@@ -8728,8 +10884,8 @@
       "source_location": "L8",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_frontend_tsconfig_compileroptions",
-      "target": "c_users_myu_downloads_personal_corpus_frontend_tsconfig_compileroptions_noemit",
+      "source": "frontend_tsconfig_compileroptions",
+      "target": "frontend_tsconfig_compileroptions_noemit",
       "confidence_score": 1.0
     },
     {
@@ -8739,8 +10895,8 @@
       "source_location": "L21",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_frontend_tsconfig_compileroptions",
-      "target": "c_users_myu_downloads_personal_corpus_frontend_tsconfig_compileroptions_paths",
+      "source": "frontend_tsconfig_compileroptions",
+      "target": "frontend_tsconfig_compileroptions_paths",
       "confidence_score": 1.0
     },
     {
@@ -8750,8 +10906,8 @@
       "source_location": "L16",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_frontend_tsconfig_compileroptions",
-      "target": "c_users_myu_downloads_personal_corpus_frontend_tsconfig_compileroptions_plugins",
+      "source": "frontend_tsconfig_compileroptions",
+      "target": "frontend_tsconfig_compileroptions_plugins",
       "confidence_score": 1.0
     },
     {
@@ -8761,8 +10917,8 @@
       "source_location": "L12",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_frontend_tsconfig_compileroptions",
-      "target": "c_users_myu_downloads_personal_corpus_frontend_tsconfig_compileroptions_resolvejsonmodule",
+      "source": "frontend_tsconfig_compileroptions",
+      "target": "frontend_tsconfig_compileroptions_resolvejsonmodule",
       "confidence_score": 1.0
     },
     {
@@ -8772,8 +10928,8 @@
       "source_location": "L6",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_frontend_tsconfig_compileroptions",
-      "target": "c_users_myu_downloads_personal_corpus_frontend_tsconfig_compileroptions_skiplibcheck",
+      "source": "frontend_tsconfig_compileroptions",
+      "target": "frontend_tsconfig_compileroptions_skiplibcheck",
       "confidence_score": 1.0
     },
     {
@@ -8783,8 +10939,8 @@
       "source_location": "L7",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_frontend_tsconfig_compileroptions",
-      "target": "c_users_myu_downloads_personal_corpus_frontend_tsconfig_compileroptions_strict",
+      "source": "frontend_tsconfig_compileroptions",
+      "target": "frontend_tsconfig_compileroptions_strict",
       "confidence_score": 1.0
     },
     {
@@ -8794,8 +10950,8 @@
       "source_location": "L3",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_frontend_tsconfig_compileroptions",
-      "target": "c_users_myu_downloads_personal_corpus_frontend_tsconfig_compileroptions_target",
+      "source": "frontend_tsconfig_compileroptions",
+      "target": "frontend_tsconfig_compileroptions_target",
       "confidence_score": 1.0
     },
     {
@@ -8806,7 +10962,7 @@
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_frontend_tsconfig_compileroptions_lib",
+      "source": "frontend_tsconfig_compileroptions_lib",
       "target": "ref_dom",
       "confidence_score": 1.0
     },
@@ -8818,7 +10974,7 @@
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_frontend_tsconfig_compileroptions_lib",
+      "source": "frontend_tsconfig_compileroptions_lib",
       "target": "ref_dom_iterable",
       "confidence_score": 1.0
     },
@@ -8830,7 +10986,7 @@
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_frontend_tsconfig_compileroptions_lib",
+      "source": "frontend_tsconfig_compileroptions_lib",
       "target": "ref_esnext",
       "confidence_score": 1.0
     },
@@ -8842,7 +10998,7 @@
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_frontend_tsconfig_include",
+      "source": "frontend_tsconfig_include",
       "target": "ref_mts",
       "confidence_score": 1.0
     },
@@ -8854,7 +11010,7 @@
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_frontend_tsconfig_include",
+      "source": "frontend_tsconfig_include",
       "target": "ref_next_dev_types_ts",
       "confidence_score": 1.0
     },
@@ -8866,7 +11022,7 @@
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_frontend_tsconfig_include",
+      "source": "frontend_tsconfig_include",
       "target": "ref_next_env_d_ts",
       "confidence_score": 1.0
     },
@@ -8878,7 +11034,7 @@
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_frontend_tsconfig_include",
+      "source": "frontend_tsconfig_include",
       "target": "ref_next_types_ts",
       "confidence_score": 1.0
     },
@@ -8890,7 +11046,7 @@
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_frontend_tsconfig_include",
+      "source": "frontend_tsconfig_include",
       "target": "ref_ts",
       "confidence_score": 1.0
     },
@@ -8902,7 +11058,7 @@
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_frontend_tsconfig_include",
+      "source": "frontend_tsconfig_include",
       "target": "ref_tsx",
       "confidence_score": 1.0
     },
@@ -8914,7 +11070,7 @@
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_frontend_tsconfig_exclude",
+      "source": "frontend_tsconfig_exclude",
       "target": "ref_node_modules",
       "confidence_score": 1.0
     },
@@ -8925,8 +11081,8 @@
       "source_location": "L17",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_install_ps1",
-      "target": "install_ps1_c_users_myu_downloads_personal_corpus_install_fail",
+      "source": "install_ps1_install",
+      "target": "install_ps1_install_fail",
       "confidence_score": 1.0
     },
     {
@@ -8936,8 +11092,8 @@
       "source_location": "L15",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_install_ps1",
-      "target": "install_ps1_c_users_myu_downloads_personal_corpus_install_step",
+      "source": "install_ps1_install",
+      "target": "install_ps1_install_step",
       "confidence_score": 1.0
     },
     {
@@ -8947,8 +11103,8 @@
       "source_location": "L16",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_install_ps1",
-      "target": "install_ps1_c_users_myu_downloads_personal_corpus_install_warn",
+      "source": "install_ps1_install",
+      "target": "install_ps1_install_warn",
       "confidence_score": 1.0
     },
     {
@@ -8958,8 +11114,8 @@
       "source_location": "L1",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_install_sh",
-      "target": "c_users_myu_downloads_personal_corpus_install_sh__entry",
+      "source": "install_sh_install",
+      "target": "install_sh__entry",
       "confidence_score": 1.0
     },
     {
@@ -8969,8 +11125,8 @@
       "source_location": "L20",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_install_sh",
-      "target": "install_sh_c_users_myu_downloads_personal_corpus_install_fail",
+      "source": "install_sh_install",
+      "target": "install_sh_install_fail",
       "confidence_score": 1.0
     },
     {
@@ -8980,8 +11136,8 @@
       "source_location": "L18",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_install_sh",
-      "target": "install_sh_c_users_myu_downloads_personal_corpus_install_step",
+      "source": "install_sh_install",
+      "target": "install_sh_install_step",
       "confidence_score": 1.0
     },
     {
@@ -8991,8 +11147,8 @@
       "source_location": "L19",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_install_sh",
-      "target": "install_sh_c_users_myu_downloads_personal_corpus_install_warn",
+      "source": "install_sh_install",
+      "target": "install_sh_install_warn",
       "confidence_score": 1.0
     },
     {
@@ -9003,8 +11159,8 @@
       "weight": 1.0,
       "context": "call",
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_install_sh__entry",
-      "target": "install_sh_c_users_myu_downloads_personal_corpus_install_fail",
+      "source": "install_sh__entry",
+      "target": "install_sh_install_fail",
       "confidence_score": 1.0
     },
     {
@@ -9015,8 +11171,8 @@
       "weight": 1.0,
       "context": "call",
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_install_sh__entry",
-      "target": "install_sh_c_users_myu_downloads_personal_corpus_install_step",
+      "source": "install_sh__entry",
+      "target": "install_sh_install_step",
       "confidence_score": 1.0
     },
     {
@@ -9027,8 +11183,8 @@
       "weight": 1.0,
       "context": "call",
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_install_sh__entry",
-      "target": "install_sh_c_users_myu_downloads_personal_corpus_install_warn",
+      "source": "install_sh__entry",
+      "target": "install_sh_install_warn",
       "confidence_score": 1.0
     },
     {
@@ -9039,8 +11195,8 @@
       "source_location": "L1",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_mcp_server_2_mcp_json",
-      "target": "c_users_myu_downloads_personal_corpus_mcp_server_2_mcp_mcp_server_corpus"
+      "source": "mcp_server_2_mcp",
+      "target": "mcp_server_2_mcp_mcp_server_corpus"
     },
     {
       "relation": "requires_env",
@@ -9050,7 +11206,7 @@
       "source_location": "L1",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_mcp_server_2_mcp_mcp_server_corpus",
+      "source": "mcp_server_2_mcp_mcp_server_corpus",
       "target": "mcp_server_2_mcp_json_env_var_corpus_agent"
     },
     {
@@ -9061,7 +11217,7 @@
       "source_location": "L1",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_mcp_server_2_mcp_mcp_server_corpus",
+      "source": "mcp_server_2_mcp_mcp_server_corpus",
       "target": "mcp_server_2_mcp_json_env_var_corpus_project"
     },
     {
@@ -9073,7 +11229,7 @@
       "weight": 1.0,
       "context": "command",
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_mcp_server_2_mcp_mcp_server_corpus",
+      "source": "mcp_server_2_mcp_mcp_server_corpus",
       "target": "mcp_server_2_mcp_json_mcp_command_corpus_mcp_v2"
     },
     {
@@ -13586,7 +15742,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "mcp-server-2/src/store.ts",
-      "source_location": "L429",
+      "source_location": "L468",
       "weight": 1.0,
       "_origin": "ast",
       "source": "mcp_server_2_src_store",
@@ -13597,7 +15753,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "mcp-server-2/src/store.ts",
-      "source_location": "L391",
+      "source_location": "L430",
       "weight": 1.0,
       "_origin": "ast",
       "source": "mcp_server_2_src_store",
@@ -13723,7 +15879,7 @@
       "context": "type",
       "confidence": "EXTRACTED",
       "source_file": "mcp-server-2/src/store.ts",
-      "source_location": "L391",
+      "source_location": "L430",
       "weight": 1.0,
       "_origin": "ast",
       "source": "mcp_server_2_src_store_disconnectedstore",
@@ -13837,7 +15993,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "mcp-server-2/src/store.ts",
-      "source_location": "L432",
+      "source_location": "L471",
       "weight": 1.0,
       "_origin": "ast",
       "source": "mcp_server_2_src_store_createstore",
@@ -13849,7 +16005,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "mcp-server-2/src/store.ts",
-      "source_location": "L437",
+      "source_location": "L476",
       "weight": 1.0,
       "_origin": "ast",
       "source": "mcp_server_2_src_store_createstore",
@@ -14019,7 +16175,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "mcp-server-2/src/store.ts",
-      "source_location": "L316",
+      "source_location": "L355",
       "weight": 1.0,
       "_origin": "ast",
       "source": "mcp_server_2_src_store_supabasestore",
@@ -14030,7 +16186,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "mcp-server-2/src/store.ts",
-      "source_location": "L263",
+      "source_location": "L298",
       "weight": 1.0,
       "_origin": "ast",
       "source": "mcp_server_2_src_store_supabasestore",
@@ -14063,7 +16219,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "mcp-server-2/src/store.ts",
-      "source_location": "L306",
+      "source_location": "L345",
       "weight": 1.0,
       "_origin": "ast",
       "source": "mcp_server_2_src_store_supabasestore",
@@ -14074,7 +16230,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "mcp-server-2/src/store.ts",
-      "source_location": "L338",
+      "source_location": "L377",
       "weight": 1.0,
       "_origin": "ast",
       "source": "mcp_server_2_src_store_supabasestore",
@@ -14085,7 +16241,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "mcp-server-2/src/store.ts",
-      "source_location": "L273",
+      "source_location": "L308",
       "weight": 1.0,
       "_origin": "ast",
       "source": "mcp_server_2_src_store_supabasestore",
@@ -14131,7 +16287,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "mcp-server-2/src/store.ts",
-      "source_location": "L354",
+      "source_location": "L393",
       "weight": 1.0,
       "_origin": "ast",
       "source": "mcp_server_2_src_store_supabasestore_logusage",
@@ -14155,7 +16311,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "mcp-server-2/src/store.ts",
-      "source_location": "L326",
+      "source_location": "L365",
       "weight": 1.0,
       "_origin": "ast",
       "source": "mcp_server_2_src_store_supabasestore_getcorpustokentotal",
@@ -14167,7 +16323,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "mcp-server-2/src/store.ts",
-      "source_location": "L268",
+      "source_location": "L303",
       "weight": 1.0,
       "_origin": "ast",
       "source": "mcp_server_2_src_store_supabasestore_getdocument",
@@ -14179,7 +16335,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "mcp-server-2/src/store.ts",
-      "source_location": "L311",
+      "source_location": "L350",
       "weight": 1.0,
       "_origin": "ast",
       "source": "mcp_server_2_src_store_supabasestore_listdocuments",
@@ -14191,7 +16347,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "mcp-server-2/src/store.ts",
-      "source_location": "L298",
+      "source_location": "L337",
       "weight": 1.0,
       "_origin": "ast",
       "source": "mcp_server_2_src_store_supabasestore_putdocument",
@@ -14203,7 +16359,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "mcp-server-2/src/store.ts",
-      "source_location": "L324",
+      "source_location": "L363",
       "weight": 1.0,
       "_origin": "ast",
       "source": "mcp_server_2_src_store_supabasestore_getcorpustokentotal",
@@ -14215,7 +16371,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "mcp-server-2/src/store.ts",
-      "source_location": "L266",
+      "source_location": "L301",
       "weight": 1.0,
       "_origin": "ast",
       "source": "mcp_server_2_src_store_supabasestore_getdocument",
@@ -14227,7 +16383,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "mcp-server-2/src/store.ts",
-      "source_location": "L309",
+      "source_location": "L348",
       "weight": 1.0,
       "_origin": "ast",
       "source": "mcp_server_2_src_store_supabasestore_listdocuments",
@@ -14239,7 +16395,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "mcp-server-2/src/store.ts",
-      "source_location": "L274",
+      "source_location": "L309",
       "weight": 1.0,
       "_origin": "ast",
       "source": "mcp_server_2_src_store_supabasestore_putdocument",
@@ -14252,7 +16408,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "mcp-server-2/src/store.ts",
-      "source_location": "L331",
+      "source_location": "L370",
       "weight": 1.0,
       "_origin": "ast",
       "source": "mcp_server_2_src_store_supabasestore_getcorpustokentotal",
@@ -14262,7 +16418,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "mcp-server-2/src/store.ts",
-      "source_location": "L396",
+      "source_location": "L435",
       "weight": 1.0,
       "_origin": "ast",
       "source": "mcp_server_2_src_store_disconnectedstore",
@@ -14273,7 +16429,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "mcp-server-2/src/store.ts",
-      "source_location": "L408",
+      "source_location": "L447",
       "weight": 1.0,
       "_origin": "ast",
       "source": "mcp_server_2_src_store_disconnectedstore",
@@ -14284,7 +16440,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "mcp-server-2/src/store.ts",
-      "source_location": "L423",
+      "source_location": "L462",
       "weight": 1.0,
       "_origin": "ast",
       "source": "mcp_server_2_src_store_disconnectedstore",
@@ -14295,7 +16451,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "mcp-server-2/src/store.ts",
-      "source_location": "L414",
+      "source_location": "L453",
       "weight": 1.0,
       "_origin": "ast",
       "source": "mcp_server_2_src_store_disconnectedstore",
@@ -14306,7 +16462,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "mcp-server-2/src/store.ts",
-      "source_location": "L404",
+      "source_location": "L443",
       "weight": 1.0,
       "_origin": "ast",
       "source": "mcp_server_2_src_store_disconnectedstore",
@@ -14317,7 +16473,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "mcp-server-2/src/store.ts",
-      "source_location": "L420",
+      "source_location": "L459",
       "weight": 1.0,
       "_origin": "ast",
       "source": "mcp_server_2_src_store_disconnectedstore",
@@ -14328,7 +16484,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "mcp-server-2/src/store.ts",
-      "source_location": "L426",
+      "source_location": "L465",
       "weight": 1.0,
       "_origin": "ast",
       "source": "mcp_server_2_src_store_disconnectedstore",
@@ -14339,7 +16495,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "mcp-server-2/src/store.ts",
-      "source_location": "L417",
+      "source_location": "L456",
       "weight": 1.0,
       "_origin": "ast",
       "source": "mcp_server_2_src_store_disconnectedstore",
@@ -14351,7 +16507,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "mcp-server-2/src/store.ts",
-      "source_location": "L415",
+      "source_location": "L454",
       "weight": 1.0,
       "_origin": "ast",
       "source": "mcp_server_2_src_store_disconnectedstore_getdocument",
@@ -14363,7 +16519,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "mcp-server-2/src/store.ts",
-      "source_location": "L421",
+      "source_location": "L460",
       "weight": 1.0,
       "_origin": "ast",
       "source": "mcp_server_2_src_store_disconnectedstore_listdocuments",
@@ -14375,7 +16531,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "mcp-server-2/src/store.ts",
-      "source_location": "L418",
+      "source_location": "L457",
       "weight": 1.0,
       "_origin": "ast",
       "source": "mcp_server_2_src_store_disconnectedstore_putdocument",
@@ -14781,8 +16937,8 @@
       "source_location": "L2",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_mcp_server_2_tsconfig_json",
-      "target": "c_users_myu_downloads_personal_corpus_mcp_server_2_tsconfig_compileroptions",
+      "source": "mcp_server_2_tsconfig",
+      "target": "mcp_server_2_tsconfig_compileroptions",
       "confidence_score": 1.0
     },
     {
@@ -14792,8 +16948,8 @@
       "source_location": "L15",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_mcp_server_2_tsconfig_json",
-      "target": "c_users_myu_downloads_personal_corpus_mcp_server_2_tsconfig_exclude",
+      "source": "mcp_server_2_tsconfig",
+      "target": "mcp_server_2_tsconfig_exclude",
       "confidence_score": 1.0
     },
     {
@@ -14803,8 +16959,8 @@
       "source_location": "L14",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_mcp_server_2_tsconfig_json",
-      "target": "c_users_myu_downloads_personal_corpus_mcp_server_2_tsconfig_include",
+      "source": "mcp_server_2_tsconfig",
+      "target": "mcp_server_2_tsconfig_include",
       "confidence_score": 1.0
     },
     {
@@ -14814,8 +16970,8 @@
       "source_location": "L11",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_mcp_server_2_tsconfig_compileroptions",
-      "target": "c_users_myu_downloads_personal_corpus_mcp_server_2_tsconfig_compileroptions_declaration",
+      "source": "mcp_server_2_tsconfig_compileroptions",
+      "target": "mcp_server_2_tsconfig_compileroptions_declaration",
       "confidence_score": 1.0
     },
     {
@@ -14825,8 +16981,8 @@
       "source_location": "L9",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_mcp_server_2_tsconfig_compileroptions",
-      "target": "c_users_myu_downloads_personal_corpus_mcp_server_2_tsconfig_compileroptions_esmoduleinterop",
+      "source": "mcp_server_2_tsconfig_compileroptions",
+      "target": "mcp_server_2_tsconfig_compileroptions_esmoduleinterop",
       "confidence_score": 1.0
     },
     {
@@ -14836,8 +16992,8 @@
       "source_location": "L4",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_mcp_server_2_tsconfig_compileroptions",
-      "target": "c_users_myu_downloads_personal_corpus_mcp_server_2_tsconfig_compileroptions_module",
+      "source": "mcp_server_2_tsconfig_compileroptions",
+      "target": "mcp_server_2_tsconfig_compileroptions_module",
       "confidence_score": 1.0
     },
     {
@@ -14847,8 +17003,8 @@
       "source_location": "L5",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_mcp_server_2_tsconfig_compileroptions",
-      "target": "c_users_myu_downloads_personal_corpus_mcp_server_2_tsconfig_compileroptions_moduleresolution",
+      "source": "mcp_server_2_tsconfig_compileroptions",
+      "target": "mcp_server_2_tsconfig_compileroptions_moduleresolution",
       "confidence_score": 1.0
     },
     {
@@ -14858,8 +17014,8 @@
       "source_location": "L6",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_mcp_server_2_tsconfig_compileroptions",
-      "target": "c_users_myu_downloads_personal_corpus_mcp_server_2_tsconfig_compileroptions_outdir",
+      "source": "mcp_server_2_tsconfig_compileroptions",
+      "target": "mcp_server_2_tsconfig_compileroptions_outdir",
       "confidence_score": 1.0
     },
     {
@@ -14869,8 +17025,8 @@
       "source_location": "L7",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_mcp_server_2_tsconfig_compileroptions",
-      "target": "c_users_myu_downloads_personal_corpus_mcp_server_2_tsconfig_compileroptions_rootdir",
+      "source": "mcp_server_2_tsconfig_compileroptions",
+      "target": "mcp_server_2_tsconfig_compileroptions_rootdir",
       "confidence_score": 1.0
     },
     {
@@ -14880,8 +17036,8 @@
       "source_location": "L10",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_mcp_server_2_tsconfig_compileroptions",
-      "target": "c_users_myu_downloads_personal_corpus_mcp_server_2_tsconfig_compileroptions_skiplibcheck",
+      "source": "mcp_server_2_tsconfig_compileroptions",
+      "target": "mcp_server_2_tsconfig_compileroptions_skiplibcheck",
       "confidence_score": 1.0
     },
     {
@@ -14891,8 +17047,8 @@
       "source_location": "L12",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_mcp_server_2_tsconfig_compileroptions",
-      "target": "c_users_myu_downloads_personal_corpus_mcp_server_2_tsconfig_compileroptions_sourcemap",
+      "source": "mcp_server_2_tsconfig_compileroptions",
+      "target": "mcp_server_2_tsconfig_compileroptions_sourcemap",
       "confidence_score": 1.0
     },
     {
@@ -14902,8 +17058,8 @@
       "source_location": "L8",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_mcp_server_2_tsconfig_compileroptions",
-      "target": "c_users_myu_downloads_personal_corpus_mcp_server_2_tsconfig_compileroptions_strict",
+      "source": "mcp_server_2_tsconfig_compileroptions",
+      "target": "mcp_server_2_tsconfig_compileroptions_strict",
       "confidence_score": 1.0
     },
     {
@@ -14913,8 +17069,8 @@
       "source_location": "L3",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_mcp_server_2_tsconfig_compileroptions",
-      "target": "c_users_myu_downloads_personal_corpus_mcp_server_2_tsconfig_compileroptions_target",
+      "source": "mcp_server_2_tsconfig_compileroptions",
+      "target": "mcp_server_2_tsconfig_compileroptions_target",
       "confidence_score": 1.0
     },
     {
@@ -14925,7 +17081,7 @@
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_mcp_server_2_tsconfig_include",
+      "source": "mcp_server_2_tsconfig_include",
       "target": "ref_src_ts",
       "confidence_score": 1.0
     },
@@ -14937,7 +17093,7 @@
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_mcp_server_2_tsconfig_exclude",
+      "source": "mcp_server_2_tsconfig_exclude",
       "target": "ref_src_scripts",
       "confidence_score": 1.0
     },
@@ -14994,8 +17150,8 @@
       "source_location": "L1",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_test4_mcp_json",
-      "target": "c_users_myu_downloads_personal_corpus_test4_mcp_mcp_server_corpus"
+      "source": "test4_mcp",
+      "target": "test4_mcp_mcp_server_corpus"
     },
     {
       "relation": "requires_env",
@@ -15005,7 +17161,7 @@
       "source_location": "L1",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_test4_mcp_mcp_server_corpus",
+      "source": "test4_mcp_mcp_server_corpus",
       "target": "test4_mcp_json_env_var_corpus_agent"
     },
     {
@@ -15016,7 +17172,7 @@
       "source_location": "L1",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_test4_mcp_mcp_server_corpus",
+      "source": "test4_mcp_mcp_server_corpus",
       "target": "test4_mcp_json_env_var_corpus_project"
     },
     {
@@ -15027,7 +17183,7 @@
       "source_location": "L1",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_test4_mcp_mcp_server_corpus",
+      "source": "test4_mcp_mcp_server_corpus",
       "target": "test4_mcp_json_env_var_corpus_workspace"
     },
     {
@@ -15039,7 +17195,7 @@
       "weight": 1.0,
       "context": "command",
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_test4_mcp_mcp_server_corpus",
+      "source": "test4_mcp_mcp_server_corpus",
       "target": "test4_mcp_json_mcp_command_corpus_mcp_v2"
     },
     {
@@ -15606,12 +17762,45 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "docs/technology-use-graph.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_technology_use_graph",
+      "target": "docs_technology_use_graph_corpus_technology_use_graph",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/technology-use-graph.md",
+      "source_location": "L103",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_technology_use_graph_corpus_technology_use_graph",
+      "target": "docs_technology_use_graph_primary_technology_inventory",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/technology-use-graph.md",
+      "source_location": "L94",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_technology_use_graph_corpus_technology_use_graph",
+      "target": "docs_technology_use_graph_trust_boundaries",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "frontend/README.md",
       "source_location": "L32",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_frontend_readme_md",
-      "target": "c_users_myu_downloads_personal_corpus_frontend_readme_deploy_on_vercel",
+      "source": "frontend_readme",
+      "target": "frontend_readme_deploy_on_vercel",
       "confidence_score": 1.0
     },
     {
@@ -15621,8 +17810,8 @@
       "source_location": "L3",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_frontend_readme_md",
-      "target": "c_users_myu_downloads_personal_corpus_frontend_readme_getting_started",
+      "source": "frontend_readme",
+      "target": "frontend_readme_getting_started",
       "confidence_score": 1.0
     },
     {
@@ -15632,8 +17821,8 @@
       "source_location": "L23",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_frontend_readme_md",
-      "target": "c_users_myu_downloads_personal_corpus_frontend_readme_learn_more",
+      "source": "frontend_readme",
+      "target": "frontend_readme_learn_more",
       "confidence_score": 1.0
     },
     {
@@ -15643,8 +17832,8 @@
       "source_location": "L2",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_mcp_server_2_agents_md",
-      "target": "c_users_myu_downloads_personal_corpus_mcp_server_2_agents_corpus_memory",
+      "source": "mcp_server_2_agents",
+      "target": "mcp_server_2_agents_corpus_memory",
       "confidence_score": 1.0
     },
     {
@@ -15654,8 +17843,8 @@
       "source_location": "L12",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_mcp_server_2_agents_md",
-      "target": "c_users_myu_downloads_personal_corpus_mcp_server_2_agents_exploring_code_use_codebase_search_first",
+      "source": "mcp_server_2_agents",
+      "target": "mcp_server_2_agents_exploring_code_use_codebase_search_first",
       "confidence_score": 1.0
     },
     {
@@ -15665,8 +17854,8 @@
       "source_location": "L2",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_mcp_server_2_claude_md",
-      "target": "c_users_myu_downloads_personal_corpus_mcp_server_2_claude_corpus_memory",
+      "source": "mcp_server_2_claude",
+      "target": "mcp_server_2_claude_corpus_memory",
       "confidence_score": 1.0
     },
     {
@@ -15676,8 +17865,8 @@
       "source_location": "L12",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_mcp_server_2_claude_md",
-      "target": "c_users_myu_downloads_personal_corpus_mcp_server_2_claude_exploring_code_use_codebase_search_first",
+      "source": "mcp_server_2_claude",
+      "target": "mcp_server_2_claude_exploring_code_use_codebase_search_first",
       "confidence_score": 1.0
     },
     {
@@ -15687,8 +17876,8 @@
       "source_location": "L2",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_mcp_server_2_gemini_md",
-      "target": "c_users_myu_downloads_personal_corpus_mcp_server_2_gemini_corpus_memory",
+      "source": "mcp_server_2_gemini",
+      "target": "mcp_server_2_gemini_corpus_memory",
       "confidence_score": 1.0
     },
     {
@@ -15698,8 +17887,8 @@
       "source_location": "L12",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_mcp_server_2_gemini_md",
-      "target": "c_users_myu_downloads_personal_corpus_mcp_server_2_gemini_exploring_code_use_codebase_search_first",
+      "source": "mcp_server_2_gemini",
+      "target": "mcp_server_2_gemini_exploring_code_use_codebase_search_first",
       "confidence_score": 1.0
     },
     {
@@ -15841,8 +18030,8 @@
       "source_location": "L2",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_test4_agents_md",
-      "target": "c_users_myu_downloads_personal_corpus_test4_agents_corpus_memory",
+      "source": "test4_agents",
+      "target": "test4_agents_corpus_memory",
       "confidence_score": 1.0
     },
     {
@@ -15852,8 +18041,8 @@
       "source_location": "L12",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_test4_agents_md",
-      "target": "c_users_myu_downloads_personal_corpus_test4_agents_exploring_code_use_codebase_search_first",
+      "source": "test4_agents",
+      "target": "test4_agents_exploring_code_use_codebase_search_first",
       "confidence_score": 1.0
     },
     {
@@ -15863,8 +18052,8 @@
       "source_location": "L2",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_test4_claude_md",
-      "target": "c_users_myu_downloads_personal_corpus_test4_claude_corpus_memory",
+      "source": "test4_claude",
+      "target": "test4_claude_corpus_memory",
       "confidence_score": 1.0
     },
     {
@@ -15874,8 +18063,8 @@
       "source_location": "L12",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_test4_claude_md",
-      "target": "c_users_myu_downloads_personal_corpus_test4_claude_exploring_code_use_codebase_search_first",
+      "source": "test4_claude",
+      "target": "test4_claude_exploring_code_use_codebase_search_first",
       "confidence_score": 1.0
     },
     {
@@ -15885,8 +18074,8 @@
       "source_location": "L2",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_test4_gemini_md",
-      "target": "c_users_myu_downloads_personal_corpus_test4_gemini_corpus_memory",
+      "source": "test4_gemini",
+      "target": "test4_gemini_corpus_memory",
       "confidence_score": 1.0
     },
     {
@@ -15896,11 +18085,11 @@
       "source_location": "L12",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_test4_gemini_md",
-      "target": "c_users_myu_downloads_personal_corpus_test4_gemini_exploring_code_use_codebase_search_first",
+      "source": "test4_gemini",
+      "target": "test4_gemini_exploring_code_use_codebase_search_first",
       "confidence_score": 1.0
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "341574b65004d7589e43a47dc9fd9ad15e315c6b"
+  "built_at_commit": "82eae3cae9868fc789485074f9b4c49a601e03db"
 }

@@ -1,5 +1,6 @@
 import { getSupabase } from "@/lib/supabase";
 import { fetchDocuments } from "@/lib/documents";
+import { getActivityBySlug, latest, type WorkspaceActivity } from "@/lib/activity";
 
 export interface WorkspaceDoc {
   name: string;
@@ -21,60 +22,65 @@ export interface WorkspaceWithDocs {
   slug: string;
   name: string;
   membership: WorkspaceMembership | null;
+  // The live signal the Connections tab renders — see lib/activity.ts for why this,
+  // and not `membership`, is what tells you whether a workspace is in use.
+  activity: WorkspaceActivity;
   documents: WorkspaceDoc[];
 }
 
-// Workspaces visible to this Auth0 user, each with its markdown documents and the
-// user's own membership state.
+// Every workspace in the store, each with its markdown documents and this user's
+// membership state.
 //
-// Scope is decided in this order:
-//   1. workspace_members rows for this user — the real multi-user answer.
-//   2. CORPUS_WORKSPACE — the workspace THIS checkout is connected to, the same id
-//      .mcp.json hands the MCP server. Used while workspace_members is still empty.
-//   3. nothing.
+// Membership ANNOTATES a workspace; it does not filter it. That is the whole point
+// of the Connections tab — it mirrors `corpus-ls`, which lists workspaces you are
+// connected to *and* ones you are not, so you can connect to them. Filtering the
+// list down to rows that already exist in workspace_members would make the
+// not-yet-connected workspaces — the only ones worth acting on — invisible.
 //
-// It deliberately no longer falls back to "every workspace in the database". That
-// fallback is what put 20 unrelated workspaces — other people's repos, scratch folders,
-// `tmp`, `poo` — on a dashboard captioned as the signed-in user's memory. Showing one
-// honest workspace beats showing twenty that are not yours.
+// This also fixes what the dashboard was actually doing: workspace_members is
+// currently empty, so the old membership-first scope fell through to a single
+// CORPUS_WORKSPACE id and rendered 1 workspace out of 20 and 1 document out of 23.
+// Neither scope signal in the schema is populated (workspace_members has 0 rows and
+// workspaces.owner_user_id is NULL on every row), so there is no honest basis for a
+// per-user filter here yet; inventing one would hide real data. When real ownership
+// data lands, filter here on owner_user_id.
 export async function getWorkspacesForUser(userId: string): Promise<WorkspaceWithDocs[]> {
   const sb = getSupabase();
-  if (!sb) return demoWorkspaces();
+  // No demo/seed fallback. A dashboard that renders invented workspaces when it
+  // cannot reach the database is worse than one that fails loudly: it cost an entire
+  // debugging session once already, because a schema mismatch looked like real but
+  // empty memory instead of a broken query.
+  if (!sb) {
+    throw new Error(
+      "Supabase is not configured — set SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY in frontend/.env.local",
+    );
+  }
 
-  const { data: memberRows } = await sb
-    .from("workspace_members")
-    .select("workspace_id,role,status,joined_at,last_active_at")
-    .eq("user_id", userId);
+  const [{ data: workspaces, error: wErr }, { data: memberRows, error: mErr }] = await Promise.all([
+    sb.from("workspaces").select("id,slug,name,created_at").order("created_at", { ascending: true }),
+    sb
+      .from("workspace_members")
+      .select("workspace_id,role,status,joined_at,last_active_at")
+      .eq("user_id", userId),
+  ]);
+
+  // Errors are raised, not swallowed into an empty list — "the query failed" and
+  // "there is nothing here" must not look the same on screen.
+  if (wErr) throw new Error(`workspaces fetch failed: ${wErr.message}`);
+  if (mErr) throw new Error(`workspace_members fetch failed: ${mErr.message}`);
+  if (!workspaces || workspaces.length === 0) return [];
 
   const memberships = new Map<string, WorkspaceMembership>(
     (memberRows ?? []).map((r) => [
       r.workspace_id as string,
       {
-        role: r.role,
-        status: r.status,
-        joined_at: r.joined_at,
-        last_active_at: r.last_active_at,
+        role: r.role as string,
+        status: r.status as WorkspaceMembership["status"],
+        joined_at: r.joined_at as string,
+        last_active_at: r.last_active_at as string,
       },
     ]),
   );
-
-  const connectedId = process.env.CORPUS_WORKSPACE?.trim();
-  const scopeIds =
-    memberships.size > 0 ? [...memberships.keys()] : connectedId ? [connectedId] : [];
-  if (scopeIds.length === 0) return [];
-
-  const wsQuery = sb
-    .from("workspaces")
-    .select("id,slug,name,created_at")
-    .in("id", scopeIds);
-
-  const { data: workspaces, error: wErr } = await wsQuery.order("created_at", { ascending: true });
-  // Errors are raised, not swallowed into demo data. Returning plausible-looking seed
-  // rows on failure is what made a schema mismatch (documents.workspace_id missing)
-  // read as "the memory is empty" for an entire debugging session — the dashboard must
-  // never show invented workspaces while claiming to show the database.
-  if (wErr) throw new Error(`workspaces fetch failed: ${wErr.message}`);
-  if (!workspaces) return [];
 
   const docs = await fetchDocuments(sb, workspaces);
   const byWorkspace = new Map<string, WorkspaceDoc[]>();
@@ -84,56 +90,35 @@ export async function getWorkspacesForUser(userId: string): Promise<WorkspaceWit
     byWorkspace.set(d.workspaceId, list);
   }
 
-  return workspaces.map((w) => ({
-    id: w.id,
-    slug: w.slug,
-    name: w.name,
-    membership: memberships.get(w.id) ?? null,
-    documents: byWorkspace.get(w.id) ?? [],
-  }));
-}
+  // Most-recently-updated document first, so a workspace's freshest memory is what
+  // the graph and the modals open on.
+  for (const list of byWorkspace.values()) {
+    list.sort((a, b) => b.updated_at.localeCompare(a.updated_at));
+  }
 
-// Keeps the dashboard demo-able before SUPABASE_* env vars are configured. This is the
-// ONLY path that may return invented data, and it is reachable only when there are no
-// credentials at all — never as a fallback for a query that failed against a real DB.
-function demoWorkspaces(): WorkspaceWithDocs[] {
-  const now = new Date().toISOString();
-  const lastWeek = new Date(Date.now() - 6 * 24 * 3600 * 1000).toISOString();
-  return [
-    {
-      id: "00000000-0000-4000-8000-000000000001",
-      slug: "corpus-dev",
-      name: "corpus-dev",
-      membership: { role: "owner", status: "connected", joined_at: lastWeek, last_active_at: now },
-      documents: [
-        {
-          name: "state",
-          content:
-            "# State\n\n**Done:** dashboard redesign, MCP hooks.\n\n**In progress:** graph clustering view.\n",
-          updated_at: now,
-        },
-        {
-          name: "architecture",
-          content:
-            "# Architecture\n\nMCP server + Next.js dashboard + Supabase document store.\n",
-          updated_at: now,
-        },
-        {
-          name: "decisions",
-          content:
-            "# Decisions\n\n- Documents are keyed by workspace id, not folder slug — collisions are impossible.\n",
-          updated_at: now,
-        },
-      ],
-    },
-    {
-      id: "00000000-0000-4000-8000-000000000002",
-      slug: "tmp",
-      name: "tmp",
-      membership: { role: "member", status: "disconnected", joined_at: lastWeek, last_active_at: lastWeek },
-      documents: [
-        { name: "state", content: "# State\n\nScratch workspace.\n", updated_at: now },
-      ],
-    },
-  ];
+  const activity = await getActivityBySlug(
+    sb,
+    workspaces.map((w) => w.slug as string),
+  );
+
+  return workspaces.map((w) => {
+    const id = w.id as string;
+    const docs = byWorkspace.get(id) ?? [];
+    const fromEvents = activity.get(w.slug as string) ?? { events: 0, lastActiveAt: null };
+
+    return {
+      id,
+      slug: w.slug as string,
+      name: w.name as string,
+      membership: memberships.get(id) ?? null,
+      // A save writes both a document and a usage_event, but only one of the two is
+      // guaranteed — corpus_save can land while the ledger is unavailable, and a
+      // corpus_load logs an event without touching any document. Take the later.
+      activity: {
+        events: fromEvents.events,
+        lastActiveAt: latest(fromEvents.lastActiveAt, docs[0]?.updated_at ?? null),
+      },
+      documents: docs,
+    };
+  });
 }

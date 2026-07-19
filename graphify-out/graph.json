@@ -1406,8 +1406,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_lib_supabasebrowser",
-      "community": 3,
-      "community_name": "graph.ts",
+      "community": 25,
+      "community_name": "install.ps1",
       "norm_label": "supabasebrowser.ts"
     },
     {
@@ -1417,8 +1417,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "frontend_lib_supabasebrowser_getbrowsersupabase",
-      "community": 3,
-      "community_name": "graph.ts",
+      "community": 25,
+      "community_name": "install.ps1",
       "norm_label": "getbrowsersupabase()"
     },
     {
@@ -1670,8 +1670,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "frontend_package",
-      "community": 4,
-      "community_name": "devDependencies",
+      "community": 1,
+      "community_name": "dependencies",
       "norm_label": "package.json"
     },
     {
@@ -1681,8 +1681,8 @@
       "source_location": "L2",
       "_origin": "ast",
       "id": "frontend_package_name",
-      "community": 4,
-      "community_name": "devDependencies",
+      "community": 1,
+      "community_name": "dependencies",
       "norm_label": "name"
     },
     {
@@ -1692,8 +1692,8 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "frontend_package_version",
-      "community": 4,
-      "community_name": "devDependencies",
+      "community": 1,
+      "community_name": "dependencies",
       "norm_label": "version"
     },
     {
@@ -1703,8 +1703,8 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "frontend_package_private",
-      "community": 4,
-      "community_name": "devDependencies",
+      "community": 1,
+      "community_name": "dependencies",
       "norm_label": "private"
     },
     {
@@ -1714,8 +1714,8 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "frontend_package_scripts",
-      "community": 4,
-      "community_name": "devDependencies",
+      "community": 1,
+      "community_name": "dependencies",
       "norm_label": "scripts"
     },
     {
@@ -1725,8 +1725,8 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "frontend_package_scripts_dev",
-      "community": 4,
-      "community_name": "devDependencies",
+      "community": 1,
+      "community_name": "dependencies",
       "norm_label": "dev"
     },
     {
@@ -1736,8 +1736,8 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "frontend_package_scripts_build",
-      "community": 4,
-      "community_name": "devDependencies",
+      "community": 1,
+      "community_name": "dependencies",
       "norm_label": "build"
     },
     {
@@ -1747,8 +1747,8 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "frontend_package_scripts_start",
-      "community": 4,
-      "community_name": "devDependencies",
+      "community": 1,
+      "community_name": "dependencies",
       "norm_label": "start"
     },
     {
@@ -1758,8 +1758,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "frontend_package_scripts_lint",
-      "community": 4,
-      "community_name": "devDependencies",
+      "community": 1,
+      "community_name": "dependencies",
       "norm_label": "lint"
     },
     {
@@ -3278,8 +3278,8 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "mcp_server_2_src_clients_clients",
-      "community": 34,
-      "community_name": "AGENTS.md",
+      "community": 43,
+      "community_name": "clients.ts",
       "norm_label": "clients"
     },
     {
@@ -4136,8 +4136,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "mcp_server_2_src_hookwire",
-      "community": 46,
-      "community_name": "hookwire.ts",
+      "community": 13,
+      "community_name": "devDependencies",
       "norm_label": "hookwire.ts"
     },
     {
@@ -4147,8 +4147,8 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "mcp_server_2_src_hookwire_hook_files",
-      "community": 46,
-      "community_name": "hookwire.ts",
+      "community": 13,
+      "community_name": "devDependencies",
       "norm_label": "hook_files"
     },
     {
@@ -4158,8 +4158,8 @@
       "source_location": "L29",
       "_origin": "ast",
       "id": "mcp_server_2_src_hookwire_readjson",
-      "community": 46,
-      "community_name": "hookwire.ts",
+      "community": 13,
+      "community_name": "devDependencies",
       "norm_label": "readjson()"
     },
     {
@@ -4169,8 +4169,8 @@
       "source_location": "L39",
       "_origin": "ast",
       "id": "mcp_server_2_src_hookwire_writejson",
-      "community": 46,
-      "community_name": "hookwire.ts",
+      "community": 13,
+      "community_name": "devDependencies",
       "norm_label": "writejson()"
     },
     {
@@ -4180,8 +4180,8 @@
       "source_location": "L44",
       "_origin": "ast",
       "id": "mcp_server_2_src_hookwire_hookgroup",
-      "community": 46,
-      "community_name": "hookwire.ts",
+      "community": 13,
+      "community_name": "devDependencies",
       "norm_label": "hookgroup"
     },
     {
@@ -4191,8 +4191,8 @@
       "source_location": "L50",
       "_origin": "ast",
       "id": "mcp_server_2_src_hookwire_mergeevent",
-      "community": 46,
-      "community_name": "hookwire.ts",
+      "community": 13,
+      "community_name": "devDependencies",
       "norm_label": "mergeevent()"
     },
     {
@@ -4202,8 +4202,8 @@
       "source_location": "L62",
       "_origin": "ast",
       "id": "mcp_server_2_src_hookwire_installevents",
-      "community": 46,
-      "community_name": "hookwire.ts",
+      "community": 13,
+      "community_name": "devDependencies",
       "norm_label": "installevents()"
     },
     {
@@ -4213,8 +4213,8 @@
       "source_location": "L79",
       "_origin": "ast",
       "id": "mcp_server_2_src_hookwire_findcorpushooks",
-      "community": 46,
-      "community_name": "hookwire.ts",
+      "community": 13,
+      "community_name": "devDependencies",
       "norm_label": "findcorpushooks()"
     },
     {
@@ -4224,8 +4224,8 @@
       "source_location": "L97",
       "_origin": "ast",
       "id": "mcp_server_2_src_hookwire_uninstallfrom",
-      "community": 46,
-      "community_name": "hookwire.ts",
+      "community": 13,
+      "community_name": "devDependencies",
       "norm_label": "uninstallfrom()"
     },
     {
@@ -4235,8 +4235,8 @@
       "source_location": "L126",
       "_origin": "ast",
       "id": "mcp_server_2_src_hookwire_uninstallhooks",
-      "community": 46,
-      "community_name": "hookwire.ts",
+      "community": 13,
+      "community_name": "devDependencies",
       "norm_label": "uninstallhooks()"
     },
     {
@@ -4246,8 +4246,8 @@
       "source_location": "L130",
       "_origin": "ast",
       "id": "mcp_server_2_src_hookwire_installhooks",
-      "community": 46,
-      "community_name": "hookwire.ts",
+      "community": 13,
+      "community_name": "devDependencies",
       "norm_label": "installhooks()"
     },
     {
@@ -4598,8 +4598,8 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "mcp_server_2_src_scripts_smoke_uninstall_fixture",
-      "community": 13,
-      "community_name": "devDependencies",
+      "community": 43,
+      "community_name": "clients.ts",
       "norm_label": "fixture()"
     },
     {
@@ -4862,8 +4862,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "mcp_server_2_src_setup",
-      "community": 34,
-      "community_name": "AGENTS.md",
+      "community": 15,
+      "community_name": "setup.ts",
       "norm_label": "setup.ts"
     },
     {
@@ -4873,8 +4873,8 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "mcp_server_2_src_setup_target",
-      "community": 34,
-      "community_name": "AGENTS.md",
+      "community": 15,
+      "community_name": "setup.ts",
       "norm_label": "target"
     },
     {
@@ -4884,8 +4884,8 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "mcp_server_2_src_setup_project",
-      "community": 34,
-      "community_name": "AGENTS.md",
+      "community": 15,
+      "community_name": "setup.ts",
       "norm_label": "project"
     },
     {
@@ -4972,8 +4972,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "mcp_server_2_src_store",
-      "community": 2,
-      "community_name": "index.ts",
+      "community": 11,
+      "community_name": "Workspace.tsx",
       "norm_label": "store.ts"
     },
     {
@@ -5060,8 +5060,8 @@
       "source_location": "L80",
       "_origin": "ast",
       "id": "mcp_server_2_src_store_resolveproject",
-      "community": 2,
-      "community_name": "index.ts",
+      "community": 11,
+      "community_name": "Workspace.tsx",
       "norm_label": "resolveproject()"
     },
     {
@@ -5071,8 +5071,8 @@
       "source_location": "L92",
       "_origin": "ast",
       "id": "mcp_server_2_src_store_resolveworkspace",
-      "community": 2,
-      "community_name": "index.ts",
+      "community": 11,
+      "community_name": "Workspace.tsx",
       "norm_label": "resolveworkspace()"
     },
     {
@@ -5412,8 +5412,8 @@
       "source_location": "L468",
       "_origin": "ast",
       "id": "mcp_server_2_src_store_createstore",
-      "community": 2,
-      "community_name": "index.ts",
+      "community": 11,
+      "community_name": "Workspace.tsx",
       "norm_label": "createstore()"
     },
     {
@@ -5643,8 +5643,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "mcp_server_2_src_wire",
-      "community": 34,
-      "community_name": "AGENTS.md",
+      "community": 43,
+      "community_name": "clients.ts",
       "norm_label": "wire.ts"
     },
     {
@@ -5654,8 +5654,8 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "mcp_server_2_src_wire_instruction_files",
-      "community": 34,
-      "community_name": "AGENTS.md",
+      "community": 43,
+      "community_name": "clients.ts",
       "norm_label": "instruction_files"
     },
     {
@@ -5665,8 +5665,8 @@
       "source_location": "L61",
       "_origin": "ast",
       "id": "mcp_server_2_src_wire_installblock",
-      "community": 34,
-      "community_name": "AGENTS.md",
+      "community": 43,
+      "community_name": "clients.ts",
       "norm_label": "installblock()"
     },
     {
@@ -5676,8 +5676,8 @@
       "source_location": "L86",
       "_origin": "ast",
       "id": "mcp_server_2_src_wire_wirerepo",
-      "community": 34,
-      "community_name": "AGENTS.md",
+      "community": 43,
+      "community_name": "clients.ts",
       "norm_label": "wirerepo()"
     },
     {
@@ -5720,8 +5720,8 @@
       "source_location": "L28",
       "_origin": "ast",
       "id": "mcp_server_2_src_workspace_supabaseconfigured",
-      "community": 34,
-      "community_name": "AGENTS.md",
+      "community": 15,
+      "community_name": "setup.ts",
       "norm_label": "supabaseconfigured()"
     },
     {
@@ -6015,6 +6015,160 @@
       "norm_label": "corpus_agent"
     },
     {
+      "label": "migrate-documents-to-workspace-id-v2.sql",
+      "file_type": "code",
+      "source_file": "supabase/migrate-documents-to-workspace-id-v2.sql",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "supabase_migrate_documents_to_workspace_id_v2",
+      "community": 34,
+      "community_name": "AGENTS.md",
+      "norm_label": "migrate-documents-to-workspace-id-v2.sql"
+    },
+    {
+      "label": "doc_plan",
+      "file_type": "code",
+      "source_file": "supabase/migrate-documents-to-workspace-id-v2.sql",
+      "source_location": "L75",
+      "_origin": "ast",
+      "id": "supabase_migrate_documents_to_workspace_id_v2_doc_plan",
+      "community": 34,
+      "community_name": "AGENTS.md",
+      "norm_label": "doc_plan"
+    },
+    {
+      "label": "documents",
+      "file_type": "code",
+      "source_file": "supabase/migrate-documents-to-workspace-id-v2.sql",
+      "source_location": "L101",
+      "_origin": "ast",
+      "id": "supabase_migrate_documents_to_workspace_id_v2_documents",
+      "community": 34,
+      "community_name": "AGENTS.md",
+      "norm_label": "documents"
+    },
+    {
+      "label": "workspaces",
+      "file_type": "code",
+      "source_file": "supabase/migrate-documents-to-workspace-id-v2.sql",
+      "source_location": "L159",
+      "_origin": "ast",
+      "id": "supabase_migrate_documents_to_workspace_id_v2_workspaces",
+      "community": 34,
+      "community_name": "AGENTS.md",
+      "norm_label": "workspaces"
+    },
+    {
+      "label": "migrate-documents-to-workspace-id.sql",
+      "file_type": "code",
+      "source_file": "supabase/migrate-documents-to-workspace-id.sql",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "supabase_migrate_documents_to_workspace_id",
+      "community": 35,
+      "community_name": "CLAUDE.md",
+      "norm_label": "migrate-documents-to-workspace-id.sql"
+    },
+    {
+      "label": "documents",
+      "file_type": "code",
+      "source_file": "supabase/migrate-documents-to-workspace-id.sql",
+      "source_location": "L64",
+      "_origin": "ast",
+      "id": "supabase_migrate_documents_to_workspace_id_documents",
+      "community": 35,
+      "community_name": "CLAUDE.md",
+      "norm_label": "documents"
+    },
+    {
+      "label": "workspaces",
+      "file_type": "code",
+      "source_file": "supabase/migrate-documents-to-workspace-id.sql",
+      "source_location": "L133",
+      "_origin": "ast",
+      "id": "supabase_migrate_documents_to_workspace_id_workspaces",
+      "community": 35,
+      "community_name": "CLAUDE.md",
+      "norm_label": "workspaces"
+    },
+    {
+      "label": "schema.sql",
+      "file_type": "code",
+      "source_file": "supabase/schema.sql",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "supabase_schema",
+      "community": 32,
+      "community_name": "CLAUDE.md",
+      "norm_label": "schema.sql"
+    },
+    {
+      "label": "workspaces",
+      "file_type": "code",
+      "source_file": "supabase/schema.sql",
+      "source_location": "L10",
+      "_origin": "ast",
+      "id": "supabase_schema_workspaces",
+      "community": 32,
+      "community_name": "CLAUDE.md",
+      "norm_label": "workspaces"
+    },
+    {
+      "label": "workspace_members",
+      "file_type": "code",
+      "source_file": "supabase/schema.sql",
+      "source_location": "L22",
+      "_origin": "ast",
+      "id": "supabase_schema_workspace_members",
+      "community": 32,
+      "community_name": "CLAUDE.md",
+      "norm_label": "workspace_members"
+    },
+    {
+      "label": "documents",
+      "file_type": "code",
+      "source_file": "supabase/schema.sql",
+      "source_location": "L36",
+      "_origin": "ast",
+      "id": "supabase_schema_documents",
+      "community": 32,
+      "community_name": "CLAUDE.md",
+      "norm_label": "documents"
+    },
+    {
+      "label": "usage_events",
+      "file_type": "code",
+      "source_file": "supabase/schema.sql",
+      "source_location": "L65",
+      "_origin": "ast",
+      "id": "supabase_schema_usage_events",
+      "community": 32,
+      "community_name": "CLAUDE.md",
+      "norm_label": "usage_events"
+    },
+    {
+      "label": "usage_stats",
+      "file_type": "code",
+      "source_file": "supabase/schema.sql",
+      "source_location": "L99",
+      "_origin": "ast",
+      "id": "supabase_schema_usage_stats",
+      "community": 32,
+      "community_name": "CLAUDE.md",
+      "norm_label": "usage_stats"
+    },
+    {
+      "label": "project_overview",
+      "file_type": "code",
+      "source_file": "supabase/schema.sql",
+      "source_location": "L141",
+      "_origin": "ast",
+      "id": "supabase_schema_project_overview",
+      "community": 32,
+      "community_name": "CLAUDE.md",
+      "norm_label": "project_overview"
+    },
+    {
       "label": ".mcp.json",
       "file_type": "code",
       "source_file": "test4/.mcp.json",
@@ -6171,8 +6325,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "architecture",
-      "community": 39,
-      "community_name": "CLAUDE.md",
+      "community": 9,
+      "community_name": "Corpus v2 \u2014 MCP server",
       "norm_label": "architecture.md"
     },
     {
@@ -6248,8 +6402,8 @@
       "source_location": "L168",
       "_origin": "ast",
       "id": "architecture_tool_contracts",
-      "community": 36,
-      "community_name": "GEMINI.md",
+      "community": 10,
+      "community_name": "Corpus \u2014 Architecture (source of truth)",
       "norm_label": "tool contracts"
     },
     {
@@ -6259,8 +6413,8 @@
       "source_location": "L170",
       "_origin": "ast",
       "id": "architecture_corpus_load",
-      "community": 36,
-      "community_name": "GEMINI.md",
+      "community": 10,
+      "community_name": "Corpus \u2014 Architecture (source of truth)",
       "norm_label": "corpus_load"
     },
     {
@@ -6270,8 +6424,8 @@
       "source_location": "L180",
       "_origin": "ast",
       "id": "architecture_corpus_log",
-      "community": 36,
-      "community_name": "GEMINI.md",
+      "community": 10,
+      "community_name": "Corpus \u2014 Architecture (source of truth)",
       "norm_label": "corpus_log"
     },
     {
@@ -6281,8 +6435,8 @@
       "source_location": "L187",
       "_origin": "ast",
       "id": "architecture_corpus_save",
-      "community": 36,
-      "community_name": "GEMINI.md",
+      "community": 10,
+      "community_name": "Corpus \u2014 Architecture (source of truth)",
       "norm_label": "corpus_save"
     },
     {
@@ -6292,8 +6446,8 @@
       "source_location": "L202",
       "_origin": "ast",
       "id": "architecture_codebase_search",
-      "community": 36,
-      "community_name": "GEMINI.md",
+      "community": 10,
+      "community_name": "Corpus \u2014 Architecture (source of truth)",
       "norm_label": "codebase_search"
     },
     {
@@ -6424,8 +6578,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "readme",
-      "community": 39,
-      "community_name": "CLAUDE.md",
+      "community": 9,
+      "community_name": "Corpus v2 \u2014 MCP server",
       "norm_label": "readme.md"
     },
     {
@@ -6435,8 +6589,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "readme_corpus",
-      "community": 32,
-      "community_name": "CLAUDE.md",
+      "community": 9,
+      "community_name": "Corpus v2 \u2014 MCP server",
       "norm_label": "corpus"
     },
     {
@@ -6446,8 +6600,8 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "readme_what_it_provides",
-      "community": 32,
-      "community_name": "CLAUDE.md",
+      "community": 9,
+      "community_name": "Corpus v2 \u2014 MCP server",
       "norm_label": "what it provides"
     },
     {
@@ -6457,8 +6611,8 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "readme_install",
-      "community": 32,
-      "community_name": "CLAUDE.md",
+      "community": 9,
+      "community_name": "Corpus v2 \u2014 MCP server",
       "norm_label": "install"
     },
     {
@@ -6468,8 +6622,8 @@
       "source_location": "L59",
       "_origin": "ast",
       "id": "readme_use",
-      "community": 32,
-      "community_name": "CLAUDE.md",
+      "community": 9,
+      "community_name": "Corpus v2 \u2014 MCP server",
       "norm_label": "use"
     },
     {
@@ -6479,8 +6633,8 @@
       "source_location": "L83",
       "_origin": "ast",
       "id": "readme_optional_features",
-      "community": 32,
-      "community_name": "CLAUDE.md",
+      "community": 9,
+      "community_name": "Corpus v2 \u2014 MCP server",
       "norm_label": "optional features"
     },
     {
@@ -6490,8 +6644,8 @@
       "source_location": "L85",
       "_origin": "ast",
       "id": "readme_structural_code_search",
-      "community": 32,
-      "community_name": "CLAUDE.md",
+      "community": 9,
+      "community_name": "Corpus v2 \u2014 MCP server",
       "norm_label": "structural code search"
     },
     {
@@ -6501,8 +6655,8 @@
       "source_location": "L95",
       "_origin": "ast",
       "id": "readme_shared_team_memory",
-      "community": 32,
-      "community_name": "CLAUDE.md",
+      "community": 9,
+      "community_name": "Corpus v2 \u2014 MCP server",
       "norm_label": "shared team memory"
     },
     {
@@ -6512,8 +6666,8 @@
       "source_location": "L106",
       "_origin": "ast",
       "id": "readme_dashboard",
-      "community": 32,
-      "community_name": "CLAUDE.md",
+      "community": 9,
+      "community_name": "Corpus v2 \u2014 MCP server",
       "norm_label": "dashboard"
     },
     {
@@ -6523,8 +6677,8 @@
       "source_location": "L119",
       "_origin": "ast",
       "id": "readme_verify_development_builds",
-      "community": 32,
-      "community_name": "CLAUDE.md",
+      "community": 9,
+      "community_name": "Corpus v2 \u2014 MCP server",
       "norm_label": "verify development builds"
     },
     {
@@ -6534,8 +6688,8 @@
       "source_location": "L131",
       "_origin": "ast",
       "id": "readme_repository_layout",
-      "community": 32,
-      "community_name": "CLAUDE.md",
+      "community": 9,
+      "community_name": "Corpus v2 \u2014 MCP server",
       "norm_label": "repository layout"
     },
     {
@@ -6545,8 +6699,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "requirements",
-      "community": 39,
-      "community_name": "CLAUDE.md",
+      "community": 9,
+      "community_name": "Corpus v2 \u2014 MCP server",
       "norm_label": "requirements.md"
     },
     {
@@ -6875,8 +7029,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "mcp_server_2_readme",
-      "community": 39,
-      "community_name": "CLAUDE.md",
+      "community": 9,
+      "community_name": "Corpus v2 \u2014 MCP server",
       "norm_label": "readme.md"
     },
     {
@@ -6886,8 +7040,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "mcp_server_2_readme_corpus_v2_mcp_server",
-      "community": 35,
-      "community_name": "CLAUDE.md",
+      "community": 9,
+      "community_name": "Corpus v2 \u2014 MCP server",
       "norm_label": "corpus v2 \u2014 mcp server"
     },
     {
@@ -6897,8 +7051,8 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "mcp_server_2_readme_setup",
-      "community": 35,
-      "community_name": "CLAUDE.md",
+      "community": 9,
+      "community_name": "Corpus v2 \u2014 MCP server",
       "norm_label": "setup"
     },
     {
@@ -6908,8 +7062,8 @@
       "source_location": "L74",
       "_origin": "ast",
       "id": "mcp_server_2_readme_commands_global_from_npm_link",
-      "community": 35,
-      "community_name": "CLAUDE.md",
+      "community": 9,
+      "community_name": "Corpus v2 \u2014 MCP server",
       "norm_label": "commands (global, from `npm link`)"
     },
     {
@@ -6919,8 +7073,8 @@
       "source_location": "L85",
       "_origin": "ast",
       "id": "mcp_server_2_readme_hooks_installed_by_corpus_setup",
-      "community": 35,
-      "community_name": "CLAUDE.md",
+      "community": 9,
+      "community_name": "Corpus v2 \u2014 MCP server",
       "norm_label": "hooks (installed by `corpus-setup`)"
     },
     {
@@ -6930,8 +7084,8 @@
       "source_location": "L120",
       "_origin": "ast",
       "id": "mcp_server_2_readme_tools",
-      "community": 35,
-      "community_name": "CLAUDE.md",
+      "community": 9,
+      "community_name": "Corpus v2 \u2014 MCP server",
       "norm_label": "tools"
     },
     {
@@ -6941,8 +7095,8 @@
       "source_location": "L129",
       "_origin": "ast",
       "id": "mcp_server_2_readme_storage_modes",
-      "community": 35,
-      "community_name": "CLAUDE.md",
+      "community": 9,
+      "community_name": "Corpus v2 \u2014 MCP server",
       "norm_label": "storage modes"
     },
     {
@@ -6952,8 +7106,8 @@
       "source_location": "L153",
       "_origin": "ast",
       "id": "mcp_server_2_readme_try_the_handoff_no_keys_no_network",
-      "community": 35,
-      "community_name": "CLAUDE.md",
+      "community": 9,
+      "community_name": "Corpus v2 \u2014 MCP server",
       "norm_label": "try the handoff (no keys, no network)"
     },
     {
@@ -6963,8 +7117,8 @@
       "source_location": "L159",
       "_origin": "ast",
       "id": "mcp_server_2_readme_dev",
-      "community": 35,
-      "community_name": "CLAUDE.md",
+      "community": 9,
+      "community_name": "Corpus v2 \u2014 MCP server",
       "norm_label": "dev"
     },
     {
@@ -17145,6 +17299,204 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "supabase/migrate-documents-to-workspace-id-v2.sql",
+      "source_location": "L75",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "supabase_migrate_documents_to_workspace_id_v2",
+      "target": "supabase_migrate_documents_to_workspace_id_v2_doc_plan",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "supabase/migrate-documents-to-workspace-id-v2.sql",
+      "source_location": "L101",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "supabase_migrate_documents_to_workspace_id_v2",
+      "target": "supabase_migrate_documents_to_workspace_id_v2_documents",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "supabase/migrate-documents-to-workspace-id-v2.sql",
+      "source_location": "L159",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "supabase_migrate_documents_to_workspace_id_v2",
+      "target": "supabase_migrate_documents_to_workspace_id_v2_workspaces",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "supabase/migrate-documents-to-workspace-id-v2.sql",
+      "source_location": "L149",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "supabase_migrate_documents_to_workspace_id_v2_documents",
+      "target": "supabase_migrate_documents_to_workspace_id_v2_workspaces",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "supabase/migrate-documents-to-workspace-id.sql",
+      "source_location": "L64",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "supabase_migrate_documents_to_workspace_id",
+      "target": "supabase_migrate_documents_to_workspace_id_documents",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "supabase/migrate-documents-to-workspace-id.sql",
+      "source_location": "L133",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "supabase_migrate_documents_to_workspace_id",
+      "target": "supabase_migrate_documents_to_workspace_id_workspaces",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "supabase/migrate-documents-to-workspace-id.sql",
+      "source_location": "L123",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "supabase_migrate_documents_to_workspace_id_documents",
+      "target": "supabase_migrate_documents_to_workspace_id_workspaces",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "supabase/schema.sql",
+      "source_location": "L36",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "supabase_schema",
+      "target": "supabase_schema_documents",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "supabase/schema.sql",
+      "source_location": "L141",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "supabase_schema",
+      "target": "supabase_schema_project_overview",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "supabase/schema.sql",
+      "source_location": "L65",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "supabase_schema",
+      "target": "supabase_schema_usage_events",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "supabase/schema.sql",
+      "source_location": "L99",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "supabase_schema",
+      "target": "supabase_schema_usage_stats",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "supabase/schema.sql",
+      "source_location": "L22",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "supabase_schema",
+      "target": "supabase_schema_workspace_members",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "supabase/schema.sql",
+      "source_location": "L10",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "supabase_schema",
+      "target": "supabase_schema_workspaces",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "supabase/schema.sql",
+      "source_location": "L36",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "supabase_schema_documents",
+      "target": "supabase_schema_workspaces",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "reads_from",
+      "confidence": "EXTRACTED",
+      "source_file": "supabase/schema.sql",
+      "source_location": "L148",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "supabase_schema_project_overview",
+      "target": "supabase_schema_workspaces",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "supabase/schema.sql",
+      "source_location": "L22",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "supabase_schema_workspace_members",
+      "target": "supabase_schema_workspaces",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "reads_from",
+      "confidence": "EXTRACTED",
+      "source_file": "supabase/schema.sql",
+      "source_location": "L149",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "supabase_schema_project_overview",
+      "target": "supabase_schema_documents",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "reads_from",
+      "confidence": "EXTRACTED",
+      "source_file": "supabase/schema.sql",
+      "source_location": "L109",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "supabase_schema_usage_stats",
+      "target": "supabase_schema_usage_events",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "test4/.mcp.json",
       "source_location": "L1",
@@ -18091,5 +18443,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "82eae3cae9868fc789485074f9b4c49a601e03db"
+  "built_at_commit": "23a01cd284e7437e9a4b97f219b426389f0216ef"
 }
