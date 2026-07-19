@@ -41,5 +41,9 @@
   "39": "CLAUDE.md",
   "40": "GEMINI.md",
   "41": "AGENTS.md",
-  "42": "CLAUDE.md"
+  "42": "CLAUDE.md",
+  "43": "clients.ts",
+  "44": "uninstall.ts",
+  "45": "ls.ts",
+  "46": "hookwire.ts"
 }

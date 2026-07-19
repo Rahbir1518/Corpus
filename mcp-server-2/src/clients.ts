@@ -265,14 +265,29 @@ export function patchWorkspace(
     const start = content.indexOf(TOML_BEGIN);
     const end = content.indexOf(TOML_END);
     let block = content.slice(start, end);
-    const line = new RegExp(`^\\s*${WORKSPACE_ENV}\\s*=\\s*"[^"]*"\\s*$\\n?`, "m");
-    block = block.replace(line, "");
-    if (relabel) {
-      const projectLine = /^\s*CORPUS_PROJECT\s*=\s*"[^"]*"\s*$/m;
-      const next = `CORPUS_PROJECT = ${JSON.stringify(project!)}`;
-      block = projectLine.test(block) ? block.replace(projectLine, next) : block.trimEnd() + `\n${next}\n`;
-    }
-    if (workspaceId) block = block.trimEnd() + `\n${WORKSPACE_ENV} = ${JSON.stringify(workspaceId)}\n`;
+
+    // Rewrite the block LINE-WISE rather than with a regex over the whole thing.
+    //
+    // The regex this replaces (`^\s*KEY\s*=\s*"[^"]*"\s*$\n?`) was not CRLF-safe: `\s`
+    // matches `\r` AND `\n`, so the greedy `\s*$` ran past the end of its own line and
+    // swallowed neighbouring line breaks. On a CRLF config it ate the newline after
+    // `[mcp_servers.corpus.env]`, leaving `[mcp_servers.corpus.env]\rCORPUS_PROJECT` —
+    // a bare `\r` is not a line terminator in TOML, so Codex failed to parse the file
+    // and loaded no corpus server at all. Silent: the tools simply were not there.
+    //
+    // Both managed keys are rewritten this way. CORPUS_PROJECT is dropped and re-appended
+    // only when relabelling, so a config that already carries one is not disturbed by a
+    // plain connect/disconnect.
+    const eol = block.includes("\r\n") ? "\r\n" : "\n";
+    const managed = relabel ? [WORKSPACE_ENV, "CORPUS_PROJECT"] : [WORKSPACE_ENV];
+    const keep = block
+      .split(/\r?\n/)
+      .filter((l) => !managed.some((k) => new RegExp(`^\\s*${k}\\s*=`).test(l)));
+    while (keep.length && keep[keep.length - 1].trim() === "") keep.pop();
+    if (relabel) keep.push(`CORPUS_PROJECT = ${JSON.stringify(project!)}`);
+    if (workspaceId) keep.push(`${WORKSPACE_ENV} = ${JSON.stringify(workspaceId)}`);
+    block = keep.join(eol) + eol;
+
     fs.writeFileSync(p, content.slice(0, start) + block + content.slice(end), "utf8");
     return { def, wired: true, changed: true };
   });

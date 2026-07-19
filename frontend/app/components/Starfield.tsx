@@ -32,7 +32,13 @@ interface Shooter {
 
 const ACCENT = "99, 102, 241"; // --accent rgb, for constellation tint
 
-export default function Starfield() {
+export default function Starfield({
+  background = "sky",
+  contained = false,
+}: {
+  background?: "sky" | "black";
+  contained?: boolean;
+} = {}) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -79,8 +85,14 @@ export default function Starfield() {
 
     function resize() {
       dpr = Math.min(window.devicePixelRatio || 1, 2);
-      width = window.innerWidth;
-      height = window.innerHeight;
+      if (contained) {
+        const parent = canvas.parentElement;
+        width = parent ? parent.clientWidth : window.innerWidth;
+        height = parent ? parent.clientHeight : window.innerHeight;
+      } else {
+        width = window.innerWidth;
+        height = window.innerHeight;
+      }
       canvas.width = Math.floor(width * dpr);
       canvas.height = Math.floor(height * dpr);
       canvas.style.width = `${width}px`;
@@ -90,6 +102,12 @@ export default function Starfield() {
     }
 
     function paintSky() {
+      // Solid black variant (landing mid-page) — no blue gradient/haze.
+      if (background === "black") {
+        ctx.fillStyle = "#0a0a0f";
+        ctx.fillRect(0, 0, width, height);
+        return;
+      }
       // Deep navy at the top easing to a slightly lighter blue toward the
       // horizon — matches the landing hero's night-sky tone.
       const g = ctx.createLinearGradient(0, 0, 0, height);
@@ -287,8 +305,14 @@ export default function Starfield() {
     }
 
     const onMove = (e: MouseEvent) => {
-      mouse.x = e.clientX;
-      mouse.y = e.clientY;
+      if (contained) {
+        const rect = canvas.getBoundingClientRect();
+        mouse.x = e.clientX - rect.left;
+        mouse.y = e.clientY - rect.top;
+      } else {
+        mouse.x = e.clientX;
+        mouse.y = e.clientY;
+      }
     };
     const onLeave = () => {
       mouse.x = -9999;
@@ -299,6 +323,14 @@ export default function Starfield() {
     window.addEventListener("resize", resize);
     window.addEventListener("mousemove", onMove);
     window.addEventListener("mouseout", onLeave);
+
+    // When contained, also react to the parent element's own size changes.
+    let ro: ResizeObserver | null = null;
+    if (contained && canvas.parentElement && "ResizeObserver" in window) {
+      ro = new ResizeObserver(() => resize());
+      ro.observe(canvas.parentElement);
+    }
+
     raf = requestAnimationFrame(frame);
 
     return () => {
@@ -306,15 +338,16 @@ export default function Starfield() {
       window.removeEventListener("resize", resize);
       window.removeEventListener("mousemove", onMove);
       window.removeEventListener("mouseout", onLeave);
+      ro?.disconnect();
     };
-  }, []);
+  }, [background, contained]);
 
   return (
     <canvas
       ref={canvasRef}
       aria-hidden="true"
       style={{
-        position: "fixed",
+        position: contained ? "absolute" : "fixed",
         inset: 0,
         zIndex: 0,
         pointerEvents: "none",

@@ -2618,8 +2618,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "mcp_server_2_src_clients",
-      "community": 15,
-      "community_name": "setup.ts",
+      "community": 43,
+      "community_name": "clients.ts",
       "norm_label": "clients.ts"
     },
     {
@@ -2629,8 +2629,8 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "mcp_server_2_src_clients_clientdef",
-      "community": 15,
-      "community_name": "setup.ts",
+      "community": 43,
+      "community_name": "clients.ts",
       "norm_label": "clientdef"
     },
     {
@@ -2640,8 +2640,8 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "mcp_server_2_src_clients_clients",
-      "community": 15,
-      "community_name": "setup.ts",
+      "community": 43,
+      "community_name": "clients.ts",
       "norm_label": "clients"
     },
     {
@@ -2651,8 +2651,8 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "mcp_server_2_src_clients_clientstate",
-      "community": 15,
-      "community_name": "setup.ts",
+      "community": 43,
+      "community_name": "clients.ts",
       "norm_label": "clientstate"
     },
     {
@@ -2662,8 +2662,8 @@
       "source_location": "L40",
       "_origin": "ast",
       "id": "mcp_server_2_src_clients_jsonpath",
-      "community": 15,
-      "community_name": "setup.ts",
+      "community": 43,
+      "community_name": "clients.ts",
       "norm_label": "jsonpath()"
     },
     {
@@ -2673,8 +2673,8 @@
       "source_location": "L44",
       "_origin": "ast",
       "id": "mcp_server_2_src_clients_readjson",
-      "community": 15,
-      "community_name": "setup.ts",
+      "community": 43,
+      "community_name": "clients.ts",
       "norm_label": "readjson()"
     },
     {
@@ -2684,8 +2684,8 @@
       "source_location": "L54",
       "_origin": "ast",
       "id": "mcp_server_2_src_clients_writejson",
-      "community": 15,
-      "community_name": "setup.ts",
+      "community": 43,
+      "community_name": "clients.ts",
       "norm_label": "writejson()"
     },
     {
@@ -2695,8 +2695,8 @@
       "source_location": "L60",
       "_origin": "ast",
       "id": "mcp_server_2_src_clients_tomlenv",
-      "community": 15,
-      "community_name": "setup.ts",
+      "community": 43,
+      "community_name": "clients.ts",
       "norm_label": "tomlenv()"
     },
     {
@@ -2706,8 +2706,8 @@
       "source_location": "L69",
       "_origin": "ast",
       "id": "mcp_server_2_src_clients_readclient",
-      "community": 15,
-      "community_name": "setup.ts",
+      "community": 43,
+      "community_name": "clients.ts",
       "norm_label": "readclient()"
     },
     {
@@ -2717,8 +2717,8 @@
       "source_location": "L98",
       "_origin": "ast",
       "id": "mcp_server_2_src_clients_readallclients",
-      "community": 15,
-      "community_name": "setup.ts",
+      "community": 43,
+      "community_name": "clients.ts",
       "norm_label": "readallclients()"
     },
     {
@@ -2728,8 +2728,8 @@
       "source_location": "L136",
       "_origin": "ast",
       "id": "mcp_server_2_src_clients_serverspawn",
-      "community": 15,
-      "community_name": "setup.ts",
+      "community": 43,
+      "community_name": "clients.ts",
       "norm_label": "serverspawn()"
     },
     {
@@ -2739,8 +2739,8 @@
       "source_location": "L143",
       "_origin": "ast",
       "id": "mcp_server_2_src_clients_registerclient",
-      "community": 15,
-      "community_name": "setup.ts",
+      "community": 43,
+      "community_name": "clients.ts",
       "norm_label": "registerclient()"
     },
     {
@@ -2750,8 +2750,8 @@
       "source_location": "L201",
       "_origin": "ast",
       "id": "mcp_server_2_src_clients_unregisterclient",
-      "community": 15,
-      "community_name": "setup.ts",
+      "community": 43,
+      "community_name": "clients.ts",
       "norm_label": "unregisterclient()"
     },
     {
@@ -2761,8 +2761,8 @@
       "source_location": "L226",
       "_origin": "ast",
       "id": "mcp_server_2_src_clients_patchresult",
-      "community": 15,
-      "community_name": "setup.ts",
+      "community": 43,
+      "community_name": "clients.ts",
       "norm_label": "patchresult"
     },
     {
@@ -2772,8 +2772,8 @@
       "source_location": "L242",
       "_origin": "ast",
       "id": "mcp_server_2_src_clients_patchworkspace",
-      "community": 15,
-      "community_name": "setup.ts",
+      "community": 43,
+      "community_name": "clients.ts",
       "norm_label": "patchworkspace()"
     },
     {
@@ -3498,8 +3498,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "mcp_server_2_src_hookwire",
-      "community": 13,
-      "community_name": "devDependencies",
+      "community": 46,
+      "community_name": "hookwire.ts",
       "norm_label": "hookwire.ts"
     },
     {
@@ -3509,8 +3509,8 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "mcp_server_2_src_hookwire_hook_files",
-      "community": 13,
-      "community_name": "devDependencies",
+      "community": 46,
+      "community_name": "hookwire.ts",
       "norm_label": "hook_files"
     },
     {
@@ -3520,8 +3520,8 @@
       "source_location": "L29",
       "_origin": "ast",
       "id": "mcp_server_2_src_hookwire_readjson",
-      "community": 13,
-      "community_name": "devDependencies",
+      "community": 46,
+      "community_name": "hookwire.ts",
       "norm_label": "readjson()"
     },
     {
@@ -3531,8 +3531,8 @@
       "source_location": "L39",
       "_origin": "ast",
       "id": "mcp_server_2_src_hookwire_writejson",
-      "community": 13,
-      "community_name": "devDependencies",
+      "community": 46,
+      "community_name": "hookwire.ts",
       "norm_label": "writejson()"
     },
     {
@@ -3542,8 +3542,8 @@
       "source_location": "L44",
       "_origin": "ast",
       "id": "mcp_server_2_src_hookwire_hookgroup",
-      "community": 13,
-      "community_name": "devDependencies",
+      "community": 46,
+      "community_name": "hookwire.ts",
       "norm_label": "hookgroup"
     },
     {
@@ -3553,8 +3553,8 @@
       "source_location": "L50",
       "_origin": "ast",
       "id": "mcp_server_2_src_hookwire_mergeevent",
-      "community": 13,
-      "community_name": "devDependencies",
+      "community": 46,
+      "community_name": "hookwire.ts",
       "norm_label": "mergeevent()"
     },
     {
@@ -3564,8 +3564,8 @@
       "source_location": "L62",
       "_origin": "ast",
       "id": "mcp_server_2_src_hookwire_installevents",
-      "community": 13,
-      "community_name": "devDependencies",
+      "community": 46,
+      "community_name": "hookwire.ts",
       "norm_label": "installevents()"
     },
     {
@@ -3575,8 +3575,8 @@
       "source_location": "L79",
       "_origin": "ast",
       "id": "mcp_server_2_src_hookwire_findcorpushooks",
-      "community": 13,
-      "community_name": "devDependencies",
+      "community": 46,
+      "community_name": "hookwire.ts",
       "norm_label": "findcorpushooks()"
     },
     {
@@ -3586,8 +3586,8 @@
       "source_location": "L97",
       "_origin": "ast",
       "id": "mcp_server_2_src_hookwire_uninstallfrom",
-      "community": 13,
-      "community_name": "devDependencies",
+      "community": 46,
+      "community_name": "hookwire.ts",
       "norm_label": "uninstallfrom()"
     },
     {
@@ -3597,8 +3597,8 @@
       "source_location": "L126",
       "_origin": "ast",
       "id": "mcp_server_2_src_hookwire_uninstallhooks",
-      "community": 13,
-      "community_name": "devDependencies",
+      "community": 46,
+      "community_name": "hookwire.ts",
       "norm_label": "uninstallhooks()"
     },
     {
@@ -3608,8 +3608,8 @@
       "source_location": "L130",
       "_origin": "ast",
       "id": "mcp_server_2_src_hookwire_installhooks",
-      "community": 13,
-      "community_name": "devDependencies",
+      "community": 46,
+      "community_name": "hookwire.ts",
       "norm_label": "installhooks()"
     },
     {
@@ -3696,8 +3696,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "mcp_server_2_src_ls",
-      "community": 15,
-      "community_name": "setup.ts",
+      "community": 45,
+      "community_name": "ls.ts",
       "norm_label": "ls.ts"
     },
     {
@@ -3707,8 +3707,8 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "mcp_server_2_src_ls_target",
-      "community": 15,
-      "community_name": "setup.ts",
+      "community": 45,
+      "community_name": "ls.ts",
       "norm_label": "target"
     },
     {
@@ -3718,8 +3718,8 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "mcp_server_2_src_ls_known",
-      "community": 15,
-      "community_name": "setup.ts",
+      "community": 45,
+      "community_name": "ls.ts",
       "norm_label": "known"
     },
     {
@@ -3729,8 +3729,8 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "mcp_server_2_src_ls_hereids",
-      "community": 15,
-      "community_name": "setup.ts",
+      "community": 45,
+      "community_name": "ls.ts",
       "norm_label": "hereids"
     },
     {
@@ -3740,8 +3740,8 @@
       "source_location": "L29",
       "_origin": "ast",
       "id": "mcp_server_2_src_ls_unlisted",
-      "community": 15,
-      "community_name": "setup.ts",
+      "community": 45,
+      "community_name": "ls.ts",
       "norm_label": "unlisted"
     },
     {
@@ -3751,8 +3751,8 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "mcp_server_2_src_ls_all",
-      "community": 15,
-      "community_name": "setup.ts",
+      "community": 45,
+      "community_name": "ls.ts",
       "norm_label": "all"
     },
     {
@@ -3762,8 +3762,8 @@
       "source_location": "L44",
       "_origin": "ast",
       "id": "mcp_server_2_src_ls_online",
-      "community": 15,
-      "community_name": "setup.ts",
+      "community": 45,
+      "community_name": "ls.ts",
       "norm_label": "online"
     },
     {
@@ -3773,8 +3773,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "mcp_server_2_src_registry",
-      "community": 15,
-      "community_name": "setup.ts",
+      "community": 45,
+      "community_name": "ls.ts",
       "norm_label": "registry.ts"
     },
     {
@@ -3784,8 +3784,8 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "mcp_server_2_src_registry_knownworkspace",
-      "community": 15,
-      "community_name": "setup.ts",
+      "community": 45,
+      "community_name": "ls.ts",
       "norm_label": "knownworkspace"
     },
     {
@@ -3795,8 +3795,8 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "mcp_server_2_src_registry_file",
-      "community": 15,
-      "community_name": "setup.ts",
+      "community": 45,
+      "community_name": "ls.ts",
       "norm_label": "file"
     },
     {
@@ -3806,8 +3806,8 @@
       "source_location": "L33",
       "_origin": "ast",
       "id": "mcp_server_2_src_registry_listknownworkspaces",
-      "community": 15,
-      "community_name": "setup.ts",
+      "community": 45,
+      "community_name": "ls.ts",
       "norm_label": "listknownworkspaces()"
     },
     {
@@ -3817,8 +3817,8 @@
       "source_location": "L46",
       "_origin": "ast",
       "id": "mcp_server_2_src_registry_recordworkspace",
-      "community": 15,
-      "community_name": "setup.ts",
+      "community": 45,
+      "community_name": "ls.ts",
       "norm_label": "recordworkspace()"
     },
     {
@@ -3828,8 +3828,8 @@
       "source_location": "L77",
       "_origin": "ast",
       "id": "mcp_server_2_src_registry_writeall",
-      "community": 15,
-      "community_name": "setup.ts",
+      "community": 45,
+      "community_name": "ls.ts",
       "norm_label": "writeall()"
     },
     {
@@ -3839,8 +3839,8 @@
       "source_location": "L95",
       "_origin": "ast",
       "id": "mcp_server_2_src_registry_forgetrepo",
-      "community": 15,
-      "community_name": "setup.ts",
+      "community": 45,
+      "community_name": "ls.ts",
       "norm_label": "forgetrepo()"
     },
     {
@@ -4224,8 +4224,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "mcp_server_2_src_setup",
-      "community": 15,
-      "community_name": "setup.ts",
+      "community": 11,
+      "community_name": "Workspace.tsx",
       "norm_label": "setup.ts"
     },
     {
@@ -4235,8 +4235,8 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "mcp_server_2_src_setup_target",
-      "community": 15,
-      "community_name": "setup.ts",
+      "community": 11,
+      "community_name": "Workspace.tsx",
       "norm_label": "target"
     },
     {
@@ -4246,8 +4246,8 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "mcp_server_2_src_setup_project",
-      "community": 15,
-      "community_name": "setup.ts",
+      "community": 11,
+      "community_name": "Workspace.tsx",
       "norm_label": "project"
     },
     {
@@ -4334,8 +4334,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "mcp_server_2_src_store",
-      "community": 11,
-      "community_name": "Workspace.tsx",
+      "community": 2,
+      "community_name": "index.ts",
       "norm_label": "store.ts"
     },
     {
@@ -4433,8 +4433,8 @@
       "source_location": "L92",
       "_origin": "ast",
       "id": "mcp_server_2_src_store_resolveworkspace",
-      "community": 11,
-      "community_name": "Workspace.tsx",
+      "community": 2,
+      "community_name": "index.ts",
       "norm_label": "resolveworkspace()"
     },
     {
@@ -4444,8 +4444,8 @@
       "source_location": "L103",
       "_origin": "ast",
       "id": "mcp_server_2_src_store_isworkspaceid",
-      "community": 11,
-      "community_name": "Workspace.tsx",
+      "community": 2,
+      "community_name": "index.ts",
       "norm_label": "isworkspaceid()"
     },
     {
@@ -4774,8 +4774,8 @@
       "source_location": "L429",
       "_origin": "ast",
       "id": "mcp_server_2_src_store_createstore",
-      "community": 11,
-      "community_name": "Workspace.tsx",
+      "community": 2,
+      "community_name": "index.ts",
       "norm_label": "createstore()"
     },
     {
@@ -4807,8 +4807,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "mcp_server_2_src_uninstall",
-      "community": 15,
-      "community_name": "setup.ts",
+      "community": 44,
+      "community_name": "uninstall.ts",
       "norm_label": "uninstall.ts"
     },
     {
@@ -4818,8 +4818,8 @@
       "source_location": "L36",
       "_origin": "ast",
       "id": "mcp_server_2_src_uninstall_target",
-      "community": 15,
-      "community_name": "setup.ts",
+      "community": 44,
+      "community_name": "uninstall.ts",
       "norm_label": "target"
     },
     {
@@ -4829,8 +4829,8 @@
       "source_location": "L37",
       "_origin": "ast",
       "id": "mcp_server_2_src_uninstall_argv",
-      "community": 15,
-      "community_name": "setup.ts",
+      "community": 44,
+      "community_name": "uninstall.ts",
       "norm_label": "argv"
     },
     {
@@ -4840,8 +4840,8 @@
       "source_location": "L55",
       "_origin": "ast",
       "id": "mcp_server_2_src_uninstall_dryrun",
-      "community": 15,
-      "community_name": "setup.ts",
+      "community": 44,
+      "community_name": "uninstall.ts",
       "norm_label": "dryrun"
     },
     {
@@ -4851,8 +4851,8 @@
       "source_location": "L56",
       "_origin": "ast",
       "id": "mcp_server_2_src_uninstall_alsomemory",
-      "community": 15,
-      "community_name": "setup.ts",
+      "community": 44,
+      "community_name": "uninstall.ts",
       "norm_label": "alsomemory"
     },
     {
@@ -4862,8 +4862,8 @@
       "source_location": "L57",
       "_origin": "ast",
       "id": "mcp_server_2_src_uninstall_alsograph",
-      "community": 15,
-      "community_name": "setup.ts",
+      "community": 44,
+      "community_name": "uninstall.ts",
       "norm_label": "alsograph"
     },
     {
@@ -4873,8 +4873,8 @@
       "source_location": "L58",
       "_origin": "ast",
       "id": "mcp_server_2_src_uninstall_alsoforget",
-      "community": 15,
-      "community_name": "setup.ts",
+      "community": 44,
+      "community_name": "uninstall.ts",
       "norm_label": "alsoforget"
     },
     {
@@ -4884,8 +4884,8 @@
       "source_location": "L60",
       "_origin": "ast",
       "id": "mcp_server_2_src_uninstall_unknown",
-      "community": 15,
-      "community_name": "setup.ts",
+      "community": 44,
+      "community_name": "uninstall.ts",
       "norm_label": "unknown"
     },
     {
@@ -4895,8 +4895,8 @@
       "source_location": "L70",
       "_origin": "ast",
       "id": "mcp_server_2_src_uninstall_project",
-      "community": 15,
-      "community_name": "setup.ts",
+      "community": 44,
+      "community_name": "uninstall.ts",
       "norm_label": "project"
     },
     {
@@ -4906,8 +4906,8 @@
       "source_location": "L71",
       "_origin": "ast",
       "id": "mcp_server_2_src_uninstall_localmemory",
-      "community": 15,
-      "community_name": "setup.ts",
+      "community": 44,
+      "community_name": "uninstall.ts",
       "norm_label": "localmemory"
     },
     {
@@ -4917,8 +4917,8 @@
       "source_location": "L72",
       "_origin": "ast",
       "id": "mcp_server_2_src_uninstall_graphdir",
-      "community": 15,
-      "community_name": "setup.ts",
+      "community": 44,
+      "community_name": "uninstall.ts",
       "norm_label": "graphdir"
     },
     {
@@ -4928,8 +4928,8 @@
       "source_location": "L79",
       "_origin": "ast",
       "id": "mcp_server_2_src_uninstall_planned",
-      "community": 15,
-      "community_name": "setup.ts",
+      "community": 44,
+      "community_name": "uninstall.ts",
       "norm_label": "planned"
     },
     {
@@ -4939,8 +4939,8 @@
       "source_location": "L88",
       "_origin": "ast",
       "id": "mcp_server_2_src_uninstall_plan",
-      "community": 15,
-      "community_name": "setup.ts",
+      "community": 44,
+      "community_name": "uninstall.ts",
       "norm_label": "plan"
     },
     {
@@ -4950,8 +4950,8 @@
       "source_location": "L91",
       "_origin": "ast",
       "id": "mcp_server_2_src_uninstall_show",
-      "community": 15,
-      "community_name": "setup.ts",
+      "community": 44,
+      "community_name": "uninstall.ts",
       "norm_label": "show()"
     },
     {
@@ -4961,8 +4961,8 @@
       "source_location": "L113",
       "_origin": "ast",
       "id": "mcp_server_2_src_uninstall_wiredclients",
-      "community": 15,
-      "community_name": "setup.ts",
+      "community": 44,
+      "community_name": "uninstall.ts",
       "norm_label": "wiredclients"
     },
     {
@@ -4972,8 +4972,8 @@
       "source_location": "L127",
       "_origin": "ast",
       "id": "mcp_server_2_src_uninstall_hookspresent",
-      "community": 15,
-      "community_name": "setup.ts",
+      "community": 44,
+      "community_name": "uninstall.ts",
       "norm_label": "hookspresent"
     },
     {
@@ -4983,8 +4983,8 @@
       "source_location": "L174",
       "_origin": "ast",
       "id": "mcp_server_2_src_uninstall_idshere",
-      "community": 15,
-      "community_name": "setup.ts",
+      "community": 44,
+      "community_name": "uninstall.ts",
       "norm_label": "idshere"
     },
     {
@@ -4994,8 +4994,8 @@
       "source_location": "L177",
       "_origin": "ast",
       "id": "mcp_server_2_src_uninstall_forgotten",
-      "community": 15,
-      "community_name": "setup.ts",
+      "community": 44,
+      "community_name": "uninstall.ts",
       "norm_label": "forgotten"
     },
     {
@@ -5005,8 +5005,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "mcp_server_2_src_wire",
-      "community": 15,
-      "community_name": "setup.ts",
+      "community": 43,
+      "community_name": "clients.ts",
       "norm_label": "wire.ts"
     },
     {
@@ -5016,8 +5016,8 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "mcp_server_2_src_wire_instruction_files",
-      "community": 15,
-      "community_name": "setup.ts",
+      "community": 43,
+      "community_name": "clients.ts",
       "norm_label": "instruction_files"
     },
     {
@@ -5027,8 +5027,8 @@
       "source_location": "L61",
       "_origin": "ast",
       "id": "mcp_server_2_src_wire_installblock",
-      "community": 13,
-      "community_name": "devDependencies",
+      "community": 43,
+      "community_name": "clients.ts",
       "norm_label": "installblock()"
     },
     {
@@ -5038,8 +5038,8 @@
       "source_location": "L86",
       "_origin": "ast",
       "id": "mcp_server_2_src_wire_wirerepo",
-      "community": 13,
-      "community_name": "devDependencies",
+      "community": 43,
+      "community_name": "clients.ts",
       "norm_label": "wirerepo()"
     },
     {
@@ -5082,8 +5082,8 @@
       "source_location": "L28",
       "_origin": "ast",
       "id": "mcp_server_2_src_workspace_supabaseconfigured",
-      "community": 15,
-      "community_name": "setup.ts",
+      "community": 11,
+      "community_name": "Workspace.tsx",
       "norm_label": "supabaseconfigured()"
     },
     {
@@ -5533,8 +5533,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "architecture",
-      "community": 10,
-      "community_name": "Corpus \u2014 Architecture (source of truth)",
+      "community": 9,
+      "community_name": "Corpus v2 \u2014 MCP server",
       "norm_label": "architecture.md"
     },
     {
@@ -5786,8 +5786,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "readme",
-      "community": 10,
-      "community_name": "Corpus \u2014 Architecture (source of truth)",
+      "community": 9,
+      "community_name": "Corpus v2 \u2014 MCP server",
       "norm_label": "readme.md"
     },
     {
@@ -5797,53 +5797,108 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "readme_corpus",
-      "community": 10,
-      "community_name": "Corpus \u2014 Architecture (source of truth)",
+      "community": 9,
+      "community_name": "Corpus v2 \u2014 MCP server",
       "norm_label": "corpus"
     },
     {
-      "label": "How it works",
+      "label": "What it provides",
       "file_type": "document",
       "source_file": "README.md",
       "source_location": "L13",
       "_origin": "ast",
-      "id": "readme_how_it_works",
-      "community": 10,
-      "community_name": "Corpus \u2014 Architecture (source of truth)",
-      "norm_label": "how it works"
+      "id": "readme_what_it_provides",
+      "community": 9,
+      "community_name": "Corpus v2 \u2014 MCP server",
+      "norm_label": "what it provides"
     },
     {
-      "label": "Layout",
+      "label": "Install",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L31",
+      "source_location": "L26",
       "_origin": "ast",
-      "id": "readme_layout",
-      "community": 10,
-      "community_name": "Corpus \u2014 Architecture (source of truth)",
-      "norm_label": "layout"
+      "id": "readme_install",
+      "community": 9,
+      "community_name": "Corpus v2 \u2014 MCP server",
+      "norm_label": "install"
     },
     {
-      "label": "Quick start",
+      "label": "Use",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L46",
+      "source_location": "L59",
       "_origin": "ast",
-      "id": "readme_quick_start",
-      "community": 10,
-      "community_name": "Corpus \u2014 Architecture (source of truth)",
-      "norm_label": "quick start"
+      "id": "readme_use",
+      "community": 9,
+      "community_name": "Corpus v2 \u2014 MCP server",
+      "norm_label": "use"
     },
     {
-      "label": "Demo script (5 min)",
+      "label": "Optional features",
       "file_type": "document",
       "source_file": "README.md",
-      "source_location": "L98",
+      "source_location": "L83",
       "_origin": "ast",
-      "id": "readme_demo_script_5_min",
-      "community": 10,
-      "community_name": "Corpus \u2014 Architecture (source of truth)",
-      "norm_label": "demo script (5 min)"
+      "id": "readme_optional_features",
+      "community": 9,
+      "community_name": "Corpus v2 \u2014 MCP server",
+      "norm_label": "optional features"
+    },
+    {
+      "label": "Structural code search",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L85",
+      "_origin": "ast",
+      "id": "readme_structural_code_search",
+      "community": 9,
+      "community_name": "Corpus v2 \u2014 MCP server",
+      "norm_label": "structural code search"
+    },
+    {
+      "label": "Shared team memory",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L95",
+      "_origin": "ast",
+      "id": "readme_shared_team_memory",
+      "community": 9,
+      "community_name": "Corpus v2 \u2014 MCP server",
+      "norm_label": "shared team memory"
+    },
+    {
+      "label": "Dashboard",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L106",
+      "_origin": "ast",
+      "id": "readme_dashboard",
+      "community": 9,
+      "community_name": "Corpus v2 \u2014 MCP server",
+      "norm_label": "dashboard"
+    },
+    {
+      "label": "Verify development builds",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L119",
+      "_origin": "ast",
+      "id": "readme_verify_development_builds",
+      "community": 9,
+      "community_name": "Corpus v2 \u2014 MCP server",
+      "norm_label": "verify development builds"
+    },
+    {
+      "label": "Repository layout",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L131",
+      "_origin": "ast",
+      "id": "readme_repository_layout",
+      "community": 9,
+      "community_name": "Corpus v2 \u2014 MCP server",
+      "norm_label": "repository layout"
     },
     {
       "label": "REQUIREMENTS.md",
@@ -5851,139 +5906,139 @@
       "source_file": "REQUIREMENTS.md",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_requirements_md",
+      "id": "requirements",
       "community": 9,
       "community_name": "Corpus v2 \u2014 MCP server",
       "norm_label": "requirements.md"
     },
     {
-      "label": "Requirements & setup",
+      "label": "Requirements and setup",
       "file_type": "document",
       "source_file": "REQUIREMENTS.md",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_requirements_requirements_setup",
+      "id": "requirements_requirements_and_setup",
       "community": 9,
       "community_name": "Corpus v2 \u2014 MCP server",
-      "norm_label": "requirements & setup"
+      "norm_label": "requirements and setup"
     },
     {
       "label": "Prerequisites",
       "file_type": "document",
       "source_file": "REQUIREMENTS.md",
-      "source_location": "L9",
+      "source_location": "L6",
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_requirements_prerequisites",
+      "id": "requirements_prerequisites",
       "community": 9,
       "community_name": "Corpus v2 \u2014 MCP server",
       "norm_label": "prerequisites"
     },
     {
-      "label": "1. MCP server (required)",
+      "label": "MCP server",
       "file_type": "document",
       "source_file": "REQUIREMENTS.md",
-      "source_location": "L20",
+      "source_location": "L17",
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_requirements_1_mcp_server_required",
+      "id": "requirements_mcp_server",
       "community": 9,
       "community_name": "Corpus v2 \u2014 MCP server",
-      "norm_label": "1. mcp server (required)"
+      "norm_label": "mcp server"
     },
     {
-      "label": "Where Corpus is active \u2014 per-directory, by design",
+      "label": "Storage behavior",
       "file_type": "document",
       "source_file": "REQUIREMENTS.md",
-      "source_location": "L61",
+      "source_location": "L56",
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_requirements_where_corpus_is_active_per_directory_by_design",
+      "id": "requirements_storage_behavior",
       "community": 9,
       "community_name": "Corpus v2 \u2014 MCP server",
-      "norm_label": "where corpus is active \u2014 per-directory, by design"
+      "norm_label": "storage behavior"
     },
     {
-      "label": "Verify",
+      "label": "Graphify (optional)",
       "file_type": "document",
       "source_file": "REQUIREMENTS.md",
-      "source_location": "L88",
+      "source_location": "L73",
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_requirements_verify",
+      "id": "requirements_graphify_optional",
       "community": 9,
       "community_name": "Corpus v2 \u2014 MCP server",
-      "norm_label": "verify"
+      "norm_label": "graphify (optional)"
     },
     {
-      "label": "2. Code queries (optional)",
+      "label": "Shared workspaces (optional)",
       "file_type": "document",
       "source_file": "REQUIREMENTS.md",
-      "source_location": "L102",
+      "source_location": "L90",
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_requirements_2_code_queries_optional",
+      "id": "requirements_shared_workspaces_optional",
       "community": 9,
       "community_name": "Corpus v2 \u2014 MCP server",
-      "norm_label": "2. code queries (optional)"
+      "norm_label": "shared workspaces (optional)"
     },
     {
-      "label": "3. Team mode \u2014 Supabase (optional)",
+      "label": "Dashboard (optional)",
       "file_type": "document",
       "source_file": "REQUIREMENTS.md",
-      "source_location": "L125",
+      "source_location": "L106",
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_requirements_3_team_mode_supabase_optional",
+      "id": "requirements_dashboard_optional",
       "community": 9,
       "community_name": "Corpus v2 \u2014 MCP server",
-      "norm_label": "3. team mode \u2014 supabase (optional)"
-    },
-    {
-      "label": "4. Dashboard (optional)",
-      "file_type": "document",
-      "source_file": "REQUIREMENTS.md",
-      "source_location": "L150",
-      "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_requirements_4_dashboard_optional",
-      "community": 9,
-      "community_name": "Corpus v2 \u2014 MCP server",
-      "norm_label": "4. dashboard (optional)"
+      "norm_label": "dashboard (optional)"
     },
     {
       "label": "Environment variables",
       "file_type": "document",
       "source_file": "REQUIREMENTS.md",
-      "source_location": "L162",
+      "source_location": "L121",
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_requirements_environment_variables",
+      "id": "requirements_environment_variables",
       "community": 9,
       "community_name": "Corpus v2 \u2014 MCP server",
       "norm_label": "environment variables"
     },
     {
-      "label": "MCP server (`mcp-server-2`)",
+      "label": "MCP server",
       "file_type": "document",
       "source_file": "REQUIREMENTS.md",
-      "source_location": "L166",
+      "source_location": "L123",
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_requirements_mcp_server_mcp_server_2",
+      "id": "requirements_mcp_server_123",
       "community": 9,
       "community_name": "Corpus v2 \u2014 MCP server",
-      "norm_label": "mcp server (`mcp-server-2`)"
+      "norm_label": "mcp server"
     },
     {
-      "label": "Dashboard (`frontend/.env.local`)",
+      "label": "Dashboard",
       "file_type": "document",
       "source_file": "REQUIREMENTS.md",
-      "source_location": "L176",
+      "source_location": "L137",
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_requirements_dashboard_frontend_env_local",
+      "id": "requirements_dashboard",
       "community": 9,
       "community_name": "Corpus v2 \u2014 MCP server",
-      "norm_label": "dashboard (`frontend/.env.local`)"
+      "norm_label": "dashboard"
+    },
+    {
+      "label": "Verify",
+      "file_type": "document",
+      "source_file": "REQUIREMENTS.md",
+      "source_location": "L151",
+      "_origin": "ast",
+      "id": "requirements_verify",
+      "community": 9,
+      "community_name": "Corpus v2 \u2014 MCP server",
+      "norm_label": "verify"
     },
     {
       "label": "Troubleshooting",
       "file_type": "document",
       "source_file": "REQUIREMENTS.md",
-      "source_location": "L186",
+      "source_location": "L163",
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_requirements_troubleshooting",
+      "id": "requirements_troubleshooting",
       "community": 9,
       "community_name": "Corpus v2 \u2014 MCP server",
       "norm_label": "troubleshooting"
@@ -6137,7 +6192,7 @@
       "source_file": "mcp-server-2/README.md",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_mcp_server_2_readme_md",
+      "id": "mcp_server_2_readme",
       "community": 9,
       "community_name": "Corpus v2 \u2014 MCP server",
       "norm_label": "readme.md"
@@ -6148,7 +6203,7 @@
       "source_file": "mcp-server-2/README.md",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_mcp_server_2_readme_corpus_v2_mcp_server",
+      "id": "mcp_server_2_readme_corpus_v2_mcp_server",
       "community": 9,
       "community_name": "Corpus v2 \u2014 MCP server",
       "norm_label": "corpus v2 \u2014 mcp server"
@@ -6159,7 +6214,7 @@
       "source_file": "mcp-server-2/README.md",
       "source_location": "L12",
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_mcp_server_2_readme_setup",
+      "id": "mcp_server_2_readme_setup",
       "community": 9,
       "community_name": "Corpus v2 \u2014 MCP server",
       "norm_label": "setup"
@@ -6170,7 +6225,7 @@
       "source_file": "mcp-server-2/README.md",
       "source_location": "L74",
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_mcp_server_2_readme_commands_global_from_npm_link",
+      "id": "mcp_server_2_readme_commands_global_from_npm_link",
       "community": 9,
       "community_name": "Corpus v2 \u2014 MCP server",
       "norm_label": "commands (global, from `npm link`)"
@@ -6181,7 +6236,7 @@
       "source_file": "mcp-server-2/README.md",
       "source_location": "L85",
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_mcp_server_2_readme_hooks_installed_by_corpus_setup",
+      "id": "mcp_server_2_readme_hooks_installed_by_corpus_setup",
       "community": 9,
       "community_name": "Corpus v2 \u2014 MCP server",
       "norm_label": "hooks (installed by `corpus-setup`)"
@@ -6192,7 +6247,7 @@
       "source_file": "mcp-server-2/README.md",
       "source_location": "L120",
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_mcp_server_2_readme_tools",
+      "id": "mcp_server_2_readme_tools",
       "community": 9,
       "community_name": "Corpus v2 \u2014 MCP server",
       "norm_label": "tools"
@@ -6203,7 +6258,7 @@
       "source_file": "mcp-server-2/README.md",
       "source_location": "L129",
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_mcp_server_2_readme_storage_modes",
+      "id": "mcp_server_2_readme_storage_modes",
       "community": 9,
       "community_name": "Corpus v2 \u2014 MCP server",
       "norm_label": "storage modes"
@@ -6214,7 +6269,7 @@
       "source_file": "mcp-server-2/README.md",
       "source_location": "L153",
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_mcp_server_2_readme_try_the_handoff_no_keys_no_network",
+      "id": "mcp_server_2_readme_try_the_handoff_no_keys_no_network",
       "community": 9,
       "community_name": "Corpus v2 \u2014 MCP server",
       "norm_label": "try the handoff (no keys, no network)"
@@ -6225,7 +6280,7 @@
       "source_file": "mcp-server-2/README.md",
       "source_location": "L159",
       "_origin": "ast",
-      "id": "c_users_myu_downloads_personal_corpus_mcp_server_2_readme_dev",
+      "id": "mcp_server_2_readme_dev",
       "community": 9,
       "community_name": "Corpus v2 \u2014 MCP server",
       "norm_label": "dev"
@@ -6402,8 +6457,8 @@
       "source_location": "L111",
       "_origin": "ast",
       "id": "mcp_server_2_src_registry_registry_file",
-      "community": 15,
-      "community_name": "setup.ts",
+      "community": 45,
+      "community_name": "ls.ts",
       "norm_label": "registry_file"
     }
   ],
@@ -15045,6 +15100,17 @@
     {
       "relation": "references",
       "confidence": "EXTRACTED",
+      "source_file": "mcp-server-2/README.md",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "mcp_server_2_readme",
+      "target": "architecture",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
       "source_file": "README.md",
       "source_location": "L10",
       "weight": 1.0,
@@ -15263,6 +15329,17 @@
       "confidence_score": 1.0
     },
     {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "mcp-server-2/README.md",
+      "source_location": "L15",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "mcp_server_2_readme",
+      "target": "readme",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "README.md",
@@ -15274,14 +15351,69 @@
       "confidence_score": 1.0
     },
     {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L11",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "readme",
+      "target": "requirements",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "README.md",
-      "source_location": "L98",
+      "source_location": "L26",
       "weight": 1.0,
       "_origin": "ast",
       "source": "readme_corpus",
-      "target": "readme_demo_script_5_min",
+      "target": "readme_install",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L83",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "readme_corpus",
+      "target": "readme_optional_features",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L131",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "readme_corpus",
+      "target": "readme_repository_layout",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L59",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "readme_corpus",
+      "target": "readme_use",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L119",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "readme_corpus",
+      "target": "readme_verify_development_builds",
       "confidence_score": 1.0
     },
     {
@@ -15292,29 +15424,40 @@
       "weight": 1.0,
       "_origin": "ast",
       "source": "readme_corpus",
-      "target": "readme_how_it_works",
+      "target": "readme_what_it_provides",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "README.md",
-      "source_location": "L31",
+      "source_location": "L106",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "readme_corpus",
-      "target": "readme_layout",
+      "source": "readme_optional_features",
+      "target": "readme_dashboard",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "README.md",
-      "source_location": "L46",
+      "source_location": "L95",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "readme_corpus",
-      "target": "readme_quick_start",
+      "source": "readme_optional_features",
+      "target": "readme_shared_team_memory",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L85",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "readme_optional_features",
+      "target": "readme_structural_code_search",
       "confidence_score": 1.0
     },
     {
@@ -15324,8 +15467,8 @@
       "source_location": "L10",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_mcp_server_2_readme_md",
-      "target": "c_users_myu_downloads_personal_corpus_requirements_md",
+      "source": "mcp_server_2_readme",
+      "target": "requirements",
       "confidence_score": 1.0
     },
     {
@@ -15335,129 +15478,129 @@
       "source_location": "L1",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_requirements_md",
-      "target": "c_users_myu_downloads_personal_corpus_requirements_requirements_setup",
+      "source": "requirements",
+      "target": "requirements_requirements_and_setup",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "REQUIREMENTS.md",
-      "source_location": "L20",
+      "source_location": "L106",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_requirements_requirements_setup",
-      "target": "c_users_myu_downloads_personal_corpus_requirements_1_mcp_server_required",
+      "source": "requirements_requirements_and_setup",
+      "target": "requirements_dashboard_optional",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "REQUIREMENTS.md",
-      "source_location": "L102",
+      "source_location": "L121",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_requirements_requirements_setup",
-      "target": "c_users_myu_downloads_personal_corpus_requirements_2_code_queries_optional",
+      "source": "requirements_requirements_and_setup",
+      "target": "requirements_environment_variables",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "REQUIREMENTS.md",
-      "source_location": "L125",
+      "source_location": "L73",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_requirements_requirements_setup",
-      "target": "c_users_myu_downloads_personal_corpus_requirements_3_team_mode_supabase_optional",
+      "source": "requirements_requirements_and_setup",
+      "target": "requirements_graphify_optional",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "REQUIREMENTS.md",
-      "source_location": "L150",
+      "source_location": "L17",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_requirements_requirements_setup",
-      "target": "c_users_myu_downloads_personal_corpus_requirements_4_dashboard_optional",
+      "source": "requirements_requirements_and_setup",
+      "target": "requirements_mcp_server",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "REQUIREMENTS.md",
-      "source_location": "L162",
+      "source_location": "L6",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_requirements_requirements_setup",
-      "target": "c_users_myu_downloads_personal_corpus_requirements_environment_variables",
+      "source": "requirements_requirements_and_setup",
+      "target": "requirements_prerequisites",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "REQUIREMENTS.md",
-      "source_location": "L9",
+      "source_location": "L90",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_requirements_requirements_setup",
-      "target": "c_users_myu_downloads_personal_corpus_requirements_prerequisites",
+      "source": "requirements_requirements_and_setup",
+      "target": "requirements_shared_workspaces_optional",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "REQUIREMENTS.md",
-      "source_location": "L186",
+      "source_location": "L163",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_requirements_requirements_setup",
-      "target": "c_users_myu_downloads_personal_corpus_requirements_troubleshooting",
+      "source": "requirements_requirements_and_setup",
+      "target": "requirements_troubleshooting",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "REQUIREMENTS.md",
-      "source_location": "L88",
+      "source_location": "L151",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_requirements_1_mcp_server_required",
-      "target": "c_users_myu_downloads_personal_corpus_requirements_verify",
+      "source": "requirements_requirements_and_setup",
+      "target": "requirements_verify",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "REQUIREMENTS.md",
-      "source_location": "L61",
+      "source_location": "L56",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_requirements_1_mcp_server_required",
-      "target": "c_users_myu_downloads_personal_corpus_requirements_where_corpus_is_active_per_directory_by_design",
+      "source": "requirements_mcp_server",
+      "target": "requirements_storage_behavior",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "REQUIREMENTS.md",
-      "source_location": "L176",
+      "source_location": "L137",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_requirements_environment_variables",
-      "target": "c_users_myu_downloads_personal_corpus_requirements_dashboard_frontend_env_local",
+      "source": "requirements_environment_variables",
+      "target": "requirements_dashboard",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "REQUIREMENTS.md",
-      "source_location": "L166",
+      "source_location": "L123",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_requirements_environment_variables",
-      "target": "c_users_myu_downloads_personal_corpus_requirements_mcp_server_mcp_server_2",
+      "source": "requirements_environment_variables",
+      "target": "requirements_mcp_server_123",
       "confidence_score": 1.0
     },
     {
@@ -15566,8 +15709,8 @@
       "source_location": "L1",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_mcp_server_2_readme_md",
-      "target": "c_users_myu_downloads_personal_corpus_mcp_server_2_readme_corpus_v2_mcp_server",
+      "source": "mcp_server_2_readme",
+      "target": "mcp_server_2_readme_corpus_v2_mcp_server",
       "confidence_score": 1.0
     },
     {
@@ -15577,8 +15720,8 @@
       "source_location": "L74",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_mcp_server_2_readme_corpus_v2_mcp_server",
-      "target": "c_users_myu_downloads_personal_corpus_mcp_server_2_readme_commands_global_from_npm_link",
+      "source": "mcp_server_2_readme_corpus_v2_mcp_server",
+      "target": "mcp_server_2_readme_commands_global_from_npm_link",
       "confidence_score": 1.0
     },
     {
@@ -15588,8 +15731,8 @@
       "source_location": "L159",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_mcp_server_2_readme_corpus_v2_mcp_server",
-      "target": "c_users_myu_downloads_personal_corpus_mcp_server_2_readme_dev",
+      "source": "mcp_server_2_readme_corpus_v2_mcp_server",
+      "target": "mcp_server_2_readme_dev",
       "confidence_score": 1.0
     },
     {
@@ -15599,8 +15742,8 @@
       "source_location": "L85",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_mcp_server_2_readme_corpus_v2_mcp_server",
-      "target": "c_users_myu_downloads_personal_corpus_mcp_server_2_readme_hooks_installed_by_corpus_setup",
+      "source": "mcp_server_2_readme_corpus_v2_mcp_server",
+      "target": "mcp_server_2_readme_hooks_installed_by_corpus_setup",
       "confidence_score": 1.0
     },
     {
@@ -15610,8 +15753,8 @@
       "source_location": "L12",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_mcp_server_2_readme_corpus_v2_mcp_server",
-      "target": "c_users_myu_downloads_personal_corpus_mcp_server_2_readme_setup",
+      "source": "mcp_server_2_readme_corpus_v2_mcp_server",
+      "target": "mcp_server_2_readme_setup",
       "confidence_score": 1.0
     },
     {
@@ -15621,8 +15764,8 @@
       "source_location": "L129",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_mcp_server_2_readme_corpus_v2_mcp_server",
-      "target": "c_users_myu_downloads_personal_corpus_mcp_server_2_readme_storage_modes",
+      "source": "mcp_server_2_readme_corpus_v2_mcp_server",
+      "target": "mcp_server_2_readme_storage_modes",
       "confidence_score": 1.0
     },
     {
@@ -15632,8 +15775,8 @@
       "source_location": "L120",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_mcp_server_2_readme_corpus_v2_mcp_server",
-      "target": "c_users_myu_downloads_personal_corpus_mcp_server_2_readme_tools",
+      "source": "mcp_server_2_readme_corpus_v2_mcp_server",
+      "target": "mcp_server_2_readme_tools",
       "confidence_score": 1.0
     },
     {
@@ -15643,8 +15786,8 @@
       "source_location": "L153",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "c_users_myu_downloads_personal_corpus_mcp_server_2_readme_corpus_v2_mcp_server",
-      "target": "c_users_myu_downloads_personal_corpus_mcp_server_2_readme_try_the_handoff_no_keys_no_network",
+      "source": "mcp_server_2_readme_corpus_v2_mcp_server",
+      "target": "mcp_server_2_readme_try_the_handoff_no_keys_no_network",
       "confidence_score": 1.0
     },
     {

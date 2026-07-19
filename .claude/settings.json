@@ -1,12 +1,4 @@
 {
-  "permissions": {
-    "allow": [
-      "Bash(curl -s -H 'apikey: REDACTED_SUPABASE_SERVICE_KEY' -H 'Authorization: Bearer REDACTED_SUPABASE_SERVICE_KEY' 'https://hstamcmpaenzkwjwntxf.supabase.co/rest/v1/documents?select=name,updated_at&workspace_id=eq.442881e1-5743-4871-b4d5-49af9ce0f926&order=updated_at.desc')",
-      "Bash(curl -s -H 'apikey: REDACTED_SUPABASE_SERVICE_KEY' -H 'Authorization: Bearer REDACTED_SUPABASE_SERVICE_KEY' 'https://hstamcmpaenzkwjwntxf.supabase.co/rest/v1/documents?select=name,workspace_id,updated_at&order=updated_at.desc&limit=4')",
-      "Bash(curl -s -H 'apikey: REDACTED_SUPABASE_SERVICE_KEY' -H 'Authorization: Bearer REDACTED_SUPABASE_SERVICE_KEY' 'https://hstamcmpaenzkwjwntxf.supabase.co/rest/v1/workspaces?select=id,slug,name&id=eq.442881e1-5743-4871-b4d5-49af9ce0f926')",
-      "Bash(curl -s -H 'apikey: REDACTED_SUPABASE_SERVICE_KEY' -H 'Authorization: Bearer REDACTED_SUPABASE_SERVICE_KEY' 'https://hstamcmpaenzkwjwntxf.supabase.co/rest/v1/workspaces?select=id,slug,name&id=eq.675a952b-dd76-4ced-9884-536fa643e735')"
-    ]
-  },
   "hooks": {
     "SessionStart": [
       {

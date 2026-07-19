@@ -249,7 +249,42 @@ class SupabaseStore implements DocumentStore {
       // Genuine failure (network, auth, missing table) — don't cache a guess.
       throw new Error(`documents probe failed: ${error.message}`);
     }
-    this.keying = error ? "slug" : "id"; // 42703 = column does not exist
+
+    if (error) {
+      this.keying = "slug"; // 42703 = column does not exist
+    } else {
+      // The column EXISTS — but that alone does not mean it keys anything, and assuming
+      // it does cost a full session: the live DB was found with `alter table documents
+      // add column workspace_id uuid` run on its own, OUTSIDE the migration transaction,
+      // so every row had workspace_id NULL while `project` still held every real key. An
+      // exists-only probe answers "id" there, matches zero rows, and corpus_load reports
+      // "no memory yet — this is session one" against a database full of memory.
+      //
+      // So require the column to be POPULATED, not merely present. A partially backfilled
+      // table still answers "id" (mid-migration the new key is the real one); a wholly
+      // unbackfilled one is treated as the no-op it is. Mirrors frontend/lib/documents.ts
+      // documentsKeying() — the two must agree or the dashboard and the server read
+      // different halves of the same table.
+      const [{ data: keyedRows }, { data: anyRows }] = await Promise.all([
+        this.db.from("documents").select("name").not("workspace_id", "is", null).limit(1),
+        this.db.from("documents").select("name").limit(1),
+      ]);
+      const populated = (keyedRows?.length ?? 0) > 0;
+      const hasRows = (anyRows?.length ?? 0) > 0;
+
+      if (hasRows && !populated) {
+        console.error(
+          `[corpus-v2] documents.workspace_id exists but is NULL on every row — the ` +
+            `migration was only partly applied. Falling back to slug keying so the real ` +
+            `documents stay readable. Finish supabase/migrate-documents-to-workspace-id.sql ` +
+            `(or drop the unused column) to resolve this.`,
+        );
+        this.keying = "slug";
+      } else {
+        this.keying = "id";
+      }
+    }
+
     if (this.keying === "slug") {
       console.error(
         `[corpus-v2] documents is still keyed by project slug — repos with the same folder ` +
@@ -288,12 +323,16 @@ class SupabaseStore implements DocumentStore {
       return;
     }
 
-    // Slug keying: documents.project FKs to workspaces.slug. The slug comes from the
-    // CONNECTED workspace row, which by definition already exists — so, unlike the old
-    // code path, there is no workspaces upsert here. That upsert created a SECOND
-    // workspace named after the local folder and then wrote the memory into it, which is
-    // how a connected repo ended up with its documents somewhere the workspace's own
-    // dashboard never showed them.
+    // Slug keying: documents.project FKs to workspaces.slug, and slugKey() resolved that
+    // slug FROM the connected workspace row — which by definition already exists. So the
+    // workspaces upsert that used to sit here is gone, not merely moved.
+    //
+    // That upsert keyed a new workspace on the local folder label, creating a SECOND
+    // workspace and writing the memory into it: a connected repo's documents landed
+    // somewhere the workspace's own dashboard never showed them, and a scratch
+    // `cd tmp && claude` minted real rows named `tmp`, `poo`, `repo` — 20 of them are
+    // still in this database. A write now lands only in a workspace somebody deliberately
+    // connected to, the same guarantee the id path gives.
     const { error } = await this.db.from("documents").upsert({
       project: await this.slugKey(),
       name,

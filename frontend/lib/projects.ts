@@ -1,4 +1,5 @@
 import { getSupabase } from "@/lib/supabase";
+import { fetchDocuments } from "@/lib/documents";
 
 // Data access for the post-login project → documents flow. All reads go through
 // the server-side service-role client (getSupabase()), which bypasses RLS. When
@@ -68,14 +69,23 @@ export async function getProject(id: string): Promise<{ id: string; name: string
 
 // Every document under a project (workspace), including content, newest first.
 // Content is included so the reader can open a doc with no extra round trip.
+//
+// Goes through fetchDocuments() because the live DB may still key documents by slug
+// rather than workspace_id — selecting workspace_id directly returned 42703 here and
+// the `return []` below turned that into a silent "this project has no documents".
 export async function listDocuments(workspaceId: string): Promise<DocumentSummary[]> {
   const sb = getSupabase();
   if (!sb) return [];
-  const { data, error } = await sb
-    .from("documents")
-    .select("name,content,updated_at")
-    .eq("workspace_id", workspaceId)
-    .order("updated_at", { ascending: false });
-  if (error || !data) return [];
-  return data as DocumentSummary[];
+
+  const { data: ws, error: wErr } = await sb
+    .from("workspaces")
+    .select("id,slug")
+    .eq("id", workspaceId)
+    .maybeSingle();
+  if (wErr || !ws) return [];
+
+  const docs = await fetchDocuments(sb, [{ id: String(ws.id), slug: ws.slug }]);
+  return docs
+    .map(({ name, content, updated_at }) => ({ name, content, updated_at }))
+    .sort((a, b) => b.updated_at.localeCompare(a.updated_at));
 }

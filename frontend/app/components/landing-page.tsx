@@ -3,6 +3,8 @@
 import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import Starfield from "@/app/components/Starfield";
+import LandingGraph from "@/app/components/LandingGraph";
 
 function Reveal({
   children,
@@ -181,50 +183,82 @@ function TerminalLine({
 }
 
 export default function LandingPage() {
-  const [scrolled, setScrolled] = useState(false);
+  // 0 at the top → 1 once fully collapsed, based on how far you've scrolled.
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
+    let raf = 0;
+    const onScroll = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        setProgress(Math.min(1, Math.max(0, window.scrollY / 260)));
+      });
     };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("scroll", onScroll);
+    };
   }, []);
+
+  // Smoothstep easing so the collapse eases in/out as you scroll.
+  const p = progress * progress * (3 - 2 * progress);
+  const lerp = (a: number, b: number) => a + (b - a) * p;
 
   return (
     <main className="bg-background text-foreground min-h-screen selection:bg-white/20 selection:text-white">
       <nav
-        className={`fixed top-0 inset-x-0 z-50 flex items-center justify-between px-6 py-4 transition-all duration-300 ${scrolled ? "liquid-glass bg-background/50 border-b border-white/5" : "bg-transparent"
-          }`}
+        className="fixed top-0 inset-x-0 z-50 flex justify-center"
+        style={{ paddingTop: lerp(0, 14) }}
       >
-        <div className="flex items-center gap-2">
-          <Link href="/" className="flex items-center gap-2 font-display text-3xl tracking-tight">
-            <Image
-              src="/assets/corpus_logo.png"
-              alt="Corpus"
-              width={60}
-              height={60}
-              className="brand-logo w-14 h-14"
-              priority
-            />
-            Corpus
+        <div
+          className="flex items-center justify-between gap-6 border border-solid"
+          style={{
+            width: `min(${lerp(100, 92)}%, ${lerp(2400, 780)}px)`,
+            paddingTop: lerp(16, 15),
+            paddingBottom: lerp(16, 15),
+            paddingLeft: lerp(24, 26),
+            paddingRight: lerp(24, 26),
+            borderRadius: lerp(0, 999),
+            background: `rgba(10, 10, 15, ${lerp(0, 0.72)})`,
+            backdropFilter: `blur(${lerp(0, 14)}px)`,
+            WebkitBackdropFilter: `blur(${lerp(0, 14)}px)`,
+            borderColor: `rgba(255, 255, 255, ${lerp(0, 0.1)})`,
+            boxShadow: `0 10px 34px rgba(0, 0, 0, ${lerp(0, 0.45)})`,
+          }}
+        >
+          <div className="flex items-center gap-2">
+            <Link
+              href="/"
+              className="flex items-center gap-2 font-display tracking-tight"
+              style={{ fontSize: lerp(30, 23) }}
+            >
+              <Image
+                src="/assets/corpus_logo.png"
+                alt="Corpus"
+                width={60}
+                height={60}
+                className="brand-logo"
+                style={{ width: lerp(56, 40), height: lerp(56, 40) }}
+                priority
+              />
+              Corpus
+            </Link>
+          </div>
+
+          <div className="hidden md:flex items-center gap-8">
+            <a href="#how-it-works" className="text-sm text-muted-foreground hover:text-foreground transition-colors">How it works</a>
+            <a href="#corpus-mcp" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Corpus MCP</a>
+          </div>
+
+          <Link
+            href="/auth/login"
+            className="liquid-glass rounded-full px-6 py-2 text-sm font-medium hover:bg-white/10 transition-colors"
+          >
+            Sign In
           </Link>
         </div>
-
-        <div className="hidden md:flex items-center gap-8">
-          <a href="#overview" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Overview</a>
-          <a href="#how-it-works" className="text-sm text-muted-foreground hover:text-foreground transition-colors">How it works</a>
-          <a href="#graph" className="text-sm text-muted-foreground hover:text-foreground transition-colors">The Graph</a>
-          <a href="#pitch" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Pitch</a>
-        </div>
-
-        <Link
-          href="/auth/login"
-          className="liquid-glass rounded-full px-6 py-2 text-sm font-medium hover:bg-white/10 transition-colors"
-        >
-          Sign In
-        </Link>
       </nav>
 
       <section className="relative h-screen flex flex-col items-center justify-center overflow-hidden pt-20">
@@ -260,6 +294,11 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* ── Mid-page black starfield (hero + footer keep their videos) ── */}
+      <div className="relative bg-[#0a0a0f]">
+        <Starfield background="black" contained />
+        <div className="relative z-10">
+
       <section id="overview" className="py-32 px-6 relative z-10">
         <div className="max-w-4xl mx-auto">
           <Reveal>
@@ -275,7 +314,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <section id="how-it-works" className="py-32 px-6 bg-background relative z-10">
+      <section id="how-it-works" className="py-32 px-6 relative z-10">
         <div className="max-w-6xl mx-auto">
           <Reveal>
             <h2 className="font-display text-4xl sm:text-6xl tracking-tight mb-16 text-center">
@@ -341,40 +380,56 @@ export default function LandingPage() {
           </Reveal>
 
           <Reveal delay={200}>
-            <div className="relative aspect-video rounded-3xl liquid-glass overflow-hidden flex items-center justify-center border border-white/10 bg-white/[0.01]">
-              <div className="absolute inset-0" style={{
-                backgroundImage: 'radial-gradient(circle at center, rgba(255,255,255,0.1) 1px, transparent 1px)',
-                backgroundSize: '40px 40px',
-                opacity: 0.5
-              }}></div>
+            <div className="relative aspect-video rounded-3xl liquid-glass overflow-hidden border border-white/10 bg-white/[0.01]">
+              {/* Live interactive memory graph (same force-graph as the workflow) */}
+              <LandingGraph />
+            </div>
+            <p className="text-xs text-muted-foreground mt-4">Drag a node · scroll to zoom</p>
+          </Reveal>
+        </div>
+      </section>
 
-              {/* Abstract Graph Representation */}
-              <div className="relative z-10 w-full h-full p-8 flex items-center justify-center">
-                <div className="relative w-64 h-64">
-                  {/* Center Node */}
-                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 rounded-full bg-white/20 border-2 border-white/40 flex items-center justify-center shadow-[0_0_30px_rgba(255,255,255,0.2)] animate-pulse">
-                    <span className="text-xs font-mono">Core</span>
-                  </div>
+      <section id="corpus-mcp" className="py-32 px-6 relative z-10">
+        <div className="max-w-5xl mx-auto">
+          <Reveal>
+            <p className="text-sm font-mono text-muted-foreground tracking-widest uppercase mb-4 text-center">
+              The whole interface
+            </p>
+            <h2 className="font-display text-4xl sm:text-6xl tracking-tight mb-6 text-center">
+              Corpus MCP
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-14 text-center">
+              A handful of MCP tools any agent can call — the same way it calls any other function.
+            </p>
+          </Reveal>
 
-                  {/* Surrounding Nodes */}
-                  <div className="absolute top-0 left-1/2 -translate-x-1/2 w-10 h-10 rounded-full bg-white/10 border border-white/20 flex items-center justify-center"></div>
-                  <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-12 h-12 rounded-full bg-white/10 border border-white/20 flex items-center justify-center"></div>
-                  <div className="absolute top-1/2 left-0 -translate-y-1/2 w-8 h-8 rounded-full bg-white/10 border border-white/20 flex items-center justify-center"></div>
-                  <div className="absolute top-1/2 right-0 -translate-y-1/2 w-14 h-14 rounded-full bg-white/10 border border-white/20 flex items-center justify-center"></div>
-
-                  {/* Edges */}
-                  <svg className="absolute inset-0 w-full h-full -z-10" style={{ stroke: 'rgba(255,255,255,0.15)', strokeWidth: 1.5, fill: 'none', strokeDasharray: '4 4' }}>
-                    <line x1="128" y1="128" x2="128" y2="20" />
-                    <line x1="128" y1="128" x2="128" y2="236" />
-                    <line x1="128" y1="128" x2="20" y2="128" />
-                    <line x1="128" y1="128" x2="236" y2="128" />
-                  </svg>
+          <Reveal delay={100}>
+            <div className="liquid-glass rounded-3xl border border-white/10 bg-white/[0.02] overflow-hidden">
+              {[
+                { cmd: "corpus_load", desc: "Load this project's memory — status, decisions, and next steps — at the start of a session." },
+                { cmd: "corpus_log", desc: "Append one line to the project ledger after each edit, fix, or design decision." },
+                { cmd: "corpus_save", desc: "Write a structured save-state so any future session, in any tool, can continue cold." },
+                { cmd: "codebase_search", desc: "Ask a natural-language question about the codebase structure — answers in ~2K tokens." },
+                { cmd: "corpus_init", desc: "Bootstrap Architecture notes from the code graph — once, on a fresh repo." },
+              ].map((row) => (
+                <div
+                  key={row.cmd}
+                  className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-6 px-6 py-5 border-b border-white/5 last:border-b-0 hover:bg-white/[0.03] transition-colors"
+                >
+                  <code className="font-mono text-sm text-foreground bg-white/10 px-3 py-1.5 rounded-lg w-fit shrink-0 sm:w-56">
+                    {row.cmd}
+                  </code>
+                  <span className="text-muted-foreground text-sm leading-relaxed">{row.desc}</span>
                 </div>
-              </div>
+              ))}
             </div>
           </Reveal>
         </div>
       </section>
+
+        </div>
+      </div>
+      {/* ── end mid-page black starfield ── */}
 
       <footer id="pitch" className="relative pt-32 pb-10 px-6 border-t border-white/5 z-10 bg-background overflow-hidden flex flex-col">
         <video
@@ -455,7 +510,6 @@ export default function LandingPage() {
           </div>
 
           <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-8 text-xs text-muted-foreground">
-            <p>&copy; {new Date().getFullYear()} Corpus. All rights reserved.</p>
             <p className="uppercase tracking-[0.15em]">Never explain yourself twice</p>
           </div>
         </div>
