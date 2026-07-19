@@ -117,6 +117,21 @@ begin
   end if;
 end $$;
 
+-- Project picker overview: one row per workspace with its document count and most
+-- recent activity. Powers the dashboard's "select a project" screen. Keyed by
+-- workspace id to match the workspace_id-keyed `documents` table; slug/name are for
+-- display only (slug is deliberately non-unique). Workspaces with 0 docs still show.
+create or replace view project_overview as
+select
+  w.id::text        as id,
+  w.slug            as slug,
+  w.name            as name,
+  count(d.name)     as doc_count,
+  max(d.updated_at) as last_updated
+from workspaces w
+left join documents d on d.workspace_id = w.id
+group by w.id, w.slug, w.name;
+
 -- Migration note: a DB whose `documents` is still keyed by project slug (the pre-id
 -- schema) migrates with migrate-documents-to-workspace-id.sql — a single transaction
 -- with backfill and abort-on-collision checks. Do NOT hand-roll it here.

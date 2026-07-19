@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 function Reveal({
   children,
@@ -198,8 +199,16 @@ export default function LandingPage() {
           }`}
       >
         <div className="flex items-center gap-2">
-          <Link href="/" className="font-display text-3xl tracking-tight">
-            Corpus<sup className="text-xs">®</sup>
+          <Link href="/" className="flex items-center gap-2 font-display text-3xl tracking-tight">
+            <Image
+              src="/assets/corpus_logo.png"
+              alt="Corpus"
+              width={60}
+              height={60}
+              className="brand-logo w-14 h-14"
+              priority
+            />
+            Corpus
           </Link>
         </div>
 
@@ -422,8 +431,15 @@ export default function LandingPage() {
         <div className="relative z-10 max-w-6xl mx-auto w-full mt-auto">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-10 pb-10 border-b border-white/5">
             <div>
-              <p className="font-display text-3xl tracking-tight mb-3">
-                Corpus<sup className="text-xs">®</sup>
+              <p className="flex items-center gap-2 font-display text-3xl tracking-tight mb-3">
+                <Image
+                  src="/assets/corpus_logo.png"
+                  alt="Corpus"
+                  width={56}
+                  height={56}
+                  className="brand-logo w-[52px] h-[52px]"
+                />
+                Corpus
               </p>
               <p className="text-sm text-muted-foreground max-w-xs leading-relaxed">
                 A portable memory layer for every model you use.
