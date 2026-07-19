@@ -9,7 +9,8 @@
     "corpus-connect": "dist/connect.js",
     "corpus-disconnect": "dist/disconnect.js",
     "corpus-status": "dist/status.js",
-    "corpus-ls": "dist/ls.js"
+    "corpus-ls": "dist/ls.js",
+    "corpus-hook": "dist/hooks.js"
   },
   "main": "dist/index.js",
   "files": ["dist", "README.md"],
