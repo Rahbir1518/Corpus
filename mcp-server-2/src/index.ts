@@ -17,7 +17,7 @@ import {
   replaceSection,
   stateTemplate,
 } from "./document.js";
-import { queryGraph, summarizeGraph } from "./graphify.js";
+import { estimateFullGraphTokens, queryGraph, summarizeGraph } from "./graphify.js";
 import { createStore, resolveProject } from "./store.js";
 import { estimateTokens } from "./tokens.js";
 
@@ -255,15 +255,9 @@ server.registerTool(
   },
   async ({ question, budget }) => {
     const r = queryGraph(process.cwd(), question, budget);
-<<<<<<< HEAD
-    const baselineTokens = r.ok ? estimateFullGraphTokens(process.cwd()) : null;
-    // Ledger label differs from the MCP tool name on purpose: usage_events.tool has a
-    // CHECK constraint allowing only corpus_load/corpus_log/corpus_save/corpus_code_query.
-=======
     // Ledger label differs from the MCP tool name on purpose: usage_events.tool has a
     // CHECK constraint allowing only corpus_load/corpus_log/corpus_save/corpus_code_query.
     const baselineTokens = r.ok ? estimateFullGraphTokens(process.cwd()) : null;
->>>>>>> 953972caf5d298724f1bde7f805774a4a1362458
     await store.logUsage({
       tool: "corpus_code_query",
       tokens: estimateTokens(r.text),

@@ -18,6 +18,8 @@ const block = `${BEGIN}
 
 This project uses Corpus (MCP tools) for cross-session, cross-tool memory.
 
+- If \`corpus_load\` says this is session one (no memory yet): call \`corpus_init\` before
+  any other work, so Architecture notes are seeded from the code graph instead of blank.
 - At session start, and whenever asked to continue previous work: call \`corpus_load\`.
 - Immediately after finishing an edit, fixing a bug, or making a design decision:
   call \`corpus_log\` — one line; for decisions include the why.
