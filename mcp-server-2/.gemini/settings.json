@@ -2,7 +2,9 @@
   "mcpServers": {
     "corpus": {
       "command": "corpus-mcp-v2",
-      "args": [],
+      "args": [
+        "/Users/nishchayranjan_1/Desktop/HackThe6ix/Corpus/mcp-server-2/dist/index.js"
+      ],
       "env": {
         "CORPUS_PROJECT": "mcp-server-2",
         "CORPUS_AGENT": "gemini"
