@@ -61,10 +61,62 @@ if (workspaceId) {
   console.log(`– Workspace — Supabase not configured; memory stays local (~/.corpus/${project})`);
 }
 
-// --- 2. Wiring (clients + instructions + graph) ------------------------------
-// Shared with corpus-connect (wire.ts) so a repo joined via connect gets the exact
-// same registration and standing instructions as one set up here.
-await wireRepo(target, project, workspaceId);
+registerJsonClient(".mcp.json", "claude-code", "Claude Code");
+registerJsonClient(".gemini/settings.json", "gemini", "Gemini CLI");
+
+// Codex: TOML. Rather than take on a TOML parser dependency just to round-trip a user's
+// file, guard our table with comment markers and splice it — same idempotency contract as
+// the markdown blocks below, and it leaves every other key in the file untouched.
+// JSON.stringify is safe for TOML basic strings (same escape rules) and, importantly,
+// escapes the backslashes in a Windows serverPath.
+const TOML_BEGIN = "# corpus:begin";
+const TOML_END = "# corpus:end";
+const tomlBlock = `${TOML_BEGIN}
+[mcp_servers.corpus]
+command = "node"
+args = [${JSON.stringify(serverPath)}]
+
+[mcp_servers.corpus.env]
+CORPUS_PROJECT = ${JSON.stringify(project)}
+CORPUS_AGENT = "codex"
+${TOML_END}`;
+
+const codexPath = path.join(target, ".codex", "config.toml");
+const codexExisting = fs.existsSync(codexPath) ? fs.readFileSync(codexPath, "utf8") : "";
+const codexStart = codexExisting.indexOf(TOML_BEGIN);
+const codexEnd = codexExisting.indexOf(TOML_END);
+const codexNext =
+  codexStart !== -1 && codexEnd !== -1
+    ? codexExisting.slice(0, codexStart) + tomlBlock + codexExisting.slice(codexEnd + TOML_END.length)
+    : codexExisting.trimEnd() === ""
+      ? tomlBlock + "\n"
+      : codexExisting.trimEnd() + "\n\n" + tomlBlock + "\n";
+fs.mkdirSync(path.dirname(codexPath), { recursive: true });
+fs.writeFileSync(codexPath, codexNext, "utf8");
+console.log(`✓ .codex/config.toml — registered "corpus" (Codex CLI)`);
+
+// --- 2. Standing instructions ---------------------------------------------
+const BEGIN = "<!-- corpus:begin -->";
+const END = "<!-- corpus:end -->";
+const block = `${BEGIN}
+## Corpus memory
+
+This project uses Corpus (MCP tools) for cross-session, cross-tool memory.
+
+- If \`corpus_load\` says this is session one (no memory yet): call \`corpus_init\` before
+  any other work, so Architecture notes are seeded from the code graph instead of blank.
+- At session start, and whenever asked to continue previous work: call \`corpus_load\`.
+- Immediately after finishing an edit, fixing a bug, or making a design decision:
+  call \`corpus_log\` — one line; for decisions include the why.
+- Before ending a session, or when the user says "save state": call \`corpus_save\`
+  with concrete file/function references in every in-progress item.
+
+## Exploring code: use \`corpus_code_query\` FIRST
+
+\`corpus_code_query\` answers structural questions from a pre-built code graph in ~2K
+tokens. The grep-and-read spiral it replaces costs tens of thousands. **Reach for it
+before your first grep, not after exploration stalls** — and without waiting to be
+asked. It is a default, not an escalation.
 
 const memoryLine = workspaceId
   ? `Memory lands in workspace ${workspaceId} — share the id for corpus-connect.`

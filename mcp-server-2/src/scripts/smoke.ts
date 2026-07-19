@@ -41,7 +41,7 @@ function step(name: string, ok: boolean, detail?: string) {
 const tools = await client.listTools();
 step(
   "tools registered",
-  ["corpus_load", "corpus_log", "corpus_save", "codebase_search"].every((t) =>
+  ["corpus_load", "corpus_log", "corpus_save", "corpus_code_query", "corpus_init"].every((t) =>
     tools.tools.some((x) => x.name === t),
   ),
   tools.tools.map((t) => t.name).join(", "),
@@ -49,6 +49,18 @@ step(
 
 const empty = await client.callTool({ name: "corpus_load", arguments: {} });
 step("load on fresh project says 'no memory yet'", text(empty).includes("No memory yet"));
+
+// Graphify may not be pip-installed in this environment — both outcomes are correct
+// per the graceful-degradation design, so accept either rather than requiring it.
+const init = await client.callTool({ name: "corpus_init", arguments: {} });
+const initText = text(init);
+step(
+  "init seeds Architecture notes or degrades gracefully",
+  (init as any).isError
+    ? initText.includes("Graphify")
+    : initText.includes("Seeded Architecture notes"),
+  initText.split("\n")[0],
+);
 
 const logged = await client.callTool({
   name: "corpus_log",
