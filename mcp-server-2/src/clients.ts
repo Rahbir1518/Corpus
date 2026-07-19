@@ -189,6 +189,40 @@ ${TOML_END}`;
   fs.writeFileSync(p, next, "utf8");
 }
 
+/**
+ * Remove the `corpus` server entry from one client — the inverse of registerClient.
+ * Returns true if anything was removed.
+ *
+ * Prunes containers only when WE emptied them: an `mcpServers` left with no servers
+ * goes, and a config file left with no keys at all goes with it (it was ours to begin
+ * with). Any other key the user has in that file keeps the file alive — uninstalling
+ * Corpus must never take an unrelated MCP server or setting with it.
+ */
+export function unregisterClient(target: string, def: ClientDef): boolean {
+  const p = jsonPath(target, def);
+  if (!fs.existsSync(p)) return false;
+
+  if (def.format === "json") {
+    const config = readJson(p);
+    if (!config?.mcpServers?.corpus) return false;
+    delete config.mcpServers.corpus;
+    if (!Object.keys(config.mcpServers).length) delete config.mcpServers;
+    if (!Object.keys(config).length) fs.rmSync(p);
+    else writeJson(p, config);
+    return true;
+  }
+
+  // Codex: excise the marker-guarded block, same splice registerClient uses to write it.
+  const content = fs.readFileSync(p, "utf8");
+  const start = content.indexOf(TOML_BEGIN);
+  const end = content.indexOf(TOML_END);
+  if (start === -1 || end === -1) return false;
+  const next = (content.slice(0, start) + content.slice(end + TOML_END.length)).trim();
+  if (next) fs.writeFileSync(p, next + "\n", "utf8");
+  else fs.rmSync(p);
+  return true;
+}
+
 export interface PatchResult {
   def: ClientDef;
   wired: boolean;
@@ -198,15 +232,23 @@ export interface PatchResult {
 /**
  * Set (or, with null, remove) CORPUS_WORKSPACE on every already-wired client.
  *
- * This is the whole of connect/disconnect: one env key. The server entry, CORPUS_PROJECT
- * and the instruction blocks are left alone, so disconnecting goes private without
- * uninstalling anything.
+ * `project` re-labels the clients to match the workspace being joined. Connect passes the
+ * workspace's slug so a repo stops calling itself after its local folder the moment it
+ * joins someone else's workspace — the session-start hook reads CORPUS_PROJECT out of
+ * these files and had no other way to learn the workspace's real name. Omit it (or pass
+ * null) to leave the existing label alone, which is what disconnect wants: going private
+ * shouldn't rename anything.
  */
-export function patchWorkspace(target: string, workspaceId: string | null): PatchResult[] {
+export function patchWorkspace(
+  target: string,
+  workspaceId: string | null,
+  project?: string | null,
+): PatchResult[] {
   return CLIENTS.map((def) => {
     const state = readClient(target, def);
     if (!state.wired) return { def, wired: false, changed: false };
-    if (state.workspaceId === workspaceId) return { def, wired: true, changed: false };
+    const relabel = Boolean(project && project !== state.project);
+    if (state.workspaceId === workspaceId && !relabel) return { def, wired: true, changed: false };
 
     const p = jsonPath(target, def);
     if (def.format === "json") {
@@ -214,6 +256,7 @@ export function patchWorkspace(target: string, workspaceId: string | null): Patc
       const env = (config.mcpServers.corpus.env ??= {});
       if (workspaceId) env[WORKSPACE_ENV] = workspaceId;
       else delete env[WORKSPACE_ENV];
+      if (relabel) env.CORPUS_PROJECT = project!;
       writeJson(p, config);
       return { def, wired: true, changed: true };
     }
@@ -224,6 +267,11 @@ export function patchWorkspace(target: string, workspaceId: string | null): Patc
     let block = content.slice(start, end);
     const line = new RegExp(`^\\s*${WORKSPACE_ENV}\\s*=\\s*"[^"]*"\\s*$\\n?`, "m");
     block = block.replace(line, "");
+    if (relabel) {
+      const projectLine = /^\s*CORPUS_PROJECT\s*=\s*"[^"]*"\s*$/m;
+      const next = `CORPUS_PROJECT = ${JSON.stringify(project!)}`;
+      block = projectLine.test(block) ? block.replace(projectLine, next) : block.trimEnd() + `\n${next}\n`;
+    }
     if (workspaceId) block = block.trimEnd() + `\n${WORKSPACE_ENV} = ${JSON.stringify(workspaceId)}\n`;
     fs.writeFileSync(p, content.slice(0, start) + block + content.slice(end), "utf8");
     return { def, wired: true, changed: true };

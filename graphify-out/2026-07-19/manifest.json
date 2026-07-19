@@ -155,8 +155,8 @@
     "semantic_hash": ""
   },
   "supabase/schema.sql": {
-    "mtime": 1784435017.2896695,
-    "ast_hash": "08a84889117706770cb26b300505e688",
+    "mtime": 1784431288.5213835,
+    "ast_hash": "d5137627152f6d7824947bc5f0568a9b",
     "semantic_hash": ""
   },
   "ARCHITECTURE.md": {
@@ -165,8 +165,8 @@
     "semantic_hash": ""
   },
   "README.md": {
-    "mtime": 1784434376.184678,
-    "ast_hash": "82e7021f6b32738b4b4b31c5fbc0b2d8",
+    "mtime": 1784432608.4437594,
+    "ast_hash": "59fc7b2aac46502c8d2e47f69590967e",
     "semantic_hash": ""
   },
   "frontend/README.md": {
@@ -175,8 +175,8 @@
     "semantic_hash": ""
   },
   "mcp-server-2/README.md": {
-    "mtime": 1784434544.558089,
-    "ast_hash": "3eb232408a2c8a639040053c0340ddec",
+    "mtime": 1784430842.5881467,
+    "ast_hash": "af57aeadef1332ab0f3731316d622b39",
     "semantic_hash": ""
   },
   "frontend/public/file.svg": {
@@ -205,8 +205,8 @@
     "semantic_hash": ""
   },
   "REQUIREMENTS.md": {
-    "mtime": 1784434612.8887842,
-    "ast_hash": "720145c98b8adad152d0b63e6b82def8",
+    "mtime": 1784430842.551064,
+    "ast_hash": "5ed462a1006d9b158816a419db56f20f",
     "semantic_hash": ""
   },
   ".claude/settings.json": {
@@ -305,8 +305,8 @@
     "semantic_hash": ""
   },
   "supabase/migrate-documents-to-workspace-id.sql": {
-    "mtime": 1784435004.7692168,
-    "ast_hash": "3365c4de87c9aae699b291bd1cd2ae16",
+    "mtime": 1784430842.6003952,
+    "ast_hash": "621dd7ed083f86c83b5a4d10d12b54c8",
     "semantic_hash": ""
   },
   "test4/.gemini/settings.json": {
@@ -467,11 +467,6 @@
   "frontend/public/assets/corpus_logo.png": {
     "mtime": 1784430842.5621908,
     "ast_hash": "dd2c8357ac58743d76e5ff6132c63f7c",
-    "semantic_hash": ""
-  },
-  "supabase/migrate-documents-to-workspace-id-v2.sql": {
-    "mtime": 1784434994.2173183,
-    "ast_hash": "497fa70dffe40a030e2f9c37e38512df",
     "semantic_hash": ""
   }
 }

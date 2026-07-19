@@ -38,6 +38,13 @@ export interface DocumentStore {
   readonly mode: "supabase" | "local" | "disconnected";
   /** Why memory is off. Set only when mode === "disconnected". */
   readonly reason?: string;
+  /**
+   * What to call this memory in user-facing text. When connected, that is the CONNECTED
+   * WORKSPACE's slug — not the local folder — so a session reports the memory it is
+   * actually reading. Async because the name lives in the DB; memoized per process.
+   * Never throws: display falls back to the local label if the lookup fails.
+   */
+  label(): Promise<string>;
   getDocument(name: string): Promise<string | null>;
   putDocument(name: string, content: string): Promise<void>;
   listDocuments(): Promise<string[]>;
@@ -58,7 +65,18 @@ export interface DocumentStore {
   }): Promise<void>;
 }
 
-/** Display label: explicit env override, else the cwd's folder name. NOT an identity. */
+/**
+ * LOCAL label: explicit env override, else the cwd's folder name. NOT an identity, and
+ * NOT what a connected session is named after.
+ *
+ * Once a workspace id is present, this is a fallback only — used to name LocalStore's
+ * directory, and to have something to print if the workspace lookup fails. Everything
+ * that identifies a connected memory (which rows are read, which rows are written, what
+ * the usage ledger attributes a call to) comes from the workspace, via
+ * SupabaseStore.workspace(). Deriving any of that from the folder is the bug this
+ * separation exists to prevent: the same repo cloned to `api-v2` must still read the
+ * memory it connected to, and two unrelated repos both called `api` must not collide.
+ */
 export function resolveProject(): string {
   return process.env.CORPUS_PROJECT ?? path.basename(process.cwd());
 }
@@ -89,9 +107,17 @@ export function isWorkspaceId(value: string): boolean {
 class LocalStore implements DocumentStore {
   readonly mode = "local" as const;
   readonly dir: string;
+  private project: string;
 
   constructor(project: string) {
+    this.project = project;
     this.dir = path.join(os.homedir(), ".corpus", project);
+  }
+
+  // Nothing was connected, so the local label IS the identity here — the one mode where
+  // naming the memory after the folder is correct rather than a leak.
+  async label(): Promise<string> {
+    return this.project;
   }
 
   private docPath(name: string): string {
@@ -152,13 +178,67 @@ class SupabaseStore implements DocumentStore {
   readonly mode = "supabase" as const;
   private db: SupabaseClient;
   private workspaceId: string;
-  private project: string;
+  /**
+   * The LOCAL folder label. Never used to select or write a row — only as display text
+   * when the workspace lookup itself fails, and to label best-effort telemetry.
+   */
+  private localLabel: string;
   private keying: "id" | "slug" | null = null;
+  private workspaceRow: { slug: string; name: string } | null = null;
 
   constructor(url: string, key: string, workspaceId: string, project: string) {
     this.db = createClient(url, key);
     this.workspaceId = workspaceId;
-    this.project = project;
+    this.localLabel = project;
+  }
+
+  /**
+   * The connected workspace's row, memoized per process. Null when it cannot be read —
+   * never cached, so a transient outage doesn't pin a wrong answer for the session.
+   *
+   * This is where a connected session's identity actually comes from. Callers that need
+   * it to be RIGHT (which documents to touch) must fail when it's null; callers that only
+   * decorate output (labels, telemetry) fall back to localLabel.
+   */
+  private async workspace(): Promise<{ slug: string; name: string } | null> {
+    if (this.workspaceRow) return this.workspaceRow;
+    const { data, error } = await this.db
+      .from("workspaces")
+      .select("slug,name")
+      .eq("id", this.workspaceId)
+      .maybeSingle();
+    if (error || !data) return null;
+    this.workspaceRow = data as { slug: string; name: string };
+    return this.workspaceRow;
+  }
+
+  async label(): Promise<string> {
+    return (await this.workspace())?.slug ?? this.localLabel;
+  }
+
+  /**
+   * The value that keys `documents` on a SLUG-keyed (pre-migration) DB: the connected
+   * workspace's slug, read from the DB.
+   *
+   * It must not be the folder name. That was the bug: `corpus-connect <id>` wrote the id
+   * into the client config, but every read and write still went to `documents where
+   * project = <local folder>` — so connecting to a teammate's workspace appeared to
+   * succeed and then silently served the local folder's memory instead of theirs.
+   *
+   * Throws rather than falling back, because the fallback IS the bug: writing to a
+   * folder-named row while the user believes they are in a shared workspace is exactly
+   * the silent fork this module's header rules out.
+   */
+  private async slugKey(): Promise<string> {
+    const ws = await this.workspace();
+    if (!ws) {
+      throw new Error(
+        `workspace ${this.workspaceId} could not be read, so this repo's memory cannot be ` +
+          `resolved (this DB keys documents by slug). Check corpus-status; reconnect with ` +
+          `corpus-connect <id>.`,
+      );
+    }
+    return ws.slug;
   }
 
   /** Probe which column keys `documents`. Memoized on success; retried after failures. */
@@ -185,7 +265,7 @@ class SupabaseStore implements DocumentStore {
     const { data, error } =
       (await this.keyed()) === "id"
         ? await q.eq("workspace_id", this.workspaceId).maybeSingle()
-        : await q.eq("project", this.project).maybeSingle();
+        : await q.eq("project", await this.slugKey()).maybeSingle();
     if (error) throw new Error(`documents fetch failed: ${error.message}`);
     return data?.content ?? null;
   }
@@ -208,19 +288,14 @@ class SupabaseStore implements DocumentStore {
       return;
     }
 
-    // Slug keying: satisfies documents.project's FK to workspaces.slug with zero setup
-    // step — the first write in a fresh project silently creates its workspace row.
-    // Best-effort: logged loudly, not thrown, so a workspaces hiccup never blocks the
-    // document write but a missing/misapplied schema stays diagnosable.
-    const { error: workspaceError } = await this.db
-      .from("workspaces")
-      .upsert({ slug: this.project, name: this.project }, { onConflict: "slug", ignoreDuplicates: true });
-    if (workspaceError) {
-      console.error(`[corpus-v2] workspaces upsert failed (is supabase/schema.sql applied?): ${workspaceError.message}`);
-    }
-
+    // Slug keying: documents.project FKs to workspaces.slug. The slug comes from the
+    // CONNECTED workspace row, which by definition already exists — so, unlike the old
+    // code path, there is no workspaces upsert here. That upsert created a SECOND
+    // workspace named after the local folder and then wrote the memory into it, which is
+    // how a connected repo ended up with its documents somewhere the workspace's own
+    // dashboard never showed them.
     const { error } = await this.db.from("documents").upsert({
-      project: this.project,
+      project: await this.slugKey(),
       name,
       content,
       updated_at: new Date().toISOString(),
@@ -233,14 +308,22 @@ class SupabaseStore implements DocumentStore {
     const { data, error } =
       (await this.keyed()) === "id"
         ? await q.eq("workspace_id", this.workspaceId)
-        : await q.eq("project", this.project);
+        : await q.eq("project", await this.slugKey());
     if (error) throw new Error(`documents list failed: ${error.message}`);
     return (data ?? []).map((r) => r.name as string);
   }
 
   async getCorpusTokenTotal(): Promise<number | null> {
     try {
-      const { data, error } = await this.db.from("documents").select("content").eq("project", this.project);
+      // Must follow the SAME keying as getDocument, or the baseline describes a different
+      // project's memory than the one that was just loaded. This unconditionally filtered
+      // by `project`, which on the canonical id-keyed schema is not even a column: every
+      // call failed with 42703 and corpus_load silently reported no baseline at all.
+      const q = this.db.from("documents").select("content");
+      const { data, error } =
+        (await this.keyed()) === "id"
+          ? await q.eq("workspace_id", this.workspaceId)
+          : await q.eq("project", await this.slugKey());
       if (error) {
         console.error(`[corpus-v2] getCorpusTokenTotal failed: ${error.message}`);
         return null;
@@ -263,14 +346,33 @@ class SupabaseStore implements DocumentStore {
     // resolves with { error } rather than throwing, so that's checked (and logged, not
     // swallowed) in addition to the try/catch for genuine network-level exceptions.
     try {
-      const { error } = await this.db.from("usage_events").insert({
-        project: this.project,
+      // Attribute the call to the workspace it actually ran against. `project` used to be
+      // the local folder name, so one workspace's usage was split across every folder its
+      // members happened to check out, and two unrelated repos sharing a folder name were
+      // merged into one line. workspace_id is the unambiguous key (slug is deliberately
+      // non-unique); the slug is kept alongside it as the human-readable label.
+      const ws = await this.workspace();
+      const row = {
+        project: ws?.slug ?? this.localLabel,
         tool: event.tool,
         tokens: event.tokens ?? null,
         agent: event.agent ?? null,
         baseline_tokens: event.baselineTokens ?? null,
         baseline_method: event.baselineTokens != null ? event.baselineMethod ?? null : null,
-      });
+      };
+
+      const { error } = await this.db
+        .from("usage_events")
+        .insert({ ...row, workspace_id: this.workspaceId });
+      // 42703: this DB predates the workspace_id column. Retry without it so telemetry
+      // keeps flowing before supabase/schema.sql is re-run, rather than going dark.
+      if (error?.code === "42703") {
+        const { error: retry } = await this.db.from("usage_events").insert(row);
+        if (retry) {
+          console.error(`[corpus-v2] usage_events insert failed: ${retry.message}`);
+        }
+        return;
+      }
       if (error) {
         console.error(`[corpus-v2] usage_events insert failed (is supabase/schema.sql applied?): ${error.message}`);
       }
@@ -289,10 +391,18 @@ class SupabaseStore implements DocumentStore {
 class DisconnectedStore implements DocumentStore {
   readonly mode = "disconnected" as const;
   readonly reason: string;
+  private project: string;
 
-  constructor(reason: string) {
+  constructor(reason: string, project: string) {
     this.reason = reason;
+    this.project = project;
     console.error(`[corpus-v2] memory off — ${reason}`);
+  }
+
+  // No workspace to name it after; the local label is all there is. Doesn't throw like
+  // the read/write methods — this only ever decorates an error message.
+  async label(): Promise<string> {
+    return this.project;
   }
 
   private fail(): never {
@@ -327,6 +437,7 @@ export function createStore(project: string): DocumentStore {
   if (workspaceId && !isWorkspaceId(workspaceId)) {
     return new DisconnectedStore(
       `CORPUS_WORKSPACE="${workspaceId}" is not a valid workspace id (expected a uuid)`,
+      project,
     );
   }
 
@@ -339,6 +450,7 @@ export function createStore(project: string): DocumentStore {
     return new DisconnectedStore(
       `this repo is connected to workspace ${workspaceId} but SUPABASE_URL / ` +
         `SUPABASE_SERVICE_ROLE_KEY are not set, so the workspace cannot be reached`,
+      project,
     );
   }
 
@@ -346,7 +458,7 @@ export function createStore(project: string): DocumentStore {
   // leave every workspace, so memory is off until they choose the next one — connect back
   // into the previous workspace, or set up a new one. No silent local fork.
   if (url && key) {
-    return new DisconnectedStore("this repo is not connected to a workspace");
+    return new DisconnectedStore("this repo is not connected to a workspace", project);
   }
 
   // Nothing shared was ever configured: plain local memory IS the intended store.

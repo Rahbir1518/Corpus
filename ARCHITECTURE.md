@@ -80,6 +80,21 @@ repos with the same folder name can never touch each other's rows. `workspaces.s
 (`resolveProject()`: repo folder name, or `$CORPUS_PROJECT`) is a display label,
 deliberately not unique.
 
+**Once connected, EVERYTHING is addressed by the workspace — nothing by the folder.**
+`SupabaseStore` reads the workspace row once per process (`workspace()`, memoized) and
+uses it for the rows it touches, the label the tools print, and the `project` on every
+usage event. `resolveProject()` survives only as the LocalStore directory name and as a
+fallback label. This is not a style preference: when the folder name leaked into those
+queries, `corpus-connect <id>` wrote the id into the client config while the store kept
+reading `documents where project = <local folder>` — so joining a teammate's workspace
+appeared to succeed, silently served this checkout's own memory, and reported "no memory
+yet — this is session one" for a workspace that was full. On the slug-keyed schema it
+also wrote a *second* workspace row named after the folder and put the documents there,
+where the real workspace's dashboard never showed them. `slugKey()` therefore throws
+rather than falling back to the folder when the workspace can't be read: no memory beats
+the wrong project's memory. `src/scripts/smoke-connected.ts` locks this down by asserting
+the folder name appears in no query the server emits, against both keyings.
+
 **The server detects the keying at runtime** (store.ts probes for the
 `documents.workspace_id` column once per process) because a previous re-keying shipped
 code before the DB had the column and broke every tool call. Against a pre-migration DB
@@ -96,6 +111,7 @@ the id-keyed shape directly for fresh DBs.
 | `corpus-setup` | First-run wiring. **Creates** a workspace, registers all three clients, installs instruction blocks, builds the graph. Re-running reuses an existing id. |
 | `corpus-connect <id>` | **Joins** a workspace someone else created. Writes `$CORPUS_WORKSPACE` to every wired client. |
 | `corpus-disconnect` | **Detach**, not uninstall. Removes that one env key from every client, taking the repo out of ALL workspaces — memory is then OFF (no reads, no writes, no local fork) until the user runs `corpus-connect <id>` to rejoin or `corpus-setup` to create a new one. Never deletes shared documents or membership. |
+| `corpus-uninstall` | **Uninstall**, the inverse of `corpus-setup`'s wiring. Strips the instruction blocks from `CLAUDE.md` / `GEMINI.md` / `AGENTS.md` / `.agents/rules/corpus.md`, unregisters the server from every client, removes the hooks. Files Corpus created are deleted; files it appended to keep everything that was already the user's. Shared documents are never touched, and the workspace id stays in the rolodex so `corpus-connect <id>` brings the memory back. `--memory` / `--graph` additionally delete local memory / the code graph; `--forget` drops ids this repo was the last user of; `--dry-run` previews. |
 | `corpus-status` | Read-only diagnostic: wiring, workspace, store reachability, local memory, graph. |
 | `corpus-ls` | Read-only list of every workspace this machine has access to — created (`corpus-setup`) or shared with you (`corpus-connect`) — verified against the DB when reachable, with the current directory's workspace marked. |
 

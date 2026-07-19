@@ -21,6 +21,10 @@ import { estimateFullGraphTokens, queryGraph, summarizeGraph } from "./graphify.
 import { createStore, resolveProject } from "./store.js";
 import { estimateTokens } from "./tokens.js";
 
+// `project` is the LOCAL label (folder name / $CORPUS_PROJECT). It names the store and
+// seeds a brand-new state document, but it must never be what a connected session calls
+// itself — use `await store.label()` in user-facing text so the name follows the
+// connected workspace rather than whatever folder this happens to be checked out in.
 const project = resolveProject();
 const store = createStore(project);
 
@@ -84,14 +88,15 @@ server.registerTool(
   async ({ document }) => {
     if (store.mode === "disconnected") return disconnectedResult();
     const name = document ?? STATE_DOC;
+    const label = await store.label();
     const content = await store.getDocument(name);
     if (!content) {
       const docs = await store.listDocuments();
       const text =
         name === STATE_DOC
-          ? `No memory yet for project "${project}" — this is session one. ` +
+          ? `No memory yet for project "${label}" — this is session one. ` +
             `Work normally; record progress with corpus_log and corpus_save.`
-          : `No document named "${name}" for project "${project}". Available: ${
+          : `No document named "${name}" for project "${label}". Available: ${
               docs.length ? docs.join(", ") : "(none)"
             }.`;
       return { content: [{ type: "text", text }] };
@@ -105,7 +110,7 @@ server.registerTool(
       baselineTokens,
       baselineMethod: "full_corpus",
     });
-    const footer = `\n\n---\n_Corpus: ~${tokens} tokens (estimate) · store: ${store.mode} · project: ${project}_`;
+    const footer = `\n\n---\n_Corpus: ~${tokens} tokens (estimate) · store: ${store.mode} · project: ${label}_`;
     return { content: [{ type: "text", text: content + footer }] };
   },
 );
@@ -142,7 +147,7 @@ server.registerTool(
     await store.putDocument(STATE_DOC, state);
     await store.logUsage({ tool: "corpus_log", tokens: estimateTokens(state), agent: process.env.CORPUS_AGENT });
     return {
-      content: [{ type: "text", text: `Logged [${type}] to "${project}" (${store.mode}).` }],
+      content: [{ type: "text", text: `Logged [${type}] to "${await store.label()}" (${store.mode}).` }],
     };
   },
 );
@@ -224,7 +229,7 @@ server.registerTool(
         {
           type: "text",
           text:
-            `Saved state for "${project}" (${store.mode}). ${reach}\n\n` +
+            `Saved state for "${await store.label()}" (${store.mode}). ${reach}\n\n` +
             `${getSection(state, "Status")}\n\n## Next steps\n` +
             getSection(state, "Next steps"),
         },
@@ -300,7 +305,7 @@ server.registerTool(
       content: [
         {
           type: "text",
-          text: `Seeded Architecture notes for "${project}" from the code graph (${store.mode}).\n\n${summary.text}`,
+          text: `Seeded Architecture notes for "${await store.label()}" from the code graph (${store.mode}).\n\n${summary.text}`,
         },
       ],
     };
@@ -309,4 +314,10 @@ server.registerTool(
 
 const transport = new StdioServerTransport();
 await server.connect(transport);
-console.error(`[corpus-v2] ready · project="${project}" · store=${store.mode}`);
+// Report the workspace's own name, so the startup line confirms which memory this
+// session is on rather than restating the directory the user can already see. Never let
+// the banner's DB lookup delay or fail the handshake above.
+store
+  .label()
+  .then((label) => console.error(`[corpus-v2] ready · project="${label}" · store=${store.mode}`))
+  .catch(() => console.error(`[corpus-v2] ready · project="${project}" · store=${store.mode}`));

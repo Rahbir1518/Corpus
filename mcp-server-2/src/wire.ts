@@ -11,8 +11,21 @@ import fs from "node:fs";
 import path from "node:path";
 import { CLIENTS, registerClient } from "./clients.js";
 
-const BEGIN = "<!-- corpus:begin -->";
-const END = "<!-- corpus:end -->";
+export const BEGIN = "<!-- corpus:begin -->";
+export const END = "<!-- corpus:end -->";
+
+/**
+ * Every instruction file wireRepo writes. Exported so corpus-uninstall reverses exactly
+ * what was installed — a second hand-maintained list here is how an uninstall ends up
+ * leaving one file behind, still telling agents to call tools that are no longer wired.
+ */
+export const INSTRUCTION_FILES = [
+  "CLAUDE.md",
+  "GEMINI.md",
+  "AGENTS.md",
+  path.join(".agents", "rules", "corpus.md"),
+];
+
 const block = `${BEGIN}
 ## Corpus memory
 
@@ -84,10 +97,7 @@ export async function wireRepo(target: string, project: string, workspaceId: str
   // (Cursor, Codex, Copilot, Zed…), and .agents/rules/ covers Antigravity, which has no
   // hook system — the rules file is its only surface. Registering the server without
   // installing instructions is the worst case: tools present, nothing advocating for them.
-  installBlock(target, "CLAUDE.md");
-  installBlock(target, "GEMINI.md");
-  installBlock(target, "AGENTS.md");
-  installBlock(target, path.join(".agents", "rules", "corpus.md"));
+  for (const file of INSTRUCTION_FILES) installBlock(target, file);
 
   // Hooks: instructions advocate at session start; these advocate at the moment of
   // decision (pre-grep/read) and inject the memory brief at session open.

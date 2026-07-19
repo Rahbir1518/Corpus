@@ -1,101 +1,137 @@
 # Corpus
 
-**Portable, vendor-neutral memory for AI agents.** Every AI tool is a goldfish — start a
-new session and you re-explain your codebase, decisions, and preferences, burning tokens
-(money) to repeat yourself. And every vendor's fix (compaction, memory features) is locked
-to their own tool. Corpus keeps project memory as **markdown documents** — written *during*
-the session, fetched only when needed, readable by any agent (Claude Code, Codex, Cursor,
-Gemini), any teammate, and any human.
+Portable, vendor-neutral project memory for AI agents. Corpus stores status, decisions,
+session notes, and handoffs as Markdown so Claude Code, Codex, Gemini CLI, other MCP
+clients, teammates, and humans can share the same context.
 
-**Design source of truth: [ARCHITECTURE.md](ARCHITECTURE.md).** If a decision isn't in that
-file, it hasn't been made.
+Corpus is local-first: the MCP server needs no API key, database, or network connection.
+Supabase adds shared team workspaces, and Graphify adds structural code search.
 
-## How it works
+See [ARCHITECTURE.md](ARCHITECTURE.md) for the design and
+[REQUIREMENTS.md](REQUIREMENTS.md) for complete setup and troubleshooting.
 
-Five MCP tools, usable from any MCP client:
+## What it provides
 
-- **`corpus_init`** — seed a fresh project's memory from the Graphify code graph (core
-  abstractions, key files) so it's useful on day one instead of blank until a session
-  fills it in. Call once, right after `corpus-setup`, on a repo Corpus hasn't touched yet.
-- **`corpus_load`** — fetch the project's memory (status, decisions + reasons, next steps)
-  at session start or on "continue where we left off". Costs nothing until called — memory
-  as tools, not prompt-stuffing.
-- **`corpus_log`** — one ledger line after each edit / bugfix / decision, *during* the
-  session. Crash-safe, never stale — this is the difference from checkpoint-based tools.
-- **`corpus_save`** — structured save-state for handoffs: any tool, any teammate, any time.
-  Vague saves (no file/function references) are rejected at the schema level.
-- **`codebase_search`** — natural-language questions about code structure, answered from
-  a [Graphify](https://github.com/safishamsi/graphify) graph in ~2K tokens instead of a
-  40K-token grep-and-read spiral.
+Five MCP tools:
 
-## Layout
+- `corpus_load` loads current status, decisions, and next steps.
+- `corpus_init` seeds new memory from an existing Graphify code graph.
+- `corpus_log` records an edit, bug fix, discovery, or decision immediately.
+- `corpus_save` writes a concrete handoff for the next session.
+- `codebase_search` answers structural code questions from the local graph.
 
-- **[mcp-server-2/](mcp-server-2/)** — the MCP server (the one thing a user installs).
-  Zero-config local mode (`~/.corpus/<project>/`), Supabase team mode via two env vars.
-  Setup, usage, and handoff-testing instructions: [mcp-server-2/README.md](mcp-server-2/README.md).
-- **[frontend/](frontend/)** — Next.js + Auth0 dashboard: browse projects → their
-  documentation pages, token-savings counter, graph views.
-- **[supabase/](supabase/)** — SQL for the documentation DB ([schema.sql](supabase/schema.sql)).
-- **[REQUIREMENTS.md](REQUIREMENTS.md)** — prerequisites, env var reference, verification
-  steps, troubleshooting. Start here if you are setting up on a new machine.
+Memory is stored in `~/.corpus/<project>/` by default. In team mode, the same documents
+are stored in a Supabase workspace shared by its ID.
 
-> v1 (`mcp-server/` — embeddings + pgvector graph recall) was removed on 2026-07-18;
-> recover from git history if needed. Its `corpus_status` health-check tool is worth
-> reintroducing in v2 (roadmap).
+## Install
 
-## Quick start
-
-Needs **Node ≥ 18** and any MCP client. No keys, no database, no network. One command
-installs everything (clone, build, PATH link, optional Graphify):
-
-```powershell
-# Windows
-powershell -ExecutionPolicy Bypass -c "irm https://raw.githubusercontent.com/Rahbir1518/Corpus/main/install.ps1 | iex"
-```
+Requirements: Node.js 18 or newer and an MCP-capable client.
 
 ```bash
-# macOS / Linux
-curl -fsSL https://raw.githubusercontent.com/Rahbir1518/Corpus/main/install.sh | bash
+git clone https://github.com/Rahbir1518/Corpus.git
+cd Corpus/mcp-server-2
+npm install
+npm link
 ```
 
-(Already cloned? `.\install.ps1` / `./install.sh` from the repo root does the same.
-Re-run anytime to update.) Then the one per-project step:
+`npm install` builds the TypeScript server; `npm link` makes the `corpus-*` commands
+available globally. Then enable Corpus in each project that should use it:
 
 ```bash
-cd your-project
-corpus-setup   # registers the MCP server + installs agent instructions (idempotent)
+cd /path/to/your-project
+corpus-setup
 ```
 
-Then start your agent in that project and work normally. Say **"save state"** before you
-stop; say **"continue where the last session left off"** in any tool, any time later.
+`corpus-setup` is idempotent. It:
 
-> **Scope:** the commands are global (PATH), but MCP wiring is **per-directory** — an
-> agent only sees Corpus if its session is opened in a directory `corpus-setup` ran in.
-> Commit the generated configs to share the setup with teammates. `corpus-ls` shows every
-> workspace your machine has access to, from anywhere.
+1. Registers the server for Claude Code, Gemini CLI, and Codex CLI.
+2. Adds marker-guarded agent instructions and hooks.
+3. Builds a code graph when Graphify is installed.
+4. Uses local memory, or creates/reuses a Supabase workspace when team mode is configured.
 
-Verify it works — `npm run smoke` in `mcp-server-2/` drives the full loop over real stdio,
-then read the memory yourself at `~/.corpus/<project>/state.md`. It is plain markdown.
+Restart the agent after setup and approve the `corpus` MCP server if prompted. MCP
+wiring is per project, even though the `corpus-*` commands are global.
 
-**Optional extras** — each degrades gracefully if skipped:
+> Client configs contain an OS-specific launch command. Each teammate should run
+> `corpus-setup` once in their own clone, especially when the team mixes Windows and
+> macOS/Linux.
 
-- **Code queries:** `python -m pip install graphifyy` (two ys).
-- **Team mode:** run [supabase/schema.sql](supabase/schema.sql), then set
-  `SUPABASE_URL` + `SUPABASE_SERVICE_ROLE_KEY` in `mcp-server-2/.env.local`. Teammates
-  join with `corpus-connect <workspace-id>` (the id `corpus-setup` prints).
-- **Dashboard:** `cd frontend && npm install && npm run dev` (Node ≥ 20.9).
+## Use
 
-**Full prerequisites, every env var, and troubleshooting: [REQUIREMENTS.md](REQUIREMENTS.md).**
+Work normally. Corpus's generated instructions tell compatible agents when to load,
+log, query, and save memory. For a simple handoff:
 
-## Demo script (5 min)
+1. Finish a session with “save state”.
+2. Inspect `~/.corpus/<project>/state.md` if using local mode.
+3. Start a fresh session in any configured client and say “continue where we left off”.
 
-1. **Hook**: "AI forgets everything between sessions — and every vendor's fix is locked to
-   their tool. You pay to re-explain yourself, in tokens and in time."
-2. Session 1 (Claude Code) works on a real feature; `corpus_log` entries stream into the
-   ledger as it works. "Save state." Kill the session on purpose.
-3. Session 2 (**a different vendor's tool**): "continue where the last session left off" —
-   it continues mid-thought. Same memory, different brain.
-4. Dashboard: the documentation the sessions wrote, browsable per project; the token
-   counter showing **measured** with/without savings (real transcript totals, not estimates).
-5. Close: "The memory is plain markdown. Read it, edit it, export it to Gitbook or Notion.
-   No blackbox — and no lock-in, because vendors will never build the thing that kills it."
+Useful commands:
+
+| Command | Purpose |
+|---|---|
+| `corpus-setup` | Configure this project; create or reuse a workspace when applicable. |
+| `corpus-connect <id>` | Configure this project and join an existing team workspace. |
+| `corpus-status` | Diagnose client wiring, storage mode, workspace, and graph state. |
+| `corpus-ls` | List workspace IDs known to this machine. |
+| `corpus-disconnect` | Leave the workspace; memory stays OFF until setup or reconnect. |
+| `corpus-uninstall --dry-run` | Preview removal of Corpus from this project. |
+| `corpus-uninstall` | Remove project wiring and instructions; keep memory and graph. |
+
+`corpus-uninstall --memory` also removes local memory, and `--graph` also removes the
+local code graph. Shared workspace documents are never deleted by uninstall.
+
+## Optional features
+
+### Structural code search
+
+```bash
+python -m pip install graphifyy
+```
+
+The package name has two `y`s; it installs the `graphify` command. Re-run
+`corpus-setup` after installation. If the command is not on `PATH`, set `GRAPHIFY_PATH`
+to its full path. Memory and handoffs work without Graphify.
+
+### Shared team memory
+
+1. Apply [supabase/schema.sql](supabase/schema.sql) to a Supabase project.
+2. Copy `mcp-server-2/.env.local.example` to `mcp-server-2/.env.local`.
+3. Set `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY`.
+4. Run `corpus-setup` to create a workspace, or `corpus-connect <id>` to join one.
+
+Treat workspace IDs and the service-role key as credentials. A project connected to a
+workspace never silently falls back to local memory: if the workspace is unreachable,
+memory is OFF to prevent divergent copies.
+
+### Dashboard
+
+The optional Next.js dashboard requires Node.js 20.9 or newer:
+
+```bash
+cd frontend
+npm install
+cp .env.local.example .env.local
+npm run dev
+```
+
+Open <http://localhost:3000>. Without Supabase configuration it displays seed data.
+
+## Verify development builds
+
+```bash
+cd mcp-server-2
+npm run build
+npm run smoke
+```
+
+`npm run smoke:all` also covers connected workspace behavior and uninstall. Run
+`npm run build` after changing `mcp-server-2/src/`, then restart the agent because MCP
+clients load the compiled server and tool descriptions at startup.
+
+## Repository layout
+
+- `mcp-server-2/` — TypeScript MCP server and global CLI commands.
+- `frontend/` — optional Next.js dashboard.
+- `supabase/` — current schema and migration SQL.
+- `ARCHITECTURE.md` — design source of truth.
+- `REQUIREMENTS.md` — setup, configuration, verification, and troubleshooting.

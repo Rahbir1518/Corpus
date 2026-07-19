@@ -1,3 +1,22 @@
+-- ############################################################################
+-- SUPERSEDED — DO NOT RUN. Use migrate-documents-to-workspace-id-v2.sql.
+--
+-- This file hardcodes a data snapshot the live DB no longer matches. It expects
+-- projects corpus-dev / tmp / EPCM-Cathode-Anode-Quoting-Portal (see the trailer
+-- at the bottom); the live table now holds Corpus / cp / demo, with the old
+-- project names moved into the NAME column as " (suffix)".
+--
+-- Run against today's data it either aborts at step 5 (the step 3 lookup of
+-- slug='corpus-dev' yields NULL, leaving rows unmatched), or — worse, if such a
+-- workspace does exist — "succeeds" by cramming every repo into one workspace and
+-- baking the folder-name collision permanently into document names. That is the
+-- exact failure workspace_id keying exists to undo.
+--
+-- Kept only as the record of the original intent, including the Corpus/corpus-dev
+-- merge in step 3, which v2 deliberately does not reproduce (unverifiable now, and
+-- merging is the irreversible direction).
+-- ############################################################################
+
 -- Migrate `documents` from project-slug keying to workspace_id keying.
 --
 -- Run this ONCE in the Supabase SQL editor, BEFORE re-running schema.sql. It replaces

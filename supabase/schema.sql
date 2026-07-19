@@ -32,7 +32,7 @@ create table if not exists workspace_members (
 -- Markdown documents, keyed by workspace id so folder-name collisions are impossible:
 -- a write can only land in a workspace corpus-setup/connect deliberately created.
 -- DBs created before this keying (documents keyed by project slug) migrate with
--- migrate-documents-to-workspace-id.sql; store.ts detects either shape at runtime.
+-- migrate-documents-to-workspace-id-v2.sql; store.ts detects either shape at runtime.
 create table if not exists documents (
   workspace_id uuid not null references workspaces(id) on delete cascade,
   name text not null,
@@ -57,9 +57,15 @@ create table if not exists documents (
 --   corpus_log/corpus_save -> both null: writes have no substitute cost at write time;
 --                         their savings show up later as cheaper corpus_load calls, so
 --                         a per-call baseline here would be fabricated, not measured.
+-- workspace_id is the real attribution key: which workspace the call ran against. It is
+-- nullable and un-FK'd on purpose — telemetry must never block or fail a tool call, and
+-- rows written before this column existed have no id to backfill. `project` remains as
+-- the human-readable slug at time of writing (deliberately non-unique, so it is a label,
+-- NOT a grouping key — group by workspace_id).
 create table if not exists usage_events (
   id bigserial primary key,
   project text not null,
+  workspace_id uuid,               -- the workspace this call read/wrote; null = pre-column or local mode
   agent text,                      -- $CORPUS_AGENT: claude-code | codex | gemini | session
   tool text not null check (tool in ('corpus_load','corpus_log','corpus_save','corpus_code_query')),
   tokens int,                      -- estimateTokens() result where applicable
@@ -68,21 +74,32 @@ create table if not exists usage_events (
   occurred_at timestamptz not null default now()
 );
 
-create index if not exists usage_events_project_idx on usage_events (project, occurred_at desc);
-
 -- Re-running this file against a database that already has usage_events (pre-baseline
 -- schema) needs an explicit ALTER — `create table if not exists` above is a no-op once
 -- the table exists, so it won't retrofit these columns on its own.
+--
+-- These MUST stay ahead of the indexes below. usage_events_workspace_idx names
+-- workspace_id, so against a pre-column DB the index raises 42703 and (in the SQL
+-- editor) rolls back the whole script before the column is ever added.
 alter table usage_events add column if not exists baseline_tokens int;
 alter table usage_events add column if not exists baseline_method text;
+alter table usage_events add column if not exists workspace_id uuid;
+
+create index if not exists usage_events_project_idx on usage_events (project, occurred_at desc);
+create index if not exists usage_events_workspace_idx on usage_events (workspace_id, occurred_at desc);
 
 -- Per-project breakdown by agent and tool: event counts + total tokens, actual vs the
 -- measured without-Corpus baseline. Lets the dashboard show "who (claude-code/codex/
 -- gemini) used what (corpus_load/...) how much, and how much it would've cost without
 -- Corpus" without every consumer re-writing the same group-by.
+-- Grouped by workspace_id, matching how `documents` is keyed: grouping by the `project`
+-- slug merged unrelated workspaces that happened to share a folder name, and split a
+-- single workspace across the different folder names its members had checked out.
+-- `project` is carried through max() purely as a display label for the group.
 create or replace view usage_stats as
 select
-  project,
+  workspace_id,
+  max(project) as project,
   coalesce(agent, 'unknown') as agent,
   tool,
   count(*) as event_count,
@@ -90,7 +107,7 @@ select
   coalesce(sum(baseline_tokens), 0) as total_baseline_tokens,
   count(baseline_tokens) as baseline_event_count
 from usage_events
-group by project, coalesce(agent, 'unknown'), tool;
+group by workspace_id, coalesce(agent, 'unknown'), tool;
 
 -- Let the dashboard receive live updates. Guarded so schema.sql stays safely
 -- re-runnable — `alter publication ... add table` errors (and, in the SQL editor,
@@ -133,5 +150,10 @@ left join documents d on d.workspace_id = w.id
 group by w.id, w.slug, w.name;
 
 -- Migration note: a DB whose `documents` is still keyed by project slug (the pre-id
--- schema) migrates with migrate-documents-to-workspace-id.sql — a single transaction
--- with backfill and abort-on-collision checks. Do NOT hand-roll it here.
+-- schema) migrates with migrate-documents-to-workspace-id-v2.sql — a single transaction
+-- with backfill and abort-on-collision checks. Do NOT hand-roll it here, and do not use
+-- the v1 file (superseded; it hardcodes a stale data snapshot).
+--
+-- Run the migration BEFORE this file. project_overview above joins documents on
+-- workspace_id, so against a slug-keyed DB it raises 42703 — and `create table if not
+-- exists documents` is a no-op there, so this file can never add the column itself.

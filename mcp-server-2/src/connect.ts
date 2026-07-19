@@ -77,7 +77,10 @@ if (supabaseConfigured()) {
 const anyWired = readAllClients(target).some((c) => c.wired);
 if (!anyWired) {
   console.log(hint(`\nThis repo has no Corpus wiring yet — running first-time setup for it:\n`));
-  await wireRepo(target, path.basename(target), id);
+  // Label the repo after the workspace it is joining, not the folder it was cloned into.
+  // A clone's directory name is incidental (`git clone <url> api-v2`); the workspace's
+  // slug is what the team calls this memory.
+  await wireRepo(target, verified?.slug ?? path.basename(target), id);
   recordWorkspace({ id, name: verified?.name, slug: verified?.slug, origin: "connected", repo: target });
   console.log(`\n${ok("Connected")} to workspace ${value(id)}.
 ${hint(`Start Claude Code, Gemini CLI, or Codex in this directory and approve the "corpus"`)}
@@ -85,7 +88,11 @@ ${hint("MCP server — memory in this repo now lands in the shared workspace.")}
   process.exit(0);
 }
 
-const results = patchWorkspace(target, id);
+// Re-point AND re-label: an already-wired repo is usually carrying the CORPUS_PROJECT
+// that corpus-setup derived from its folder, which would keep naming this session after
+// the directory long after it joined a differently-named workspace. Only when the id was
+// verified — an unverifiable id has no slug to trust.
+const results = patchWorkspace(target, id, verified?.slug);
 const wired = results.filter((r) => r.wired);
 
 // Remember the id machine-wide (corpus-ls): a shared id only lives in this repo's

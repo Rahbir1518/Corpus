@@ -10,7 +10,8 @@
     "corpus-disconnect": "dist/disconnect.js",
     "corpus-status": "dist/status.js",
     "corpus-ls": "dist/ls.js",
-    "corpus-hook": "dist/hooks.js"
+    "corpus-hook": "dist/hooks.js",
+    "corpus-uninstall": "dist/uninstall.js"
   },
   "main": "dist/index.js",
   "files": ["dist", "README.md"],
@@ -19,7 +20,10 @@
     "start": "tsx src/index.ts",
     "build": "tsc -p tsconfig.json",
     "prepare": "npm run build",
-    "smoke": "tsx src/scripts/smoke.ts"
+    "smoke": "tsx src/scripts/smoke.ts",
+    "smoke:connected": "tsx src/scripts/smoke-connected.ts",
+    "smoke:uninstall": "tsx src/scripts/smoke-uninstall.ts",
+    "smoke:all": "npm run smoke && npm run smoke:connected && npm run smoke:uninstall"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.22.0",

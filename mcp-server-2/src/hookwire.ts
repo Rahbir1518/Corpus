@@ -19,6 +19,13 @@ import path from "node:path";
 
 const OURS = "corpus-hook";
 
+/** Every file installHooks touches. Drives corpus-uninstall so the two cannot drift. */
+export const HOOK_FILES = [
+  path.join(".claude", "settings.json"),
+  path.join(".gemini", "settings.json"),
+  path.join(".codex", "hooks.json"),
+];
+
 function readJson(p: string): any {
   if (!fs.existsSync(p)) return {};
   try {
@@ -60,6 +67,64 @@ function installEvents(file: string, events: Record<string, HookGroup[]>): void 
     config.hooks[event] = mergeEvent(existing, groups);
   }
   writeJson(file, config);
+}
+
+/**
+ * Which client files actually contain OUR hooks right now.
+ *
+ * Presence of the file is not the question: .claude/settings.json usually outlives an
+ * uninstall because it holds the user's own hooks and settings. Asking "does this file
+ * exist" made corpus-uninstall report a second, no-op run as real work.
+ */
+export function findCorpusHooks(target: string): string[] {
+  return HOOK_FILES.filter((f) => {
+    const p = path.join(target, f);
+    if (!fs.existsSync(p)) return false;
+    const hooks = readJson(p).hooks;
+    return Boolean(hooks) && JSON.stringify(hooks).includes(OURS);
+  });
+}
+
+/**
+ * Strip our hook groups from one file — the exact inverse of the merge in mergeEvent().
+ * Returns true if anything changed.
+ *
+ * The ownership rule ("contains corpus-hook") is what makes this safe to run against a
+ * settings.json full of the user's own hooks: foreign groups are copied through
+ * untouched, and only containers WE emptied are pruned. A settings file that held
+ * nothing but our hooks is removed entirely rather than left as a `{}` husk.
+ */
+function uninstallFrom(file: string): boolean {
+  if (!fs.existsSync(file)) return false;
+  const config = readJson(file);
+  if (!config.hooks || typeof config.hooks !== "object") return false;
+
+  let changed = false;
+  for (const [event, groups] of Object.entries(config.hooks)) {
+    if (!Array.isArray(groups)) continue;
+    const kept = (groups as HookGroup[]).filter(
+      (g) =>
+        !(
+          Array.isArray(g?.hooks) &&
+          g.hooks.some((h) => typeof h?.command === "string" && h.command.includes(OURS))
+        ),
+    );
+    if (kept.length === groups.length) continue;
+    changed = true;
+    if (kept.length) config.hooks[event] = kept;
+    else delete config.hooks[event];
+  }
+  if (!changed) return false;
+
+  if (!Object.keys(config.hooks).length) delete config.hooks;
+  if (!Object.keys(config).length) fs.rmSync(file);
+  else writeJson(file, config);
+  return true;
+}
+
+/** Remove every Corpus hook from every client. Returns the files actually changed. */
+export function uninstallHooks(target: string): string[] {
+  return HOOK_FILES.filter((f) => uninstallFrom(path.join(target, f)));
 }
 
 export function installHooks(target: string): void {

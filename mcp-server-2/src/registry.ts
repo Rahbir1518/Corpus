@@ -74,4 +74,38 @@ export function recordWorkspace(entry: {
   fs.writeFileSync(FILE, JSON.stringify(all, null, 2) + "\n", "utf8");
 }
 
+function writeAll(all: KnownWorkspace[]): void {
+  fs.mkdirSync(path.dirname(FILE), { recursive: true });
+  fs.writeFileSync(FILE, JSON.stringify(all, null, 2) + "\n", "utf8");
+}
+
+/**
+ * Drop one repo from the rolodex — used by corpus-uninstall, the one operation that
+ * makes a repo stop using an id.
+ *
+ * `forget` decides the fate of an entry whose last repo just left. Default false, and
+ * deliberately so: the id IS the access (bearer model), so an uninstall that also
+ * discarded it would silently destroy the only way back into that workspace — including
+ * workspaces this machine created. Keeping a repo-less entry costs a line of JSON;
+ * losing the id can cost the whole memory.
+ *
+ * Returns the ids that were forgotten, so the caller can print them as a last chance to
+ * write one down.
+ */
+export function forgetRepo(repo: string, forget = false): string[] {
+  const all = listKnownWorkspaces();
+  let touched = false;
+  for (const w of all) {
+    const kept = w.repos.filter((r) => r !== repo);
+    if (kept.length !== w.repos.length) {
+      w.repos = kept;
+      touched = true;
+    }
+  }
+  const dropped = forget ? all.filter((w) => !w.repos.length) : [];
+  if (!touched && !dropped.length) return [];
+  writeAll(forget ? all.filter((w) => w.repos.length) : all);
+  return dropped.map((w) => w.id);
+}
+
 export const REGISTRY_FILE = FILE;

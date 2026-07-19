@@ -28,8 +28,11 @@ const workspaceId = resolveWorkspace() ?? ids[0] ?? null;
 
 console.log(`\n${heading("Corpus status")} — ${value(target)}\n`);
 
+// Labelled "local" because when a workspace is connected this is NOT what a session
+// calls itself — the workspace's own name is, printed below. Saying just "Project label"
+// here read as authoritative and hid exactly the mismatch this command should surface.
 console.log(
-  `  Project label  ${project}${process.env.CORPUS_PROJECT ? "" : hint("  (from folder name)")}`,
+  `  Local label    ${project}${process.env.CORPUS_PROJECT ? "" : hint("  (from folder name)")}`,
 );
 
 if (!workspaceId) {
@@ -76,6 +79,16 @@ if (!supabaseConfigured() && !workspaceId) {
           ? `  Workspace name ${ws.name} ${hint(`(slug: ${ws.slug})`)}`
           : `  ${bad("! ORPHANED")}     no workspace with this id exists — writes will fail`,
       );
+      if (ws) {
+        console.log(
+          `  Memory reads   ${ok(ws.slug)} ${hint("— from the connected workspace, not the local folder")}`,
+        );
+        // A stale local label is now cosmetic (the store ignores it), but it is still what
+        // the session-start hook prints before any tool call, so a mismatch is worth a nudge.
+        if (ws.slug !== project) {
+          console.log(hint(`                 local label is "${project}" — `) + cmd(`corpus-connect ${workspaceId}`) + hint(` re-syncs it`));
+        }
+      }
       const keying = await documentsKeying();
       if (keying === "slug") {
         console.log(`  ${warn("! SLUG-KEYED")}   documents are still keyed by project slug — repos sharing a`);
