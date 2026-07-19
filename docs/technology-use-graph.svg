@@ -1,0 +1,300 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1440" viewBox="0 0 1920 1440" role="img" aria-labelledby="title desc">
+  <title id="title">Corpus technology use graph</title>
+  <desc id="desc">Detailed architecture diagram showing AI clients, Corpus MCP and CLI runtime, Graphify, Supabase, Auth0, and the Next.js dashboard.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#080b14"/>
+      <stop offset="0.5" stop-color="#11152a"/>
+      <stop offset="1" stop-color="#090d19"/>
+    </linearGradient>
+    <linearGradient id="hero" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#8b7dff"/>
+      <stop offset="0.55" stop-color="#6ee7f7"/>
+      <stop offset="1" stop-color="#7ef0b8"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="18" flood-color="#000" flood-opacity="0.34"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10Z" fill="#8fa3c9"/>
+    </marker>
+    <marker id="arrowGreen" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10Z" fill="#63ddb0"/>
+    </marker>
+    <marker id="arrowCyan" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10Z" fill="#66d4eb"/>
+    </marker>
+    <style>
+      text { font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; }
+      .eyebrow { fill:#8290ad; font-size:13px; font-weight:700; letter-spacing:2px; }
+      .title { fill:#f6f8ff; font-size:45px; font-weight:760; letter-spacing:-1px; }
+      .subtitle { fill:#9daac3; font-size:18px; }
+      .lane { fill:#11172a; stroke:#27314c; stroke-width:1.5; }
+      .laneTitle { fill:#f0f4ff; font-size:19px; font-weight:720; }
+      .laneSub { fill:#7f8ca7; font-size:13px; }
+      .card { fill:#171e34; stroke:#33405f; stroke-width:1.4; }
+      .cardPurple { fill:#191a39; stroke:#6f66d9; stroke-width:1.5; }
+      .cardCyan { fill:#102a35; stroke:#3a9bb1; stroke-width:1.5; }
+      .cardGreen { fill:#102a25; stroke:#3da578; stroke-width:1.5; }
+      .cardAmber { fill:#2b2417; stroke:#aa8244; stroke-width:1.5; }
+      .cardRose { fill:#2a1826; stroke:#a75485; stroke-width:1.5; }
+      .head { fill:#f3f6ff; font-size:16px; font-weight:700; }
+      .body { fill:#b4bfd4; font-size:13.5px; }
+      .small { fill:#91a0ba; font-size:12px; }
+      .tiny { fill:#7e8aa4; font-size:11px; }
+      .chip { fill:#252e49; stroke:#3c496c; stroke-width:1; }
+      .chipText { fill:#cbd5e8; font-size:11px; font-weight:650; }
+      .flow { fill:none; stroke:#8fa3c9; stroke-width:2.2; marker-end:url(#arrow); }
+      .flowBoth { fill:none; stroke:#63ddb0; stroke-width:2.3; marker-start:url(#arrowGreen); marker-end:url(#arrowGreen); }
+      .flowCyan { fill:none; stroke:#66d4eb; stroke-width:2.3; marker-end:url(#arrowCyan); }
+      .dash { stroke-dasharray:8 7; }
+      .labelBg { fill:#0d1221; stroke:#283450; stroke-width:1; }
+      .flowLabel { fill:#adbad0; font-size:11px; font-weight:650; }
+      .sectionNo { fill:#8797b5; font-size:12px; font-weight:760; }
+    </style>
+  </defs>
+
+  <rect width="1920" height="1440" fill="url(#bg)"/>
+  <circle cx="1630" cy="20" r="420" fill="#5b52d9" opacity="0.055"/>
+  <circle cx="180" cy="1340" r="360" fill="#33c59a" opacity="0.045"/>
+
+  <text x="58" y="60" class="eyebrow">CORPUS · APPLICATION ARCHITECTURE</text>
+  <text x="58" y="114" class="title">Technology use graph</text>
+  <text x="58" y="148" class="subtitle">Portable, markdown-first project memory for AI coding agents — runtime, data, dashboard, and trust boundaries</text>
+  <rect x="1628" y="63" width="232" height="53" rx="26" fill="#171e34" stroke="#36415e"/>
+  <circle cx="1661" cy="89" r="9" fill="#63ddb0"/>
+  <text x="1681" y="95" class="body" style="font-weight:700">Canonical shared path</text>
+
+  <!-- 1. Users and clients -->
+  <rect x="44" y="190" width="330" height="728" rx="22" class="lane" filter="url(#shadow)"/>
+  <text x="70" y="229" class="sectionNo">01</text>
+  <text x="102" y="229" class="laneTitle">People &amp; AI clients</text>
+  <text x="70" y="254" class="laneSub">Where requests and memory calls originate</text>
+
+  <rect x="70" y="281" width="278" height="104" rx="15" class="cardPurple"/>
+  <text x="91" y="310" class="head">Developer / teammate</text>
+  <text x="91" y="336" class="body">Works in a local Git repository</text>
+  <text x="91" y="359" class="body">and browses shared project memory</text>
+
+  <rect x="70" y="407" width="278" height="188" rx="15" class="card"/>
+  <text x="91" y="437" class="head">AI coding clients</text>
+  <rect x="91" y="456" width="76" height="29" rx="14" class="chip"/><text x="106" y="475" class="chipText">Codex</text>
+  <rect x="176" y="456" width="101" height="29" rx="14" class="chip"/><text x="190" y="475" class="chipText">Claude Code</text>
+  <rect x="91" y="495" width="74" height="29" rx="14" class="chip"/><text x="106" y="514" class="chipText">Gemini</text>
+  <rect x="174" y="495" width="126" height="29" rx="14" class="chip"/><text x="190" y="514" class="chipText">Other MCP host</text>
+  <text x="91" y="553" class="body">The calling model supplies intelligence:</text>
+  <text x="91" y="576" class="small">summaries · decisions · task context</text>
+
+  <rect x="70" y="617" width="278" height="273" rx="15" class="cardAmber"/>
+  <text x="91" y="647" class="head">Corpus CLI lifecycle</text>
+  <text x="91" y="677" class="body">corpus-setup</text><text x="218" y="677" class="small">create + wire</text>
+  <text x="91" y="707" class="body">corpus-connect &lt;id&gt;</text><text x="242" y="707" class="small">join</text>
+  <text x="91" y="737" class="body">corpus-disconnect</text><text x="230" y="737" class="small">detach</text>
+  <text x="91" y="767" class="body">corpus-status / ls</text><text x="226" y="767" class="small">inspect</text>
+  <text x="91" y="797" class="body">corpus-uninstall</text><text x="220" y="797" class="small">unwire</text>
+  <line x1="91" y1="817" x2="326" y2="817" stroke="#55472e"/>
+  <text x="91" y="842" class="small">Updates client MCP configuration,</text>
+  <text x="91" y="862" class="small">instruction blocks, hooks, and local</text>
+  <text x="91" y="882" class="small">workspace registry (~/.corpus).</text>
+
+  <!-- 2. Corpus runtime -->
+  <rect x="404" y="190" width="658" height="728" rx="22" class="lane" filter="url(#shadow)"/>
+  <text x="430" y="229" class="sectionNo">02</text>
+  <text x="462" y="229" class="laneTitle">Corpus integration &amp; memory runtime</text>
+  <text x="430" y="254" class="laneSub">Node.js 18+ · TypeScript · MCP SDK · stdio transport · Zod contracts</text>
+
+  <rect x="430" y="281" width="606" height="93" rx="15" class="cardPurple"/>
+  <text x="453" y="311" class="head">MCP server  ·  corpus-mcp-v2</text>
+  <text x="453" y="338" class="body">Exposes structured tools; validates, renders, merges, and persists.</text>
+  <text x="453" y="360" class="small">No LLM call inside the server · no model/API key required</text>
+
+  <rect x="430" y="398" width="286" height="120" rx="14" class="card"/>
+  <text x="451" y="426" class="head">corpus_load</text>
+  <text x="451" y="451" class="body">Fetch state / topical Markdown</text>
+  <text x="451" y="474" class="small">session start · targeted recall</text>
+  <text x="451" y="496" class="small">measures full-corpus baseline</text>
+
+  <rect x="738" y="398" width="298" height="120" rx="14" class="card"/>
+  <text x="759" y="426" class="head">corpus_log</text>
+  <text x="759" y="451" class="body">Append change / bug / decision</text>
+  <text x="759" y="474" class="small">incremental crash-safe ledger</text>
+  <text x="759" y="496" class="small">decisions preserve the “why”</text>
+
+  <rect x="430" y="536" width="286" height="120" rx="14" class="card"/>
+  <text x="451" y="564" class="head">corpus_save</text>
+  <text x="451" y="589" class="body">Schema-forced handoff state</text>
+  <text x="451" y="612" class="small">rewrite current state · append history</text>
+  <text x="451" y="634" class="small">cross-session / cross-agent continuity</text>
+
+  <rect x="738" y="536" width="298" height="120" rx="14" class="cardCyan"/>
+  <text x="759" y="564" class="head">codebase_search</text>
+  <text x="759" y="589" class="body">Structural code-graph query</text>
+  <text x="759" y="612" class="small">calls bundled Graphify adapter</text>
+  <text x="759" y="634" class="small">measures full-source baseline</text>
+
+  <rect x="430" y="674" width="286" height="98" rx="14" class="cardGreen"/>
+  <text x="451" y="702" class="head">corpus_init</text>
+  <text x="451" y="727" class="body">Seed initial architecture notes</text>
+  <text x="451" y="750" class="small">from graph community hubs</text>
+
+  <rect x="738" y="674" width="298" height="98" rx="14" class="cardRose"/>
+  <text x="759" y="702" class="head">Markdown merge engine</text>
+  <text x="759" y="727" class="body">State · next steps · decisions · log</text>
+  <text x="759" y="750" class="small">token estimate = characters ÷ 4</text>
+
+  <rect x="430" y="792" width="606" height="98" rx="14" class="card"/>
+  <text x="451" y="820" class="head">Pluggable DocumentStore</text>
+  <rect x="451" y="838" width="158" height="30" rx="15" class="chip"/><text x="468" y="858" class="chipText">SupabaseStore · shared</text>
+  <rect x="619" y="838" width="147" height="30" rx="15" class="chip"/><text x="638" y="858" class="chipText">LocalStore · offline</text>
+  <rect x="776" y="838" width="226" height="30" rx="15" class="chip"/><text x="791" y="858" class="chipText">DisconnectedStore · memory off</text>
+
+  <!-- 3. Data platform -->
+  <rect x="1092" y="190" width="784" height="728" rx="22" class="lane" filter="url(#shadow)"/>
+  <text x="1118" y="229" class="sectionNo">03</text>
+  <text x="1150" y="229" class="laneTitle">Shared data platform</text>
+  <text x="1118" y="254" class="laneSub">Supabase · PostgreSQL · PostgREST · Realtime publication</text>
+
+  <rect x="1118" y="281" width="732" height="93" rx="15" class="cardGreen"/>
+  <text x="1141" y="311" class="head">Supabase — canonical documentation database</text>
+  <text x="1141" y="338" class="body">Workspace UUID is canonical identity; Markdown is the portable interchange format.</text>
+  <text x="1141" y="360" class="small">MCP uses service-role credentials · dashboard server uses authenticated access</text>
+
+  <rect x="1118" y="398" width="345" height="119" rx="14" class="card"/>
+  <text x="1139" y="427" class="head">workspaces</text>
+  <text x="1139" y="452" class="body">id UUID · slug · name · owner</text>
+  <text x="1139" y="476" class="small">One project per workspace today</text>
+  <text x="1139" y="498" class="tiny">Opaque ID powers corpus-connect &lt;id&gt;</text>
+
+  <rect x="1481" y="398" width="369" height="119" rx="14" class="card"/>
+  <text x="1502" y="427" class="head">workspace_members</text>
+  <text x="1502" y="452" class="body">Auth0 sub · owner/member · status</text>
+  <text x="1502" y="476" class="small">Dashboard visibility + connection state</text>
+  <text x="1502" y="498" class="tiny">joined_at · last_active_at</text>
+
+  <rect x="1118" y="536" width="345" height="119" rx="14" class="cardPurple"/>
+  <text x="1139" y="565" class="head">documents</text>
+  <text x="1139" y="590" class="body">workspace_id + name → Markdown</text>
+  <text x="1139" y="614" class="small">state page + topical pages</text>
+  <text x="1139" y="636" class="tiny">updated_at · runtime supports legacy slug keying</text>
+
+  <rect x="1481" y="536" width="369" height="119" rx="14" class="cardCyan"/>
+  <text x="1502" y="565" class="head">usage_events</text>
+  <text x="1502" y="590" class="body">tool · agent · tokens · timestamp</text>
+  <text x="1502" y="614" class="small">measured baseline tokens where valid</text>
+  <text x="1502" y="636" class="tiny">append-only · best-effort · never blocks tools</text>
+
+  <rect x="1118" y="674" width="345" height="98" rx="14" class="card"/>
+  <text x="1139" y="702" class="head">usage_stats view</text>
+  <text x="1139" y="727" class="body">Per-agent / per-tool aggregation</text>
+  <text x="1139" y="750" class="small">event counts + actual/baseline tokens</text>
+
+  <rect x="1481" y="674" width="369" height="98" rx="14" class="card"/>
+  <text x="1502" y="702" class="head">project_overview view</text>
+  <text x="1502" y="727" class="body">Workspace + doc count + activity</text>
+  <text x="1502" y="750" class="small">dashboard project/workspace picker</text>
+
+  <rect x="1118" y="792" width="732" height="98" rx="14" class="cardGreen"/>
+  <text x="1139" y="820" class="head">Supabase Realtime</text>
+  <text x="1139" y="845" class="body">Publishes changes from documents · usage_events · workspace_members</text>
+  <text x="1139" y="868" class="small">Browser subscribes with anon client; UI debounces and refetches authoritative state</text>
+
+  <!-- Main horizontal flows -->
+  <path d="M348 500 C380 500 390 327 430 327" class="flow"/>
+  <rect x="363" y="389" width="108" height="25" rx="12" class="labelBg"/>
+  <text x="377" y="406" class="flowLabel">MCP over stdio</text>
+  <path d="M1036 842 C1071 842 1078 327 1118 327" class="flowBoth"/>
+  <rect x="1025" y="565" width="135" height="25" rx="12" class="labelBg"/>
+  <text x="1040" y="582" class="flowLabel">fetch / upsert / log</text>
+
+  <!-- 4. Dashboard -->
+  <rect x="44" y="952" width="1832" height="382" rx="22" class="lane" filter="url(#shadow)"/>
+  <text x="70" y="991" class="sectionNo">04</text>
+  <text x="102" y="991" class="laneTitle">Web dashboard &amp; human documentation experience</text>
+  <text x="70" y="1016" class="laneSub">Next.js 16 App Router · React 19 · TypeScript 5 · Tailwind CSS 4 · server/client split</text>
+
+  <rect x="70" y="1045" width="286" height="250" rx="16" class="cardPurple"/>
+  <text x="92" y="1076" class="head">Next.js application shell</text>
+  <text x="92" y="1104" class="body">Server-rendered routes + client UI</text>
+  <text x="92" y="1132" class="small">Dashboard · project browser</text>
+  <text x="92" y="1154" class="small">workspace/document modals</text>
+  <text x="92" y="1176" class="small">editable Markdown pages</text>
+  <line x1="92" y1="1198" x2="332" y2="1198" stroke="#393965"/>
+  <text x="92" y="1224" class="small">react-markdown + remark-gfm</text>
+  <text x="92" y="1247" class="small">GSAP motion + starfield canvas</text>
+  <text x="92" y="1270" class="small">responsive glass UI</text>
+
+  <rect x="386" y="1045" width="286" height="250" rx="16" class="cardCyan"/>
+  <text x="408" y="1076" class="head">Memory visualization</text>
+  <text x="408" y="1104" class="body">react-force-graph-2d</text>
+  <text x="408" y="1132" class="small">root → workspace hubs → docs</text>
+  <text x="408" y="1154" class="small">search-to-highlight</text>
+  <text x="408" y="1176" class="small">connected/disconnected status</text>
+  <line x1="408" y1="1198" x2="648" y2="1198" stroke="#235160"/>
+  <text x="408" y="1224" class="small">Connections list mirrors CLI</text>
+  <text x="408" y="1247" class="small">Token ledger by tool</text>
+  <text x="408" y="1270" class="small">live activity indicator</text>
+
+  <rect x="702" y="1045" width="286" height="250" rx="16" class="cardAmber"/>
+  <text x="724" y="1076" class="head">Auth0 identity boundary</text>
+  <text x="724" y="1104" class="body">@auth0/nextjs-auth0</text>
+  <text x="724" y="1132" class="small">login / session / Auth0 sub</text>
+  <text x="724" y="1154" class="small">maps user to workspace_members</text>
+  <text x="724" y="1176" class="small">gates dashboard visibility/editing</text>
+  <line x1="724" y1="1198" x2="964" y2="1198" stroke="#5b482d"/>
+  <text x="724" y="1224" class="tiny">Important: MCP service-role writes</text>
+  <text x="724" y="1245" class="tiny">currently bypass this user boundary.</text>
+  <text x="724" y="1270" class="small">Workspace ID acts as CLI credential.</text>
+
+  <rect x="1018" y="1045" width="394" height="250" rx="16" class="cardGreen"/>
+  <text x="1040" y="1076" class="head">Supabase access paths</text>
+  <text x="1040" y="1105" class="body">Server client</text>
+  <text x="1168" y="1105" class="small">service role · reads / updates</text>
+  <text x="1040" y="1134" class="body">Browser client</text>
+  <text x="1168" y="1134" class="small">anon key · Realtime only</text>
+  <text x="1040" y="1163" class="body">PUT /api/documents</text>
+  <text x="1196" y="1163" class="small">save Markdown</text>
+  <text x="1040" y="1192" class="body">GET /api/workspaces</text>
+  <text x="1206" y="1192" class="small">refetch graph state</text>
+  <line x1="1040" y1="1214" x2="1388" y2="1214" stroke="#285849"/>
+  <text x="1040" y="1241" class="small">documentsKeying() supports live schema</text>
+  <text x="1040" y="1265" class="small">during workspace-ID migration.</text>
+
+  <rect x="1442" y="1045" width="408" height="250" rx="16" class="card"/>
+  <text x="1464" y="1076" class="head">What the dashboard consumes</text>
+  <text x="1464" y="1105" class="body">workspaces + membership state</text>
+  <text x="1464" y="1134" class="body">Markdown documents + timestamps</text>
+  <text x="1464" y="1163" class="body">usage_stats tool-call breakdown</text>
+  <text x="1464" y="1192" class="body">Realtime change notifications</text>
+  <line x1="1464" y1="1214" x2="1826" y2="1214" stroke="#34405c"/>
+  <text x="1464" y="1241" class="small">Outcome: shared, inspectable memory</text>
+  <text x="1464" y="1265" class="small">that doubles as human documentation.</text>
+
+  <!-- Vertical dashboard/data flows -->
+  <path d="M1648 918 L1648 1045" class="flowCyan"/>
+  <rect x="1570" y="958" width="157" height="25" rx="12" class="labelBg"/>
+  <text x="1585" y="975" class="flowLabel">Realtime + refetch</text>
+  <path d="M1248 1045 C1248 984 1324 974 1324 918" class="flowBoth"/>
+  <rect x="1190" y="965" width="156" height="25" rx="12" class="labelBg"/>
+  <text x="1205" y="982" class="flowLabel">query / edit / aggregate</text>
+
+  <!-- Graphify + local fallback callouts -->
+  <rect x="1130" y="86" width="230" height="64" rx="15" class="cardCyan"/>
+  <text x="1150" y="112" class="head">Graphify code graph</text>
+  <text x="1150" y="134" class="small">tree-sitter · local repo · no LLM</text>
+  <path d="M887 536 C887 150 1100 118 1130 118" class="flowCyan dash"/>
+  <rect x="1390" y="86" width="250" height="64" rx="15" class="card"/>
+  <text x="1410" y="112" class="head">Local fallback store</text>
+  <text x="1410" y="134" class="small">~/.corpus/&lt;project&gt;/ · Markdown</text>
+  <path d="M900 890 C1080 935 1370 160 1390 130" class="flow dash"/>
+
+  <!-- Footer legend -->
+  <line x1="44" y1="1372" x2="1876" y2="1372" stroke="#29324a"/>
+  <text x="58" y="1407" class="small">SOLID GREEN</text><line x1="151" y1="1402" x2="218" y2="1402" class="flowBoth"/>
+  <text x="231" y="1407" class="small">canonical shared read/write</text>
+  <text x="485" y="1407" class="small">CYAN</text><line x1="535" y1="1402" x2="602" y2="1402" class="flowCyan"/>
+  <text x="615" y="1407" class="small">code graph / Realtime event</text>
+  <text x="863" y="1407" class="small">DASHED</text><line x1="932" y1="1402" x2="999" y2="1402" class="flow dash"/>
+  <text x="1012" y="1407" class="small">local or optional path</text>
+  <text x="1322" y="1407" class="small">SOURCE</text>
+  <text x="1380" y="1407" class="tiny">ARCHITECTURE.md + current implementation · 2026-07-19</text>
+</svg>
