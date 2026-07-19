@@ -41,7 +41,7 @@ function step(name: string, ok: boolean, detail?: string) {
 const tools = await client.listTools();
 step(
   "tools registered",
-  ["corpus_load", "corpus_log", "corpus_save", "corpus_code_query", "corpus_init"].every((t) =>
+  ["corpus_load", "corpus_log", "corpus_save", "codebase_search", "corpus_init"].every((t) =>
     tools.tools.some((x) => x.name === t),
   ),
   tools.tools.map((t) => t.name).join(", "),
