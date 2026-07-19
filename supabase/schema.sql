@@ -115,10 +115,34 @@ begin
   end if;
 end $$;
 
--- Migration note: if `documents` already has live rows from documents.sql, backfill
--- workspaces first, then add the FK — don't drop/recreate:
---   insert into workspaces (slug, name)
---     select distinct project, project from documents
---     on conflict (slug) do nothing;
---   alter table documents add constraint documents_project_fkey
---     foreign key (project) references workspaces(slug);
+-- Project picker overview: one row per project that actually has documents, with
+-- its document count and most recent activity. Powers the dashboard's "select a
+-- project" screen. Documents-driven: a "project" = a distinct documents.project
+-- value; the left join to workspaces just supplies a nicer display name when a
+-- workspace row exists. Empty workspaces (0 docs) intentionally do NOT show.
+create or replace view project_overview as
+select
+  d.project                   as slug,
+  coalesce(w.name, d.project) as name,
+  count(d.name)               as doc_count,
+  max(d.updated_at)           as last_updated
+from documents d
+left join workspaces w on w.slug = d.project
+group by d.project, coalesce(w.name, d.project);
+
+-- Categorization migration (safe to run on a live DB with existing documents).
+-- 1) Ensure every distinct project a document already uses has a workspace row,
+--    so the picker shows a proper name and the optional FK below can be added:
+--      insert into workspaces (slug, name)
+--        select distinct project, project from documents
+--        on conflict (slug) do nothing;
+-- 2) Optional integrity FK — documents.project must reference a real workspace.
+--    mcp-server-2's SupabaseStore.putDocument already upserts the workspace before
+--    each write, so new writes stay safe; run only AFTER step 1 backfills existing rows:
+--      alter table documents add constraint documents_project_fkey
+--        foreign key (project) references workspaces(slug);
+-- 3) To consolidate existing docs under a single 'demo' project (only if no two
+--    documents share the same `name`, else the (project,name) PK collides):
+--      insert into workspaces (slug, name) values ('demo','Demo')
+--        on conflict (slug) do nothing;
+--      update documents set project = 'demo';

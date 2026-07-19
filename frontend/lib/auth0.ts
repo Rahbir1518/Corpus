@@ -16,6 +16,6 @@ export const auth0 = new Auth0Client({
       );
     }
 
-    return NextResponse.redirect(new URL(ctx.returnTo || "/dashboard", appBaseUrl));
+    return NextResponse.redirect(new URL(ctx.returnTo || "/projects", appBaseUrl));
   },
 });
